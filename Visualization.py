@@ -1,0 +1,43 @@
+from matplotlib import pyplot as plt
+import numpy as np
+import pandas as pd
+from collections import Counter
+
+def showTypeBar(typeList, colorList=None):
+    letter_counts = Counter(typeList)
+
+    common = letter_counts.most_common()
+    labels = [item[0] for item in common]
+    number = [item[1] for item in common]
+    nbars = len(common)
+    if (not colorList):
+        colorList = [('GRASS', '#7AC74C'), ('FIRE', '#EE8130'), ('WATER', '#6390F0'), ('BUG', '#A6B91A'),
+                     ('NORMAL', '#A8A77A'), ('POISON', '#A33EA1'), ('ELECTRIC', '#F7D02C'),
+                     ('GROUND', '#E2BF65'), ('FAIRY', '#D685AD'), ('FIGHTING', '#C22E28'), ('PSYCHIC', '#F95587'),
+                     ('ROCK', '#B6A136'), ('GHOST', '#735797'), ('ICE', '#96D9D6'), ('DRAGON', '#6F35FC'),
+                     ('DARK', '#705746'), ('STEEL', '#B7B7CE'), ('FLYING', '#A98FF3')]
+    bar_color = []
+    for l in labels:
+        for c in colorList:
+            if (c[0] == l):
+                bar_color.append(c[1])
+                break
+        if (l not in c):
+            bar_color.append("#000000")
+
+    plt.barh(np.arange(nbars), number, tick_label=labels, color=bar_color)
+    plt.xlabel("Number of Pokemon")
+
+    plt.title("Types repartition")
+    plt.show()
+
+
+def showLevelScatterPlot(levelList):
+    x = range(len(levelList))
+    y_ticks = np.arange(0, 100, 10)
+    df = pd.DataFrame({'Pokemon battled': x, 'Level': levelList})
+    df.plot(kind='scatter', x='Pokemon battled', y='Level', yticks=y_ticks, title='Level of Pokemons during the game',
+            c='darkblue')
+    plt.yscale('linear')
+
+    plt.show()

@@ -1,0 +1,10 @@
+WIP Pokemon Essentials PBS files parser
+
+See ExampleUsage.ipynb to have examples on how to use it
+
+Allow the parsing and loading of the following PBS files:
+
+items.txt, moves.txt, pokemon.txt, trainers.txt, trainertypes.txt
+
+Allow exporting to Bulbapedia trainer Entry template.
+
