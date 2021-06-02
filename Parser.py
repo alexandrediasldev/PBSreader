@@ -22,7 +22,7 @@ def parseItem(csvOutput, hasPluralName = False):
 
     return itemList
 
-def parseEncounter(csvOutput, encounterMethods):
+def parseEncounter(csvOutput, encounterMethods, speciesList):
     encounterList = []
     l = len(csvOutput)
     i = 0
@@ -46,13 +46,15 @@ def parseEncounter(csvOutput, encounterMethods):
                         encounterDensity = line
 
         elif(len(line) == 2):
+            species = getSpeciesFromName(line[0],speciesList)
             levelLow = line[1]
             levelHigh = ""
-            encounterList.append(en.Encounter(mapName,encounterDensity,method,line[0],levelLow,levelHigh))
+            encounterList.append(en.Encounter(mapName,encounterDensity,method,species,levelLow,levelHigh))
         else:
+            species = getSpeciesFromName(line[0],speciesList)
             levelLow = line[1]
             levelHigh = line[2]
-            encounterList.append(en.Encounter(mapName, encounterDensity, method, line[0], levelLow, levelHigh))
+            encounterList.append(en.Encounter(mapName, encounterDensity, method, species, levelLow, levelHigh))
         i += 1
 
     return  encounterList

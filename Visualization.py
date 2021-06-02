@@ -3,7 +3,14 @@ import numpy as np
 import pandas as pd
 from collections import Counter
 
-def showTypeBar(typeList, colorList=None):
+def showTypeBar(typeList, colorList=None, areaName = ""):
+    fig_size = (10, 5)
+    f = plt.figure(figsize=fig_size)
+    f = addTypeBar(typeList,f,colorList,areaName)
+    f.show()
+
+def addTypeBar(typeList, figure,ax,pos=(0,0),colorList=None,areaName=""):
+
     letter_counts = Counter(typeList)
 
     common = letter_counts.most_common()
@@ -25,11 +32,11 @@ def showTypeBar(typeList, colorList=None):
         if (l not in c):
             bar_color.append("#000000")
 
-    plt.barh(np.arange(nbars), number, tick_label=labels, color=bar_color)
-    plt.xlabel("Number of Pokemon")
-
-    plt.title("Types repartition")
-    plt.show()
+    ax[pos[0],pos[1]].barh(np.arange(nbars), number, tick_label=labels, color=bar_color)
+    ax[pos[0],pos[1]].set_xlabel("Number of Pokemon species")
+    ax[pos[0],pos[1]].title.set_text(areaName)
+    #plt.subtitle("Types repartition " + areaName)
+    return ax
 
 
 def showLevelScatterPlot(levelList):
