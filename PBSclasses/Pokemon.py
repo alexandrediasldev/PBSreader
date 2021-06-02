@@ -1,5 +1,6 @@
 from PBSclasses.Species import Species
 from utils import *
+from Finder import *
 
 
 class Pokemon:
@@ -30,24 +31,17 @@ class Pokemon:
         for i in range(len(pokemonAttributes)):
             attribute = pokemonAttributes[i]
             if (i == 0):
-                for s in speciesList:
-                    if (attribute == s.internalName):
-                        self.species = s
+                self.species = getSpeciesFromName(attribute, speciesList)
             elif (i == 1):
                 self.level = attribute
             elif (i == 2):
-                for item in itemList:
-                    if(item.id == attribute):
-                        self.heldItem = item
-                        break
+                self.heldItem = getItemFromName(attribute,itemList)
             elif (i == 3):
                 self.moveList = []
                 for i in range(3,7):
-                    for m in moveList:
-                        if(m.id == pokemonAttributes[i]):
-                            self.moveList.append(m)
-                            break
-
+                    moveName = pokemonAttributes[i]
+                    if(moveName != ""):
+                        self.moveList.append(getMoveFromName(moveName,moveList))
             elif (i == 7):
                 self.ability = attribute
             elif (i == 8):

@@ -4,7 +4,8 @@ import PBSclasses.TrainerTypes as tp
 import PBSclasses.Species as sp
 import PBSclasses.Move as mv
 import PBSclasses.Item as it
-
+import PBSclasses.Encounter as en
+from Finder import *
 
 def parseItem(csvOutput, hasPluralName = False):
     itemList = []
@@ -21,6 +22,40 @@ def parseItem(csvOutput, hasPluralName = False):
 
     return itemList
 
+def parseEncounter(csvOutput, encounterMethods):
+    encounterList = []
+    l = len(csvOutput)
+    i = 0
+    while i < l:
+        line = csvOutput[i]
+        if (len(line) == 1):
+            isMapName = True
+            methodTmp = getEncounterMethodFromName(line[0],encounterMethods)
+            if(methodTmp != ""):
+                method = methodTmp
+                isMapName = False
+
+            if(isMapName):
+                mapName = line[0]
+                i += 1
+                if(i < l):
+                    line = csvOutput[i]
+                    if(len(line) == 1):
+                        encounterDensity = ['25', '10', '10']
+                    else:
+                        encounterDensity = line
+
+        elif(len(line) == 2):
+            levelLow = line[1]
+            levelHigh = ""
+            encounterList.append(en.Encounter(mapName,encounterDensity,method,line[0],levelLow,levelHigh))
+        else:
+            levelLow = line[1]
+            levelHigh = line[2]
+            encounterList.append(en.Encounter(mapName, encounterDensity, method, line[0], levelLow, levelHigh))
+        i += 1
+
+    return  encounterList
 
 def parserMove(csvOutput):
     movesList = []
@@ -35,15 +70,9 @@ def parserMove(csvOutput):
 def parseTrainerTypes(csvOutput):
     trainerTypeList = []
     for line in csvOutput:
-        idNumber = line[0]
-        id = line[1]
-        name = line[2]
-        baseMoney = line[3]
-        battleBGM = line[4]
-        victoryME = line[5]
-        introME = line[6]
-        gender = line[7]
-        skillLevel = line[8]
+        idNumber,id,name,baseMoney,battleBGM, victoryME,introME,gender,skillLevel  =\
+            line[0],line[1],line[2],line[3],line[4],line[5],line[6],line[7],line[8]
+
         type = tp.TrainerType(idNumber, id, name, baseMoney, battleBGM, victoryME, introME, gender, skillLevel)
         trainerTypeList.append(type)
     return trainerTypeList
@@ -98,7 +127,6 @@ def parseTrainerList(csvOutput, trainerTypeList, speciesList, moveList, itemList
     pokemonList = []
     trainerList = []
     for line in csvOutput:
-
         if (lineNum == 0):
             type = line[0]
         elif (lineNum == 1):
@@ -109,10 +137,7 @@ def parseTrainerList(csvOutput, trainerTypeList, speciesList, moveList, itemList
             if (nbPokemon + 2 == lineNum):
                 pkm = pk.Pokemon(line, speciesList, moveList, itemList)
                 pokemonList.append(pkm)
-                trainerType = ""
-                for t in trainerTypeList:
-                    if (t.id == type):
-                        trainerType = t
+                trainerType = getTrainerTypeFromName(type, trainerTypeList)
 
                 train = tr.Trainer(trainerType, name, nbPokemon, pokemonList)
                 trainerList.append(train)
