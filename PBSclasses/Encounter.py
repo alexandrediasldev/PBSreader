@@ -18,6 +18,6 @@ class Encounter:
         printIfValue("Map id number:", self.mapIdNumber)
         printIfValue("Encounter density:", self.encounterDensities)
         self.encounterMethod.print()
-        self.pokemonSpecies.print()
+        printIfValue("Pokemon name:",self.pokemonSpecies.name)
         printIfValue("Level low:", self.levelLow)
         printIfValue("Level high:", self.levelHigh)

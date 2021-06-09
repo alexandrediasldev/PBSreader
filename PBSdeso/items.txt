@@ -246,8 +246,8 @@
 246,MAXETHER,Max Ether,2,2000,"This medicine can fully restore the PP of a single selected move that has been learned by a Pokémon.",1,1,0
 247,ELIXIR,Elixir,2,3000,"This medicine can restore 10 PP to each of the moves that have been learned by a Pokémon.",1,1,0
 248,MAXELIXIR,Max Elixir,2,4500,"This medicine can fully restore the PP of all of the moves that have been learned by a Pokémon.",1,1,0
-249,PPUP,PP Up,2,10000,"A medicine that can slightly raise the maximum PP of a single move that has been learned by the target Pokémon.",1,0,0
-250,PPMAX,PP Max,2,9800,"A medicine that can optimally raise the maximum PP of a single move that has been learned by the target Pokémon.",1,0,0
+249,PPUP,PP Up,2,45000,"A medicine that can slightly raise the maximum PP of a single move that has been learned by the target Pokémon.",1,0,0
+250,PPMAX,PP Max,2,45000,"A medicine that can optimally raise the maximum PP of a single move that has been learned by the target Pokémon.",1,0,0
 251,HPUP,HP Up,2,9800,"A nutritious drink for Pokémon. When consumed, it raises the base HP of a single Pokémon.",1,0,0
 252,PROTEIN,Protein,2,9800,"A nutritious drink for Pokémon. When consumed, it raises the base Attack stat of a single Pokémon.",1,0,0
 253,IRON,Iron,2,9800,"A nutritious drink for Pokémon. When consumed, it raises the base Defense stat of a single Pokémon.",1,0,0
@@ -273,7 +273,7 @@
 273,REPEATBALL,Repeat Ball,3,1000,"A somewhat different Poké Ball that works especially well on a Pokémon species that has been caught before.",0,2,4
 274,TIMERBALL,Timer Ball,3,1000,"A somewhat different Poké Ball that becomes progressively more effective the more turns are taken in battle.",0,2,4
 275,LUXURYBALL,Luxury Ball,3,1000,"A particularly comfortable Poké Ball that makes a wild Pokémon quickly grow friendlier after being caught.",0,2,4
-276,PREMIERBALL,Premier Ball,3,200,"	A somewhat rare Poké Ball that was made as a commemorative item used to celebrate an event of some sort.",0,2,4
+276,PREMIERBALL,Premier Ball,3,200,"A somewhat rare Poké Ball that was made as a commemorative item used to celebrate an event of some sort.",0,2,4
 277,DUSKBALL,Dusk Ball,3,1000,"A somewhat different Poké Ball that makes it easier to catch wild Pokémon at night or in dark places like caves.",0,2,4
 278,HEALBALL,Heal Ball,3,300,"A remedial Poké Ball that restores the HP of a Pokémon caught with it and eliminates any status conditions.",0,2,4
 279,QUICKBALL,Quick Ball,3,1300,"A somewhat different Poké Ball that has a more successful catch rate if used at the start of a wild encounter.",0,2,4
@@ -342,7 +342,7 @@
 342,TM55,TM55,4,3000,"The user shoots boiling hot water at their target. This may also leave the target with a burn.",3,0,0,SCALD
 343,TM56,TM56,4,2000,"The user flings their held item at the target to attack. This move's power and effects depend on the item.",3,0,0,FLING
 344,TM57,TM57,4,3000,"The user attacks with an electric charge. The user may use remaining electricity to raise their Sp. Atk stat.",3,0,0,CHARGEBEAM
-345,TM58,TM58,4,2000,"The target is taken into the sky, then dropped on the next turn. The target cannot attack while in the sky.",3,0,0,SKYDROP
+345,TM58,TM58,4,20000,"The target is taken into the sky, then dropped on the next turn. The target cannot attack while in the sky.",3,0,0,SKYDROP
 346,TM59,TM59,4,1500,"The user swings their body around violently to inflict damage on everything in their vicinity.",3,0,0,BRUTALSWING
 347,TM60,TM60,4,3000,"The user suppresses the target and makes its move go last.",3,0,0,QUASH
 348,TM61,TM61,4,2000,"The user shoots a sinister, bluish-white flame at the target to inflict a burn.",3,0,0,WILLOWISP
@@ -490,50 +490,50 @@
 490,DIREHIT2,Dire Hit 2,7,0,"It can be used many times to raise the critical-hit ratio of one Pokémon. It wears off if the Pokémon is withdrawn.",0,2,0
 491,DIREHIT3,Dire Hit 3,7,0,"It can be used many times to greatly raise a Pokémon's critical-hit ratio. It wears off if the Pokémon is withdrawn.",0,2,0
 492,GUARDSPEC,Guard Spec.,7,700,"An item that prevents stat reduction among the Trainer's party Pokémon for five turns after it is used in battle.",0,2,0
-493,RESETURGE,Reset Urge,7,0,"When used, it restores any stat changes of an ally Pokémon.",0,2,0
-494,ABILITYURGE,Ability Urge,7,0,"When used, it activates the Ability of an ally Pokémon.",0,2,0
-495,ITEMURGE,Item Urge,7,0,"When used, it causes an ally Pokémon to use its held item.",0,2,0
-496,ITEMDROP,Item Drop,7,0,"When used, it causes an ally Pokémon to drop a held item.",0,2,0
-497,BLUEFLUTE,Blue Flute,7,100,"A flute made from blue glass that awakens sleeping Pokémon.",5,3,0
-498,YELLOWFLUTE,Yellow Flute,7,200,"A flute made from yellow glass that snaps Pokémon out of confusion.",0,2,0
-499,REDFLUTE,Red Flute,7,300,"A flute made from red glass that snaps Pokémon out of infatuation.",0,2,0
-500,POKEDOLL,Poké Doll,7,1000,"A doll that attracts the attention of a Pokémon. It guarantees escape from any battle with wild Pokémon.",0,2,0
-501,FLUFFYTAIL,Fluffy Tail,7,1000,"A toy that attracts the attention of a Pokémon. It guarantees escape from any battle with wild Pokémon.",0,2,0
-502,POKETOY,Poké Toy,7,500,"A toy that attracts the attention of a Pokémon. It guarantees escape from any battle with wild Pokémon.",0,2,0
-503,BICYCLE,Bicycle,8,0,"A folding bike that enables a rider to get around much faster than with Running Shoes.",2,0,6
-504,OLDROD,Old Rod,8,0,"An old and beat-up fishing rod. Use it at any body of water to fish for wild aquatic Pokémon.",2,0,6
-505,GOODROD,Good Rod,8,0,"A new, good-quality fishing rod. Use it at any body of water to fish for wild aquatic Pokémon.",2,0,6
-506,SUPERROD,Super Rod,8,0,"An awesome, high-tech fishing rod. Use it at any body of water to fish for wild aquatic Pokémon.",2,0,6
-507,ITEMFINDER,Itemfinder,8,0,"A device used for finding items. If there is a hidden item nearby when it is used, it emits a signal.",2,0,6
-508,DOWSINGMCHN,Dowsing MCHN,8,0,"It checks for unseen items in the area and makes noise and lights when it finds something.",2,0,6
-509,POKERADAR,Poké Radar,8,0,"A tool that can search out Pokémon that are hiding in grass. Its battery is recharged as you walk.",2,0,6
-510,TOWNMAP,Town Map,8,0,"A very convenient map that can be viewed anytime. It even shows you your present location in the region.",2,0,6
-511,POKEFLUTE,Poké Flute,8,0,"A flute that can play with such a beautiful tone that even sleeping Pokémon find themselves roused.",5,2,6
-512,COINCASE,Coin Case,8,0,"A case for holding coins obtained at the Game Corner. It can hold up to 50,000 coins.",2,0,6
-513,SOOTSACK,Soot Sack,8,0,"A sack used to gather and hold volcanic ash.",0,0,6
-514,MEMBERSHIPCARD,Membership Card,8,0,"A Membership Card for the Department Store in Obsidia. Collect Stickers to increase rank!",2,0,6
-515,WAREHOUSEKEY,Warehouse Key,8,0,"An old key marked for an unknown warehouse.",0,0,6
-516,BIKEVOUCHER,Bike Voucher,8,0,"'Redeem for one free Bike at the Lapis Luxury Cycle Shop!'",0,0,6
-517,MININGKIT,Mining Kit,8,0,"A hammer and pickaxe for unearthing lost goods.",0,0,6
-518,WAILMERPAIL,Wailmer Pail,8,0,"This is a tool for watering Berries you planted to make them grow more quickly.",0,0,6
-519,GRACIDEA,Gracidea,8,0,"A flower sometimes bundled in bouquets to convey gratitude on special occasions like birthdays.",0,0,6
-520,LINKSTONE,Link Stone,1,4000,"A peculiar stone that can make certain species of Pokémon evolve. It has a link cable pattern.",1,0,0
-521,HARBORKEY,Harbor Key,8,0,"The key for Amaria's harbor in the Coral Ward.",0,0,6
-522,RAILNETKEY,Railnet Key,8,0,"A key to open the depths of the Underground Railnet.",0,0,6
-523,CHOCOLATEIC,Choc Ice Cream,2,600,"A chocolate flavored treat! Eat it before it melts to restore 70 HP!",1,1,0
-524,STRAWBIC,Berry Ice Cream,2,800,"A strawberry flavored treat! Eat it before it melts to restore 90 HP!",1,1,0
-525,MEDICINE,Medicine,8,500,"A cure-all for human wounds and illnesses. It's made from a Chansey's Softboiled.",0,0,6
-526,COMMONCANDY,Common Candy,2,300,"An ordinary, unhealthy piece of candy. It lowers the level of a single Pokémon by one.",1,0,0
-527,POPROCKS,Pop Rocks,2,750,"A sweet, carbonated candy. It jolts a Pokémon awake.",1,1,0
-528,PEPPERMINT,Peppermint,2,600,"A sweet, minty-fresh candy. It cures a Pokémon of poison.",1,1,0
-529,SALTWATERTAFFY,Salt-Water Taffy,2,850,"A sweet, chewy candy. It relieves a Pokémon's burn.",1,1,0
-530,CHEWINGGUM,Chewing Gum,2,800,"A sweet, chewy gum. It fixes a Pokémon's paralysis.",1,1,0
-531,REDHOTS,Red-Hots,2,850,"A sweet, spicy candy. It thaws a Pokémon from freeze.",1,1,0
-532,COTTONCANDY,Cotton Candy,2,5000,"A sweet, fluffy delicacy that can revive fainted Pokémon.",1,1,0
-533,VANILLAIC,Vanilla Ice Cream,2,400,"A vanilla flavored treat! Eat it before it melts to restore 30 HP!",1,1,0
-534,AMETHYSTPENDANT,Amethyst Pendant,8,0,"Anna's Amethyst Pendant. Team Meteor covets it as a special key.",0,0,6
-535,RUBYRING,Ruby Ring,8,0,"Heather's Ruby Ring. Team Meteor covets it as a special key.",0,0,6
-536,YUREYUKEY,Yureyu Key,8,0,"A key marked with Yureyu's logo. What could it go to?",0,0,6
+493,RESETURGE,Reset Urge,7,0,"When used, it restores any stat changes of an ally Pokémon.",0,2,0,
+494,ABILITYURGE,Ability Urge,7,0,"When used, it activates the Ability of an ally Pokémon.",0,2,0,
+495,ITEMURGE,Item Urge,7,0,"When used, it causes an ally Pokémon to use its held item.",0,2,0,
+496,ITEMDROP,Item Drop,7,0,"When used, it causes an ally Pokémon to drop a held item.",0,2,0,
+497,BLUEFLUTE,Blue Flute,7,100,A blue flute made from blown glass. Its melody awakens a single Pokémon from sleep.,5,3,0,
+498,YELLOWFLUTE,Yellow Flute,7,200,A yellow flute made from blown glass. Its melody snaps a single Pokémon out of confusion.,0,2,0,
+499,REDFLUTE,Red Flute,7,300,A red flute made from blown glass. Its melody snaps a single Pokémon out of infatuation.,0,2,0,
+500,POKEDOLL,Poké Doll,7,1000,A doll that attracts Pokémon. Use it to flee from any battle with a wild Pokémon.,0,2,0,
+501,FLUFFYTAIL,Fluffy Tail,7,1000,An item that attracts Pokémon. Use it to flee from any battle with a wild Pokémon.,0,2,0,
+502,POKETOY,Poké Toy,7,500,An item that attracts Pokémon. Use it to flee from any battle with a wild Pokémon.,0,2,0,
+503,BICYCLE,Bicycle,8,0,A folding Bicycle that enables much faster movement than the Running Shoes.,2,0,6,
+504,OLDROD,Old Rod,8,0,An old and beat-up fishing rod. Use it by any body of water to fish for wild aquatic Pokémon.,2,0,6,
+505,GOODROD,Good Rod,8,0,"A new, good-quality fishing rod. Use it by any body of water to fish for wild aquatic Pokémon.",2,0,6,
+506,SUPERROD,Super Rod,8,0,"An awesome, high-tech fishing rod. Use it by any body of water to fish for wild aquatic Pokémon.",2,0,6,
+507,ITEMFINDER,Itemfinder,8,0,"A device used for finding items. If there is a hidden item nearby when it is used, it emits a signal.",2,0,6,
+508,DOWSINGMCHN,Dowsing MCHN,8,0,It checks for unseen items in the area and makes noise and lights when it finds something.,2,0,6,
+509,POKERADAR,Poké Radar,8,0,A tool that can search out Pokémon that are hiding in grass. Its battery is recharged as you walk.,2,0,6,
+510,TOWNMAP,Town Map,8,0,A very convenient map that can be viewed anytime. It even shows your present location.,2,0,6,
+511,POKEFLUTE,Poké Flute,8,7000,A flute that is said to instantly awaken any Pokémon. It has a lovely tone.,5,3,6,
+512,COINCASE,Coin Case,8,0,"A case for holding coins obtained at the Game Corner. It holds up to 50,000 coins.",2,0,6,
+513,SOOTSACK,Soot Sack,8,0,A sack used to gather and hold volcanic ash.,0,0,6,
+514,SILPHSCOPE,Silph Scope,8,0,A scope that makes unseeable Pokémon visible. It is made by Silph Co.,0,0,6,
+515,DEVONSCOPE,Devon Scope,8,0,A device by Devon that signals any unseeable Pokémon.,0,0,6,
+516,SQUIRTBOTTLE,Squirtbottle,8,0,A bottle used for watering plants.,0,0,6,
+517,SPRAYDUCK,Sprayduck,8,0,A watering can shaped like a Psyduck. It helps promote healthy growth of Berries planted in soft soil.,0,0,6,
+518,WAILMERPAIL,Wailmer Pail,8,0,A tool used for watering Berries and plants.,0,0,6,
+519,GRACIDEA,Gracidea,8,0,A flower sometimes bundled in bouquets to convey gratitude on special occasions like birthdays.,5,0,6,
+520,AURORATICKET,Aurora Ticket,8,0,A ticket required to board the ship to Doxy Island. It glows beautifully.,0,0,6,
+521,OLDSEAMAP,Old Sea Map,8,0,A faded sea chart that shows the way to a certain island.,0,0,6,
+522,DNASPLICERS,DNA Splicers,8,0,A splicer that fuses Kyurem and a certain Pokémon. They are said to have been one in the beginning.,5,0,6,
+523,REVEALGLASS,Reveal Glass,8,0,A glass that reveals the truth. It is a mysterious glass that returns a Pokémon back to its original shape.,5,0,6,
+524,OVALCHARM,Oval Charm,8,0,An oval charm said to increase the chance of Eggs being found at the Day Care.,0,0,6,
+525,SHINYCHARM,Shiny Charm,8,0,A shiny charm said to increase the chance of finding a Shiny Pokémon.,0,0,6,
+526,REVERSECANDY,Reverse Candy,2,50,A candy that does the reverse role of a Rare Candy.,1,0,0,
+527,MYSTERYGOOD,Mystery Good,8,0,An item that you can't quite make out. What is it?,0,0,6,
+528,TM90_1,TM 90,4,0,pOISON,0,0,0,
+529,ITEM529,TM96,4,300,The user smashes the opponent with  powerful tail covered in poison.,3,0,0,POISONTAIL
+530,LOVELETTE,Love Letter,8,0,"\"A mystery love letter that is meant for Cameron\"",0,0,6,
+531,DEMONSTONE,DemonStone,1,0,A mysterious stone,0,0,0,
+532,CHINESEFOOD,Chinese Food,2,100,"\"Delectable Chinese grub, straight from the sewers! Restores 50 HP.\"",1,1,0,
+533,SOULSTONE,Soul Stone,8,0,A mysterious stone with a mystical presence inside.,0,0,6,
+534,WEIRDLETTER,Weird Letter,8,0,A suspicious letter given to you by a scientist.,0,0,6,
+535,LINKSTONE,Link Stone,1,4000,"A peculiar stone that makes certain species of Pokémon evolve. It has a link cable pattern.",1,0,0
+536,GOURMETTREAT,Poké-Candy,1,2000,A treat that attracts rogue wild Pokemon.,0,0,0,
 537,ABOMASITE,Abomasite,6,999,"Have Abomasnow hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0
 538,ABSOLITE,Absolite,6,999,"Have Absol hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0
 539,AERODACTYLITE,Aerodactylite,6,999,"Have Aerodactyl hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0
@@ -576,117 +576,106 @@
 576,SNOWBALL,Snowball,1,1000,"An item to be held by a Pokémon. It boosts Attack if hit with an Ice-type attack. It can only be used once.",0,0,0
 577,TYRANITARITE,Tyranitarite,6,999,"Have Tyranitar hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0
 578,VENUSAURITE,Venusaurite,6,999,"Have Venusaur hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0
-579,WEAKNESSPOLICY,Weakness Policy,1,999,"To be held by a Pokémon. Attack and Sp. Atk sharply increase if the holder is hit with a move they're weak to.",0,0,0
-580,WHIPPEDDREAM,Whipped Dream,1,1000,"A soft and sweet treat made of fluffy, puffy, whipped and whirled cream. It's loved by a certain Pokémon.",0,0,0
-581,ABILITYCAPSULE,Ability Capsule,2,999,"A capsule that allows a Pokémon with at least two Abilities to switch between these Abilities when it is used.",1,0,0
-582,TM96,TM96,4,3000,"This attack makes use of nature's power. Its effects vary depending on the user's environment.",3,0,0,NATUREPOWER
-583,TM97,TM97,4,5500,"The user releases a horrible aura imbued with dark thoughts. This may also make the target flinch.",3,0,0,DARKPULSE
-584,TM98,TM98,4,3000,"Striking opponents over and over makes the user's fists harder. Hitting a target raises the Attack stat.",3,0,0,POWERUPPUNCH
-585,TM99,TM99,4,1000,"The user damages opposing Pokémon by emitting a powerful flash.",3,0,0,DAZZLINGGLEAM
-586,TM100,TM100,4,3000,"The user discloses a secret to the target, and it cannot concentrate anymore. Lowers the target's Sp. Atk.",3,0,0,CONFIDE
-587,DNASPLICERS,DNA Splicers,8,0,"A splicer that fuses Kyurem and a certain Pokémon. They are said to have been one in the beginning.",5,0,6,
-588,REVEALGLASS,Reveal Glass,8,0,"A looking glass that reveals the truth. It's a mysterious glass that returns a Pokémon to its original shape.",5,0,6,
-589,OVALCHARM,Oval Charm,8,0,"An oval charm said to increase the chance of Pokémon Eggs being found at the Day Care.",0,0,6,
-590,SHINYCHARM,Shiny Charm,8,0,"A shiny charm said to increase the chance of finding a Shiny Pokémon in the wild.",0,0,6,
-591,DULLKEY,Dull Key,8,0,"A lost, ordinary dark key. There seems to be a bit of spray paint on it.",0,0,6
-592,MAGNETPOWDER,Magnet Powder,1,600,"A polarized powder made from ground-up magnets.",0,0,0
-593,POKESNAX,PokéSnax,2,400,"A popular to-go snack for Pokémon of all species.",1,0,0
-594,DATACHIP,Data Chip,1,400,"A discarded fragment of data. Plugging it into a computer might crash it.",0,0,0
-595,SOULCANDLE,Soul Candle,1,2000,"A spiritual candle. When its flame goes out, somewhere a distant soul will be forever erased.",0,0,0
-596,SILVERRING,Silver Ring,8,1000,"A plain silver band. It probably belonged to Corey.",0,0,6
-597,FLORALCHARM,Floral Charm,1,1500,"A flower-shaped lucky pendant. It's said to gain favor with spirits of the plants.",0,0,0
-598,BLASTPOWDER,Blast Powder,1,2500,"A powder made from Electrode. Explodes to break up certain rock formations.",0,0,0
-599,DRARECANDY,'Rare Candy',8,30000,"Rare Candy infused with hallucinogenic components. Best not to use this...",0,0,0
-600,CRYSTALPLUG1,Crystal Key,8,0,"Resonates with large Red Crystals.",0,0,6
-601,CRYSTALPLUG2,Crystal Key,8,0,"Resonates with large Red and Green Crystals.",0,0,6
-602,CRYSTALPLUG3,Crystal Key,8,0,"Resonates with large Red, Green and Blue Crystals.",0,0,6
-603,CRYSTALPLUG4,Crystal Key,8,0,"Resonates with large Red, Green, Blue and Purple Crystals.",0,0,6
-604,ODDISHWEED,Oddishweed,1,19000,"Leaves from a passed Oddish's head. Some fanatics use them to cure ailments.",0,0,0
-605,BLUEMIC,Blue Moon Ice Cream,2,20000,"An extremely rare and coveted flavored treat! Eat it before it melts to restore 200 HP!",1,1,0
-606,PULSEHOLD,PULSE,2,999,"A PULSE Machine that malforms Pokémon.",1,1,0
-607,DARKMATTER,Dark Material,1,30000,"A fragment of pitch-dark energy.",0,0,0
-608,POWDERVIAL,Powder Vial,8,1000,"A vial and collection unit for gathering and distributing spores.",0,0,6
-609,BATTLEPASS1,Battle Pass- Fury,8,1000,"A ticket to battle Samson at the Agate Circus.",0,0,6
-610,CORRUPTEDBALL,Corrupted Poké Ball,3,20,"A Poké Ball with expired data. It can no longer be opened.",0,0,0
-611,TECHGLASSES,Tech Glasses,1,600,"A pair of high-durability glasses for scientific research.",0,0,0
-612,ULTRAPOTION,Ultra Potion,2,1200,"A spray-type medicine for treating wounds. It can be used to restore 200 HP to an injured Pokémon.",1,1,0
-613,SILVERCARD,Silver Card,8,1000,"A silver-trim key-card with a purple mark on it.",0,0,6
-614,ILLFATEDDOLL,Ill-Fated Doll,1,300,"A cursed doll that brings ruin on anyone who keeps it.",0,0,0
-615,APARTMENTKEY,House Key,8,0,"It looks like a modern key to a home. Maybe someone dropped it?",0,0,6
-616,BATTLEPASS2,Battle Pass- Gravity,8,1000,"A ticket to battle Terra at the Agate Circus.",0,0,6
-617,GALLADITE,Galladite,6,1000,"Have Gallade hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-618,GLALITITE,Glalitite,6,1000,"Have Glalie hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-619,SHARPEDONITE,Sharpedonite,6,1000,"Have Sharpedo hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-620,SCEPTILITE,Sceptilite,6,1000,"Have Sceptile hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-621,BEEDRILLITE,Beedrillite,6,1000,"Have Beedrill hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-622,AUDINITE,Audinite,6,1000,"Have Audino hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-623,ALTARIANITE,Altarianite,6,1000,"Have Altaria hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-624,DIANCITE,Diancite,6,1000,"Have Diancie hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-625,STEELIXITE,Steelixite,6,1000,"Have Steelix hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-626,CAMERUPTITE,Cameruptite,6,1000,"Have Camerupt hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-627,PIDGEOTITE,Pidgeotite,6,1000,"Have Pidgeot hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-628,SALAMENCITE,Salamencite,6,1000,"Have Salamence hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-629,LOPUNNITE,Lopunnite,6,1000,"Have Lopunny hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-630,METAGROSSITE,Metagrossite,6,1000,"Have Metagross hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-631,SLOWBRONITE,Slowbronite,6,1000,"Have Slowbro hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-632,SABLENITE,Sablenite,6,1000,"Have Sableye hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-633,SWAMPERTITE,Swampertite,6,1000,"Have Swampert hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-634,LATIASITE,Latiasite,6,1000,"Have Latias hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-635,LATIOSITE,Latiosite,6,1000,"Have Latios hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
-636,REDORB,Red Orb,6,10000,"A shiny red orb that is said to have a legend tied to it. It's known to have a deep connection with the Hoenn Region.",0,0,0
-637,BLUEORB,Blue Orb,6,10000,"A shiny blue orb that is said to have a legend tied to it. It's known to have a deep connection with the Hoenn Region.",0,0,0
-638,PRISONBOTTLE,Prison Bottle,8,0,"A bottle believed to have been used to seal away the power of a certain Pokémon long, long ago.",5,0,6,
-639,TM942,TM94,4,3000,"The additional effects of this attack depend upon where it was used.",3,0,0,SECRETPOWER
-640,BERYLGRIDKEY,Beryl Grid Key,8,0,"A key to open the door to the Beryl Water Grid in the Water Treatment Center.",0,0,6
-641,BATTLEPASS3,Battle Pass- Suspension,8,1000,"A ticket to battle Ciel at the Agate Circus.",0,0,6
-642,HPRESETBAG,HP Reset Disc,2,10000,"A special program that causes the Pokémon to forget its training in the HP stat.",1,0,0
-643,ATKRESETBAG,Attack Reset Disc,2,10000,"A special program that causes the Pokémon to forget its training in the Attack stat.",1,0,0
-644,DEFRESETBAG,Defense Reset Disc,2,10000,"A special program that causes the Pokémon to forget its training in the Defense stat.",1,0,0
-645,SPARESETBAG,Sp.Atk Reset Disc,2,10000,"A special program that causes the Pokémon to forget its training in the Sp. Atk stat.",1,0,0
-646,SPDRESETBAG,Sp.Def Reset Disc,2,10000,"A special program that causes the Pokémon to forget its training in the Sp. Def stat.",1,0,0
-647,SPERESETBAG,Speed Reset Disc,2,10000,"A special program that causes the Pokémon to forget its training in the Speed stat.",1,0,0
-648,AMPLIFIELDROCK,Amplifield Rock,1,3000,"An item to be held by a Pokémon. It extends the duration of the area-altering moves used by the holder.",0,0,0
-649,K2KEY,K2 Key,8,0,"An old, rusted key. The base reads 'K2'.",0,0,6
-650,K5KEY,K5 Key,8,0,"An old, rusted key. The base reads 'K5'.",0,0,6
-651,K22KEY,K22 Key,8,0,"An old, rusted key. The base reads 'K22'.",0,0,6
-652,K33KEY,K33 Key,8,0,"An old, rusted key. The base reads 'K33'.",0,0,6
-653,S4KEY,S4 Key,8,0,"An old, rusted key. The base reads 'S4'.",0,0,6
-654,S9KEY,S9 Key,8,0,"An old, rusted key. The base reads 'S9'.",0,0,6
-655,S12KEY,S12 Key,8,0,"An old, rusted key. The base reads 'S12'.",0,0,6
-656,F1KEY,F1 Key,8,0,"An old, rusted key. The base reads 'F1'.",0,0,6
-657,F10KEY,F10 Key,8,0,"An old, rusted key. The base reads 'F10'.",0,0,6
-658,F14KEY,F14 Key,8,0,"An old, rusted key. The base reads 'F14'.",0,0,6
-659,F34KEY,F34 Key,8,0,"An old, rusted key. The base reads 'F34'.",0,0,6
-660,FAIRYGEM,Fairy Gem,1,1200,"A gem with an essence of the fey. When held, it strengthens the power of a Fairy-type move one time.",0,0,0
-661,DIAMONDRING,Diamond Ring,8,0,"A sparkling new engagement ring. Only the finest.",0,0,6
-662,SANCTUMKEY,Sanctum Key,8,0,"The master key of a hidden temple.",0,0,6
-663,GUMKEY,GUM Key,8,0,"A key with a pink label attached to it that only reads 'GUM'.",0,0,6
-664,CORALKEY,Coral Key,8,0,"A key to the Coral Lighthouse. It's rusted over after recent neglect.",0,0,6
-665,IDTAG,ID Tag,8,0,"A Team Meteor dog tag. The name reads 'Tara Copperman'.",0,0,6
-666,ARCAUTOGRAPH,DJ Arc Autograph,8,0,"'Thanks for listening! DJ Arclight will always look out for you. --A'",0,0,6
-667,MCKREZZYAUTOGRAPH,McKrezzy Autograph,8,0,"'Blaze on, starshine. ~M'",0,0,6
-668,HEADPHONES,Headphones,8,0,"Top quality, noise-cancelling headphones. They come at a steep price.",0,0,6
-669,SPYCEAPP,Spyce Application,1,0,"Application for The Spyce. Requirements: Passion for all foods and a zeal for learning.",2,0,0,
-670,LIBRARYAPP,Library Application,1,0,"Application for the Beryl Library. Requirements: A love for knowledge and calmness in equal measure.",2,0,0,
-671,SWEETAPP,Sweet Application,1,0,"Application for Sweet Co. Requirements: Outgoing and energetic, experience in retail preferred!",2,0,0,
-672,CRITICALAPP,Critical Application,1,0,"Application for Critical Capture. Requirements: Moderate understanding of Poké Ball technology.",2,0,0,
-673,MEDICINEAPP,Medicine Application,1,0,"Application for a Medicine Market. Requirements: Understanding of herbal and chemical treatments.",2,0,0,
-674,SALONAPP,Salon Application,1,0,"Application for the Central Salon. Requirements: 3+ years cosmetology experience or relevant degree.",2,0,0,
-675,GLAMAPP,Glamazonia App,1,0,"Application for the Glamazonia Salon. Requirements: Maximum glamour. Hot legs preferred.",2,0,0,
-676,NIGHTCLUBAPP,Nightclub Application,1,0,"Application for the Reborn Nightclub. Requirements: See DJ Arclight.",2,0,0,
-677,CYCLEAPP,Cycle Application,1,0,"Application for the Lapis Luxury Cycle Shop. Requirements: Business casual attire, refined appearance.",2,0,0,
-678,SILPHAPP,Silph Application,1,0,"Application for Silph Co. Requirements: 2+ years business management experience or relevant degree.",2,0,0,
-679,CIRCUSAPP,Circus Application,1,0,"Application for the Agate Circus. Requirements: Arm wrestle with Samson. Victory not expected.",2,0,0,
-680,SOLICEAPP,SOLICE Application,1,0,"Application for SOLICE. Requirements: 2+ years experience in social work and a passion to help others.",2,0,0,
-681,CONSTRUCTIONAPP,Construction App,1,0,"Application for city construction. Requirements: Hard hat and hardy spirit!",2,0,0,
-682,APOPHYLLAPP,Apophyll Application,1,0,"Application for Apophyll Academy. Requirements: None. All interested are welcome!",2,0,0,
-683,KINSOKUJIKOU,Classified Information,8,0,"A sealed envelope marked 'TOP SECRET'. Better not read it.",0,0,6
-684,PINKPEARL,Pink Pearl,8,0,"A large, round pearl, originally from a Clamperl. It looks well-cared for.",0,0,6
-685,CRYSTALBALL,Crystal Ball,8,0,"A glassy crystal ball used to divine the future. It cost 100 milllion yen and boasts a 30% success rate.",0,0,6
-686,RKEY,'R' Key,8,0,"A normal apartment key that someone dropped. It's marked with the letter 'R'.",0,0,6
-687,DEVONSCOPEM,Devon Scope Model,8,0,"A model of the Devon Scope made by Devon Corp. It doesn't actually function.",0,0,6
-688,DEVONSCOPE,Silvon Scope,8,0,"A device made by the combined efforts of Devon Corp. and Silph Co. It can reveal any Pokémon.",0,0,6
-689,RADIOCOMM,Radio Transceiver,8,0,"A radio originally belonging to Arclight. It can send signals and messages to its partner device.",0,0,6
+579,WEAKNESSPOLICY,Weakness Policy,1,999,An item to be held by a Pokémon. Attack and Sp. Atk sharply increase if the holder is hit with a move it's weak to.,0,0,0,
+580,WHIPPEDDREAM,Whipped Dream,1,1000,"A soft and sweet treat made of fluffy, puffy, whipped and whirled cream. It's loved by a certain Pokémon.",0,0,0,
+581,ABILITYCAPSULE,Ability Capsule,2,999,A capsule that allows a Pokémon to switch abilities when it is used.,1,0,0,
+582,TM96,TM96,4,3000,An attack that makes use of nature's power. Its effects vary depending on the user's environment.,3,0,0,NATUREPOWER
+583,TM97,TM97,4,5500,The user releases a horrible aura imbued with dark thoughts. It may also make the target flinch.,3,0,0,DARKPULSE
+584,TM98,TM98,4,3000,Striking opponents over and over makes the user's fists harder. Hitting a target raises the Attack stat.,3,0,0,POWERUPPUNCH
+585,TM99,TM99,4,1000,The user damages opposing Pokémon by emitting a powerful flash.,3,0,0,DAZZLINGGLEAM
+586,TM100,TM100,4,3000,"The user tells the target a secret, and the target loses its ability to concentrate. This lowers the target's Sp. Atk stat.",3,0,0,CONFIDE
+587,SPICEPOWDER,Spice Powder,8,0,Tropical spices only found on Terajuma. Natives use it for clearing sleeping Vileplume in Ayrith.,0,0,6,
+588,ANCIENTWING,Ancient Wing,8,0,A mysterious stone wing. It looks like it was attatched to something.,0,0,6,
+591,DULLKEY,Dull Key,8,0,A peculiar key to a peculiar door.,0,0,6,
+592,SECRETPOTION,Secret Potion,8,0,An extremely powerful medicine that originated from Olivine City in the Johto region.,0,0,6,
+593,EXCLUSIVEPASS,Exclusive Pass,8,0,A pass that allows the lucky weilder to enter Grand Dream City during their celebrity event.,0,0,6,
+601,JOYSCENT,Joy Scent,1,300,This scent massage opens the hearts of Pokémon a little.,1,0,0,
+602,EXCITESCENT,Excite Scent,1,500,This scent massage opens the hearts of Pokémon.,1,0,0,
+603,VIVIDSCENT,Vivid Scent,1,800,This scent massage opens the hearts of Pokémon a lot.,1,0,0,
+604,TIMEFLUTE,Time Flute,1,3000,This item fully opens the hearts of a Pokémon.,1,0,0,
+605,WHITEKEY,White Key,8,0,A mysterious key that opens a door somewhere nearby.,2,0,6,
+606,GREENKEY,Green Key,8,0,A mysterious key that opens a door somewhere nearby.,2,0,6,
+607,MININGKIT,Mining Kit,8,0,A kit that contains tools for mining.,0,0,6,
+608,LADDER,Ladder,8,0,A sturdy ladder,0,0,6,
+609,ODDKEY,Odd Key,8,0,A key to a storage box somewhere in Cellia.,0,0,6,
+610,BRASSKEY,Brass Key,8,0,A peculiar key to a peculiar door.,0,0,6,
+611,BLACKSHARD,Black Shard,8,0,An extremely rare shard that can only be found in certain places.,0,0,6,
+612,TM101,TM101,4,2000,The Pokémon uses it's claws to grapple onto certain surfaces. Enabling it to climb.,3,0,0,ROCKCLIMB
+613,CHESTNUT,Chestnut,2,300,A spiny delicacy. It restores 20 HP.,1,1,0,
+614,CRYSTALSHARD,Crystal Shard,8,0,A mysterious crystal that is said to awaken nearby Timesplicer stones.,0,0,6,
+615,VISITORSPASS,Visitor's Pass,8,0,A pass that allows visitors to access Axis University.,0,0,6,
+616,METAGROSSITE,Metagrossite,6,999,"One variety of the mysterious Mega Stones. Have Metagross hold it, and this stone will enable it to Mega Evolve in battle.",0,0,0,
+617,DEFIBRILLATOR,Defibrillator,8,0,A machine that can conduct electricity into a person.,0,0,6,
+618,YACHTKEYS,Yacht Keys,8,0,Keys to Tesla's Yacht on Teila Town's shore.,0,0,6,
+619,SUNDIAL,Sun Dial,8,0,A pendant that's oddly shaped like a Pokemon...,0,0,6,
+620,PHASEDIAL,Phase Dial,8,0,A pendant that's simultaneously shaped like the sun and the moon.,0,0,6,
+621,GATEKEYS,Gate Key,8,0,Opens a gate in the Keneph Village.,0,0,6,
+622,BLUEPIECE,Blue Piece,8,0,A mysterious blue token. Perhaps there are more to be found.,0,0,6,
+623,GREENPIECE,Green Piece,8,0,A mysterious green token. Perhaps there are more to be found.,0,0,6,
+624,PAINTJAR,Jar of Paint,1,125000,A small usable jar of paint used to paint your Pokemon and make it shiny.,1,0,0,
+625,OLDDOLL,Old Doll,8,0,"An old doll that radiates a dark aura.",0,0,6,
+626,CREDIT,Credit,1,500,A small round coin. These coins are used as currency for rare items in the Ayrith Region.,0,0,0,
+627,TINYKEY,Tiny Key,8,0,A tiny key for a tiny lock.,0,0,6,
+628,ANCIENTKEY,Ancient Key,8,0,A Dusty key that hasn't been used in a long time.,0,0,6
+629,ELLIOTMEMENTO,Elliot's Memento,8,0,An old amulet that still shines brilliantly.,0,0,6
+630,REDPIECE,Red Piece,8,0,A mysterious red token. Perhaps there are more to be found.,0,0,6,
+631,WEEPINGBOOK,Weeping Book,8,0,An old book that is tattered and worn. It radiates a sad aura.,0,0,6
+632,DARKRITE,The perfect bond.,6,999,"???",0,0,0,
+633,ONYXSTONE,Onyx Stone,8,0,An ancient stone made of Onyx. it radiates a mysterious and powerful aura.,0,0,6
+634,SHINYKEY,Shiny Key,8,0,A peculiar key to a peculiar door.,0,0,6,
+635,DIARYPAGE,Diary Page,8,0,A torn page from what seems to be a diary.,0,0,6,
+636,YELLOWPIECE,Yellow Piece,8,0,A mysterious yellow token. Perhaps there are more to be found.,0,0,6,
+637,MAJIRA1,Majira's First Key,8,0,One of the keys belonging to Majira - the first Ranger.,0,0,6,
+638,BATTLEVIEWPASS,Battleview Pass,8,0,A pass required to enter in the Cellia City finals of the Battleview Tournament.,0,0,6,
+639,LOPUNNITE,Lopunnite,6,999,"One variety of the mysterious Mega Stones. Have Lopunny hold it, and this stone will enable it to Mega Evolve in battle.",0,0,0,
+640,MYSTERYPARCEL,Parcel,8,0,A parcel owned by a man on Route 4.,0,0,6,
+641,DAGGER,Ceremonial Dagger,8,0,A ceremonial dagger used in the Hand Of Arceus' traditions.,0,0,6,
+642,CAMERA,Camera,8,0,A camera to provide evidence of your travels.,0,0,6,
+643,PHOTOWEEP,Weeping Hill Photo,8,0,A photo of the Weeping Hill for the Hand Of Arceus,0,0,6,
+644,PHOTOVEJYR,Vejyr Sanctum Photo,8,0,A photo of the Vejyr Sanctum for the Hand Of Arceus,0,0,6,
+645,PHOTOKENEPH,Keneph Photo,8,0,A photo of the Keneph Village Entrance for the Hand Of Arceus,0,0,6,
+646,SCARLETTBOW,Scarlett's Old Bow,8,0,Scarlett's Bow... she had this before she turned.,0,0,6,
+647,MIGHTYENITE,Mightyenite,6,999,"One variety of the mysterious Mega Stones. Have Mightyena hold it, and this stone will enable it to Mega Evolve in battle.",0,0,0,
+648,MYSTERIOUSKEY,Mysterious Key,8,0,A mysterious key with an unknown use.,0,0,6,
+649,GENERATORKEY,Generator Key,8,0,The key to the generator room in the abanonded powerplant.,0,0,6,
+650,SLUDGEFRAGMENT,Sludge Fragment,8,0,A fragment of sludge.,0,0,0,
+651,SEWERKEY,Sewer Key,8,0,A slime covered key.,0,0,6,
+652,DRESSSCRAP,Black Dress Scrap,8,0,A scrap of Aurora's dress. There is a strange marking on it and it emanates a dark presence.,0,0,6,
+653,PIDGEOTITE,Pidgeotite,6,999,"One variety of the mysterious Mega Stones. Have Pidgeot hold it, and this stone will enable it to Mega Evolve in battle.",0,0,0,
+654,GALLADITE,Galladite,6,999,"One variety of the mysterious Mega Stones. Have Gallade hold it, and this stone will enable it to Mega Evolve in battle.",0,0,0,
+655,MAJIRA2,Majira's Second Key,8,0,One of the keys belonging to Majira - the first Ranger.,0,0,6,
+656,ARCHIVESKEY,Archives Key,8,0,A key to one of the Archives Secret Rooms.,0,0,6
+657,PACKAGEKEY,Package Key,8,0,A key from a strange package.,0,0,6,
+658,STRANGEINCENSE,Strange Incense,8,0,A strange incense given to you by Serenity.,0,0,6,
+659,PHOTOTEMPLE,Arceus Mural Photo,8,0,A photo of the mural to Arceus from a time long past.,0,0,6,
+660,WILDLANDSKEY,Wildlands Key,8,0,A key given by Pip. It opens a house somewhere in the Wildlands.,0,0,6,
+661,GLALITITE,Glalitite,6,1000,"Have Glalie hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+662,SHARPEDONITE,Sharpedonite,6,1000,"Have Sharpedo hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+663,SCEPTILITE,Sceptilite,6,1000,"Have Sceptile hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+664,BEEDRILLITE,Beedrillite,6,1000,"Have Beedrill hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+665,AUDINITE,Audinite,6,1000,"Have Audino hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+666,ALTARIANITE,Altarianite,6,1000,"Have Altaria hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+667,DIANCITE,Diancite,6,1000,"Have Diancie hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+668,STEELIXITE,Steelixite,6,1000,"Have Steelix hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+669,CAMERUPTITE,Cameruptite,6,1000,"Have Camerupt hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+670,SALAMENCITE,Salamencite,6,1000,"Have Salamence hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+671,SLOWBRONITE,Slowbronite,6,1000,"Have Slowbro hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+672,SABLENITE,Sablenite,6,1000,"Have Sableye hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+673,SWAMPERTITE,Swampertite,6,1000,"Have Swampert hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+674,LATIASITE,Latiasite,6,1000,"Have Latias hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+675,LATIOSITE,Latiosite,6,1000,"Have Latios hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+676,LETTERBOB,Letter to Bob,8,0,A letter from one of the Blackview shipping workers. It must be delivered to Bob.,0,0,6,
+677,PURPLEPIECE,Purple Piece,8,0,A mysterious purple token. Perhaps there are more to be found.,0,0,6,
+678,OLDRELIC,Old Relic,8,0,An old relic found beneath Ruby Island. It contains three indents of equal size.,0,0,6,
+679,MAJIRA3,Majira's Third Key,8,0,One of the keys belonging to Majira - the first Ranger.,0,0,6,
+680,FROZENORB,Frozen Orb,8,0,An orb that is freezing to touch. It was found at the summit of Silver Rise.,0,0,6
+681,AMPLIFIELDROCK,Amplifield Rock,1,3000,"An item to be held by a Pokémon. It extends the duration of the area-altering moves used by the holder.",0,0,0
+682,FAIRYGEM,Fairy Gem,1,1200,"A gem with an essence of the fey. When held, it strengthens the power of a Fairy-type move one time.",0,0,0
+683,ULTRAPOTION,Ultra Potion,2,1200,"A spray-type medicine for treating wounds. It can be used to restore 200 HP to an injured Pokémon.",1,1,0
+684,TOXICROAKITE,Toxicroakite,6,1000,"Have Toxicroak hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+685,GRIDFRAGMENT,Grid Fragment,8,0,A peculiar material that has a glass-like feel to it. It emits a strange energy.,0,0,0,
+686,CINCCINITE,Cinccinite,6,1000,"Have Cinccino hold it, and this stone will enable it to Mega Evolve during battle.",0,0,0,
+687,BEAMERFRAGMENT,Dreamscape Fragment,8,0,A peculiar material that has a glass-like feel to it. It emits a strange energy.,0,0,0,
 690,ADRENALINEORB,Adrenaline Orb,1,300,"If held by a Pokémon, it boosts Speed when intimidated. It can be used only once.",0,0,0
 691,BIGMALASADA,Big Malasada,2,200,"The Alola Region's special fried bread. It can be used once to heal all the status conditions of a Pokémon.",1,1,0
 692,ICESTONE,Ice Stone,1,2100,"A peculiar stone that can make certain species of Pokémon evolve. It has an unmistakable snowflake pattern.",1,0,0,
@@ -791,6 +780,50 @@
 791,ULTRANECROZIUMZ,Ultranecrozium-Z,6,0,"It's a crystal that allows Necrozma fused with another Pokémon to change forme.",5,0,8
 792,ULTRANECROZIUMZ2,Ultranecrozium-Z,1,0,"This is a crystallized form of Z-Power. It upgrades Ultra Necrozma's Photon Geyser to a Z-Move.",0,0,7
 793,HM09,TMX9,4,0,"Smashes into the target with great force. May confuse the target. Can be used to scale rocky walls.",3,0,0,ROCKCLIMB
-794,CAGEKEY,Cage Key,8,0,"A simple key to a cage's padlock. It's slightly bent.",0,0,6
-795,METEORCARD,Meteor Card,8,0,"A card key belonging to a high-ranking Team Meteor officer. It can be used to open restricted areas.",0,0,6
-796,BELROSEPICTURE,Family Picture,8,0,"A photograph showing a man with dark blue hair, a woman with rose pink hair, and three smiling children.",0,0,6
+794,CHOCOLATEIC,Choc Ice Cream,2,600,"A chocolate flavored treat! Eat it before it melts to restore 70 HP!",1,1,0
+795,STRAWBIC,Berry Ice Cream,2,800,"A strawberry flavored treat! Eat it before it melts to restore 90 HP!",1,1,0
+796,MEMBERSHIPCARD,Membership Card,8,0,"A Membership Card for the Department Store in Obsidia. Collect Stickers to increase rank!",2,0,6
+797,MEDICINE,Medicine,8,500,"A cure-all for human wounds and illnesses. It's made from a Chansey's Softboiled.",0,0,6
+798,POPROCKS,Pop Rocks,2,750,"A sweet, carbonated candy. It jolts a Pokémon awake.",1,1,0
+799,PEPPERMINT,Peppermint,2,600,"A sweet, minty-fresh candy. It cures a Pokémon of poison.",1,1,0
+800,SALTWATERTAFFY,Salt-Water Taffy,2,850,"A sweet, chewy candy. It relieves a Pokémon's burn.",1,1,0
+801,CHEWINGGUM,Chewing Gum,2,800,"A sweet, chewy gum. It fixes a Pokémon's paralysis.",1,1,0
+802,REDHOTS,Red-Hots,2,850,"A sweet, spicy candy. It thaws a Pokémon from freeze.",1,1,0
+803,COTTONCANDY,Cotton Candy,2,5000,"A sweet, fluffy delicacy that can revive fainted Pokémon.",1,1,0
+804,VANILLAIC,Vanilla Ice Cream,2,400,"A vanilla flavored treat! Eat it before it melts to restore 30 HP!",1,1,0
+805,LUMINOUSMOSS,Luminous Moss,1,999,"An item to be held by a Pokémon. It boosts Sp. Def if hit with a Water-type attack. It can only be used once.",0,1,0
+806,LUMIOSEGALETTE,Lumiose Galette,2,999,"A popular treat in Lumiose City. It can be used once to heal all the status conditions of a Pokémon.",1,1,0
+807,MAGNETPOWDER,Magnet Powder,1,600,"A polarized powder made from ground-up magnets.",0,0,0
+808,POKESNAX,PokéSnax,2,400,"A popular to-go snack for Pokémon of all species.",1,0,0
+809,FLORALCHARM,Floral Charm,1,1500,"A flower-shaped lucky pendant. It's said to gain favor with spirits of the plants.",0,0,0
+810,BLASTPOWDER,Blast Powder,1,2500,"A powder made from Electrode. Explodes to break up certain rock formations.",0,0,0
+811,DRARECANDY,'Rare Candy',8,30000,"Rare Candy infused with hallucinogenic components. Best not to use this...",0,0,0
+812,ODDISHWEED,Oddishweed,1,19000,"Leaves from a passed Oddish's head. Some fanatics use them to cure ailments.",0,0,0
+813,BLUEMIC,Blue Moon Ice Cream,2,20000,"An extremely rare and coveted flavored treat! Eat it before it melts to restore 200 HP!",1,1,0
+814,PULSEHOLD,PULSE,2,999,"A PULSE Machine that malforms Pokémon.",1,1,0
+815,DARKMATTER,Dark Material,1,30000,"A fragment of pitch-dark energy.",0,0,0
+816,POWDERVIAL,Powder Vial,8,1000,"A vial and collection unit for gathering and distributing spores.",0,0,6
+818,PRISONBOTTLE,Prison Bottle,8,0,"A bottle believed to have been used to seal away the power of a certain Pokémon long, long ago.",5,0,6,
+819,TM942,TM94,4,3000,"The additional effects of this attack depend upon where it was used.",3,0,0,SECRETPOWER
+820,HPRESETBAG,HP Reset Disc,2,10000,"A special program that causes the Pokémon to forget its training in the HP stat.",1,0,0
+821,ATKRESETBAG,Attack Reset Disc,2,10000,"A special program that causes the Pokémon to forget its training in the Attack stat.",1,0,0
+822,DEFRESETBAG,Defense Reset Disc,2,10000,"A special program that causes the Pokémon to forget its training in the Defense stat.",1,0,0
+823,SPARESETBAG,Sp.Atk Reset Disc,2,10000,"A special program that causes the Pokémon to forget its training in the Sp. Atk stat.",1,0,0
+824,SPDRESETBAG,Sp.Def Reset Disc,2,10000,"A special program that causes the Pokémon to forget its training in the Sp. Def stat.",1,0,0
+825,SPERESETBAG,Speed Reset Disc,2,10000,"A special program that causes the Pokémon to forget its training in the Speed stat.",1,0,0
+828,SPYCEAPP,Spyce Application,1,0,"Application for The Spyce. Requirements: Passion for all foods and a zeal for learning.",2,0,0,
+829,LIBRARYAPP,Library Application,1,0,"Application for the Beryl Library. Requirements: A love for knowledge and calmness in equal measure.",2,0,0,
+830,SWEETAPP,Sweet Application,1,0,"Application for Sweet Co. Requirements: Outgoing and energetic, experience in retail preferred!",2,0,0,
+831,CRITICALAPP,Critical Application,1,0,"Application for Critical Capture. Requirements: Moderate understanding of Poké Ball technology.",2,0,0,
+832,MEDICINEAPP,Medicine Application,1,0,"Application for a Medicine Market. Requirements: Understanding of herbal and chemical treatments.",2,0,0,
+833,SALONAPP,Salon Application,1,0,"Application for the Central Salon. Requirements: 3+ years cosmetology experience or relevant degree.",2,0,0,
+834,GLAMAPP,Glamazonia App,1,0,"Application for the Glamazonia Salon. Requirements: Maximum glamour. Hot legs preferred.",2,0,0,
+835,NIGHTCLUBAPP,Nightclub Application,1,0,"Application for the Reborn Nightclub. Requirements: See DJ Arclight.",2,0,0,
+836,CYCLEAPP,Cycle Application,1,0,"Application for the Lapis Luxury Cycle Shop. Requirements: Business casual attire, refined appearance.",2,0,0,
+837,SILPHAPP,Silph Application,1,0,"Application for Silph Co. Requirements: 2+ years business management experience or relevant degree.",2,0,0,
+838,CIRCUSAPP,Circus Application,1,0,"Application for the Agate Circus. Requirements: Arm wrestle with Samson. Victory not expected.",2,0,0,
+839,SOLICEAPP,SOLICE Application,1,0,"Application for SOLICE. Requirements: 2+ years experience in social work and a passion to help others.",2,0,0,
+840,CONSTRUCTIONAPP,Construction App,1,0,"Application for city construction. Requirements: Hard hat and hardy spirit!",2,0,0,
+841,APOPHYLLAPP,Apophyll Application,1,0,"Application for Apophyll Academy. Requirements: None. All interested are welcome!",2,0,0,
+842,PINKPEARL,Pink Pearl,8,0,"A large, round pearl, originally from a Clamperl. It looks well-cared for.",0,0,6
+843,DEVONSCOPE,Silvon Scope,8,0,"A device made by the combined efforts of Devon Corp. and Silph Co. It can reveal any Pokémon.",0,0,6

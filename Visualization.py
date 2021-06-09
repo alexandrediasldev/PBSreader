@@ -1,16 +1,39 @@
+import itertools
+
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
+import utils as ut
 from collections import Counter
 
-def showTypeBar(typeList, colorList=None, areaName = ""):
-    fig_size = (10, 5)
-    f = plt.figure(figsize=fig_size)
-    f = addTypeBar(typeList,f,colorList,areaName)
-    f.show()
 
-def addTypeBar(typeList, figure,ax,pos=(0,0),colorList=None,areaName=""):
+def plotAllEncounterMapTypes(encounterList, size=(50, 50), removeMapNumber=False):
+    d_name, d_type, mapNames = ut.getDictsEncountersNameType(encounterList, removeMapNumber)
 
+    l1, l2 = ut.findSizesOfSubplots(len(mapNames))
+    f, ax = plt.subplots(l1, l2)
+    f.set_size_inches(size)
+
+    k = 0
+    for i, j in itertools.product(range(l1), range(l2)):
+        if (k < len(mapNames)):
+            f, ax = addTypeBar(d_type[mapNames[k]], f, ax, (i, j), areaName=mapNames[k])
+        else:
+            ax[i, j].set_axis_off()
+        k += 1
+
+    f.tight_layout()
+
+    return f, ax
+
+
+def plotTypeBar(typeList, colorList=None, areaName=""):
+    f, ax = plt.subplots()
+    ax = addTypeBar(typeList, f, ax, colorList=colorList, areaName=areaName)
+    return f, ax
+
+
+def addTypeBar(typeList, figure, ax, pos=None, colorList=None, areaName=""):
     letter_counts = Counter(typeList)
 
     common = letter_counts.most_common()
@@ -31,12 +54,16 @@ def addTypeBar(typeList, figure,ax,pos=(0,0),colorList=None,areaName=""):
                 break
         if (l not in c):
             bar_color.append("#000000")
+    if (pos):
+        ax[pos[0], pos[1]].barh(np.arange(nbars), number, tick_label=labels, color=bar_color)
+        ax[pos[0], pos[1]].set_xlabel("Number of Pokemon species")
+        ax[pos[0], pos[1]].title.set_text(areaName)
+    else:
+        ax.barh(np.arange(nbars), number, tick_label=labels, color=bar_color)
+        ax.set_xlabel("Number of Pokemon species")
+        ax.title.set_text(areaName)
 
-    ax[pos[0],pos[1]].barh(np.arange(nbars), number, tick_label=labels, color=bar_color)
-    ax[pos[0],pos[1]].set_xlabel("Number of Pokemon species")
-    ax[pos[0],pos[1]].title.set_text(areaName)
-    #plt.subtitle("Types repartition " + areaName)
-    return ax
+    return figure, ax
 
 
 def showLevelScatterPlot(levelList):

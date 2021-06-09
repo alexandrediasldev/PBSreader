@@ -39,6 +39,8 @@ class Pokemon:
             elif (i == 3):
                 self.moveList = []
                 for i in range(3,7):
+                    if(i >= len(pokemonAttributes)):
+                        break
                     moveName = pokemonAttributes[i]
                     if(moveName != ""):
                         self.moveList.append(getMoveFromName(moveName,moveList))
@@ -72,10 +74,10 @@ class Pokemon:
         for i in range(len(attributeList)):
             if (textList[i] == "Species:" or textList[i] == "Held item:"):
                 if(attributeList[i] != ""):
-                    attributeList[i].print()
+                    printIfValue(textList[i],attributeList[i].name)
             elif(textList[i] == "Move list:"):
-                for m in attributeList[i]:
-                    m.print()
+                for j,m in enumerate(attributeList[i]):
+                    printIfValue("Move " + str(j+1) + ":",m.name)
             else:
                 printIfValue(textList[i], attributeList[i])
 

@@ -84,17 +84,24 @@ def parsePokemon(equalOutput):
     id = -1
     speciesList = []
     for line in equalOutput:
+        if(line[0].startswith('\ufeff')):
+            line[0] = line[0][1:]
         first = line[0]
         if (len(line) > 1):
             second = line[1]
         if (first.startswith('[') and first.endswith(']')):
             if (id != -1):
+
                 species = sp.Species(id, name, internalName, type1, type2, baseStats, genderRate, baseEXP, moves,
                                      height, pokedex, evolutions)
+
                 speciesList.append(species)
-                id = name = internalName = type1 = type2 = baseStats = genderRate = baseEXP = moves = height = pokedex = evolutions = ""
+                id = name = internalName = type1 = type2 = baseStats = genderRate\
+                    = baseEXP = moves = height = pokedex = evolutions = ""
+
 
             id = int(first[1:-1])
+
         elif (first == "Name"):
             name = second
         elif (first == "InternalName"):
