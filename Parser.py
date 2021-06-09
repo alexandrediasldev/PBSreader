@@ -6,23 +6,27 @@ import PBSclasses.Move as mv
 import PBSclasses.Item as it
 import PBSclasses.Encounter as en
 from Finder import *
+import PBSclasses.Environment as env
 
-def parseItem(csvOutput, hasPluralName = False):
+
+def parseItem(csvOutput, hasPluralName=False):
     itemList = []
     for line in csvOutput:
         moveName = ""
         line.append("")
-        if(hasPluralName):
+        if (hasPluralName):
             item = it.Item(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8],
-                       line[9],line[10])
+                           line[9], line[10])
         else:
-            item = it.Item(line[0], line[1], line[2], "",line[3], line[4], line[5], line[6], line[7], line[8],
-                       line[9])
+            item = it.Item(line[0], line[1], line[2], "", line[3], line[4], line[5], line[6], line[7], line[8],
+                           line[9])
         itemList.append(item)
 
     return itemList
 
-def parseEncounter(csvOutput, encounterMethods, speciesList):
+
+def parseEncounter(csvOutput, encounterMethods, environment):
+
     encounterList = []
     l = len(csvOutput)
     i = 0
@@ -30,34 +34,35 @@ def parseEncounter(csvOutput, encounterMethods, speciesList):
         line = csvOutput[i]
         if (len(line) == 1):
             isMapName = True
-            methodTmp = getEncounterMethodFromName(line[0],encounterMethods)
-            if(methodTmp != ""):
+            methodTmp = getEncounterMethodFromName(line[0], encounterMethods)
+            if (methodTmp != ""):
                 method = methodTmp
                 isMapName = False
 
-            if(isMapName):
+            if (isMapName):
                 mapName = line[0]
                 i += 1
-                if(i < l):
+                if (i < l):
                     line = csvOutput[i]
-                    if(len(line) == 1):
+                    if (len(line) == 1):
                         encounterDensity = ['25', '10', '10']
                     else:
                         encounterDensity = line
 
-        elif(len(line) == 2):
-            species = getSpeciesFromName(line[0],speciesList)
+        elif (len(line) == 2):
+            species = getSpeciesFromName(line[0], environment.speciesList)
             levelLow = line[1]
             levelHigh = ""
-            encounterList.append(en.Encounter(mapName,encounterDensity,method,species,levelLow,levelHigh))
+            encounterList.append(en.Encounter(mapName, encounterDensity, method, species, levelLow, levelHigh))
         else:
-            species = getSpeciesFromName(line[0],speciesList)
+            species = getSpeciesFromName(line[0], environment.speciesList)
             levelLow = line[1]
             levelHigh = line[2]
             encounterList.append(en.Encounter(mapName, encounterDensity, method, species, levelLow, levelHigh))
         i += 1
 
-    return  encounterList
+    return encounterList
+
 
 def parserMove(csvOutput):
     movesList = []
@@ -72,8 +77,8 @@ def parserMove(csvOutput):
 def parseTrainerTypes(csvOutput):
     trainerTypeList = []
     for line in csvOutput:
-        idNumber,id,name,baseMoney,battleBGM, victoryME,introME,gender,skillLevel  =\
-            line[0],line[1],line[2],line[3],line[4],line[5],line[6],line[7],line[8]
+        idNumber, id, name, baseMoney, battleBGM, victoryME, introME, gender, skillLevel = \
+            line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8]
 
         type = tp.TrainerType(idNumber, id, name, baseMoney, battleBGM, victoryME, introME, gender, skillLevel)
         trainerTypeList.append(type)
@@ -84,21 +89,19 @@ def parsePokemon(equalOutput):
     id = -1
     speciesList = []
     for line in equalOutput:
-        if(line[0].startswith('\ufeff')):
+        if (line[0].startswith('\ufeff')):
             line[0] = line[0][1:]
         first = line[0]
         if (len(line) > 1):
             second = line[1]
         if (first.startswith('[') and first.endswith(']')):
             if (id != -1):
-
                 species = sp.Species(id, name, internalName, type1, type2, baseStats, genderRate, baseEXP, moves,
                                      height, pokedex, evolutions)
 
                 speciesList.append(species)
-                id = name = internalName = type1 = type2 = baseStats = genderRate\
+                id = name = internalName = type1 = type2 = baseStats = genderRate \
                     = baseEXP = moves = height = pokedex = evolutions = ""
-
 
             id = int(first[1:-1])
 
@@ -130,8 +133,50 @@ def parsePokemon(equalOutput):
     speciesList.append(species)
     return speciesList
 
+def parseTrainerPokemon(pokemonAttributes, environment):
+        species = level = heldItem = moveList = ability = \
+            gender = form = shininess = nature = IVs = hapiness = \
+            nickname = shadow = ballType = ""
+        for i in range(len(pokemonAttributes)):
+            attribute = pokemonAttributes[i]
+            if (i == 0):
+                species = getSpeciesFromName(attribute, environment.speciesList)
+            elif (i == 1):
+                level = attribute
+            elif (i == 2):
+                heldItem = getItemFromName(attribute, environment.itemList)
+            elif (i == 3):
+                moveList = []
+                for i in range(3, 7):
+                    if (i >= len(pokemonAttributes)):
+                        break
+                    moveName = pokemonAttributes[i]
+                    if (moveName != ""):
+                        moveList.append(getMoveFromName(moveName, environment.moveList))
+            elif (i == 7):
+                ability = attribute
+            elif (i == 8):
+                gender = attribute
+            elif (i == 9):
+                form = attribute
+            elif (i == 10):
+                shininess = attribute
+            elif (i == 11):
+                nature = attribute
+            elif (i == 12):
+                IVs = attribute
+            elif (i == 13):
+                hapiness = attribute
+            elif (i == 14):
+                nickname = attribute
+            elif (i == 15):
+                shadow = attribute
+            elif (i == 16):
+                ballType = attribute
+        return pk.Pokemon(species,level,heldItem,moveList,ability,form,gender,
+                          shininess,nature,IVs,hapiness,nickname,shadow,ballType)
 
-def parseTrainerList(csvOutput, trainerTypeList, speciesList, moveList, itemList):
+def parseTrainerList(csvOutput, environment):
     lineNum = 0
     pokemonList = []
     trainerList = []
@@ -144,17 +189,17 @@ def parseTrainerList(csvOutput, trainerTypeList, speciesList, moveList, itemList
             nbPokemon = int(line[0])
         else:
             if (nbPokemon + 2 == lineNum):
-                pkm = pk.Pokemon(line, speciesList, moveList, itemList)
+                pkm = parseTrainerPokemon(line, environment)
                 pokemonList.append(pkm)
-                trainerType = getTrainerTypeFromName(type, trainerTypeList)
 
+                trainerType = getTrainerTypeFromName(type, environment.trainerTypeList)
                 train = tr.Trainer(trainerType, name, nbPokemon, pokemonList)
                 trainerList.append(train)
 
                 pokemonList = []
                 lineNum = -1
             else:
-                pkm = pk.Pokemon(line, speciesList, moveList, itemList)
+                pkm = parseTrainerPokemon(line, environment)
                 pokemonList.append(pkm)
         lineNum += 1
     return trainerList

@@ -38,47 +38,7 @@ class Pokemon:
         self.shadow = shadow
         self.ballType = ballType
 
-    def __init__(self, pokemonAttributes, speciesList, moveList, itemList):
-        self.species = self.level = self.heldItem = self.moveList = self.ability = \
-            self.gender = self.form = self.shininess = self.nature = self.IVs = self.hapiness = \
-            self.nickname = self.shadow = self.ballType = ""
 
-        for i in range(len(pokemonAttributes)):
-            attribute = pokemonAttributes[i]
-            if (i == 0):
-                self.species = getSpeciesFromName(attribute, speciesList)
-            elif (i == 1):
-                self.level = attribute
-            elif (i == 2):
-                self.heldItem = getItemFromName(attribute, itemList)
-            elif (i == 3):
-                self.moveList = []
-                for i in range(3, 7):
-                    if (i >= len(pokemonAttributes)):
-                        break
-                    moveName = pokemonAttributes[i]
-                    if (moveName != ""):
-                        self.moveList.append(getMoveFromName(moveName, moveList))
-            elif (i == 7):
-                self.ability = attribute
-            elif (i == 8):
-                self.gender = attribute
-            elif (i == 9):
-                self.form = attribute
-            elif (i == 10):
-                self.shininess = attribute
-            elif (i == 11):
-                self.nature = attribute
-            elif (i == 12):
-                self.IVs = attribute
-            elif (i == 13):
-                self.hapiness = attribute
-            elif (i == 14):
-                self.nickname = attribute
-            elif (i == 15):
-                self.shadow = attribute
-            elif (i == 16):
-                self.ballType = attribute
 
     def print(self):
         textList = ["Species:", "Level:", "Held item:", "Move list:", "Ability:", "Gender:", "Form:", "Shininess:",
