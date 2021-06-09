@@ -1,8 +1,9 @@
+from typing import Dict, List, Tuple
 def printIfValue(text,value):
     if(value != ""):
         print(text, value)
 
-def findSizesOfSubplots(numberOfPlot):
+def findSizesOfSubplots(numberOfPlot) -> Tuple[int,int]:
     i = 0
     j = 0
     while i * j < numberOfPlot:
@@ -13,9 +14,16 @@ def findSizesOfSubplots(numberOfPlot):
     return i, j
 
 
-def getDictsEncountersNameType(encounterList, skipNumber=False):
-    mapNames = []
-    d_name, d_type = dict(), dict()
+def getDictsEncountersNameType(encounterList, skipNumber=False) -> Tuple[Dict[str,str],Dict[str,str],Dict[str,str]]:
+    """
+
+    :param encounterList: the list of wild pokemon encounters
+    :param skipNumber: Skip the starting map number
+    :return:
+    """
+    mapNames: List[str]= []
+    d_name: Dict[str,str] = dict()
+    d_type: Dict[str,str] = dict()
     for e in encounterList:
         if(skipNumber):
             mapName = e.mapIdNumber[6:]

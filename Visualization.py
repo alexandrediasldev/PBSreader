@@ -1,13 +1,15 @@
 import itertools
-
+from typing import Tuple, List
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 import utils as ut
 from collections import Counter
 
+from PBSclasses import Encounter
 
-def plotAllEncounterMapTypes(encounterList, size=(50, 50), removeMapNumber=False):
+
+def plotAllEncounterMapTypes(encounterList, size=(50, 50), removeMapNumber=False) -> Tuple[plt.Figure,plt.Axes]:
     d_name, d_type, mapNames = ut.getDictsEncountersNameType(encounterList, removeMapNumber)
 
     l1, l2 = ut.findSizesOfSubplots(len(mapNames))
@@ -27,13 +29,13 @@ def plotAllEncounterMapTypes(encounterList, size=(50, 50), removeMapNumber=False
     return f, ax
 
 
-def plotTypeBar(typeList, colorList=None, areaName=""):
+def plotTypeBar(typeList, colorList=None, areaName="") -> Tuple[plt.Figure,plt.Axes]:
     f, ax = plt.subplots()
     ax = addTypeBar(typeList, f, ax, colorList=colorList, areaName=areaName)
     return f, ax
 
 
-def addTypeBar(typeList, figure, ax, pos=None, colorList=None, areaName=""):
+def addTypeBar(typeList, figure, ax, pos=None, colorList=None, areaName="") -> Tuple[plt.Figure,plt.Axes]:
     letter_counts = Counter(typeList)
 
     common = letter_counts.most_common()

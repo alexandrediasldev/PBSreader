@@ -25,7 +25,8 @@ if __name__ == '__main__':
     encounterList = parseEncounter(csvEncounter, defaultEncounterMethodList, speciesList)
 
 
-    #f, ax = Visualization.plotAllEncounterMapTypes(encounterList)
-    #f.show()
+
+    f, ax = Visualization.plotAllEncounterMapTypes(encounterList)
+    f.show()
 
 

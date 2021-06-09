@@ -15,6 +15,10 @@ class EncounterMethod:
 
 
 def getDefaultEncounterMethodList():
+    """
+    Default encounter method in base essential
+    :return: List of Encounter Methods
+    """
     encounterMethodList = []
 
     probabilityType1 = [20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1]

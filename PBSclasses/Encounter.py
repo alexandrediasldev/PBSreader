@@ -4,8 +4,7 @@ from utils import *
 
 
 class Encounter:
-    pokemonSpecies: Species
-    encounterMethod: EncounterMethod
+    
     def __init__(self, mapIdNumber, encounterDensities, encounterMethod, pokemonSpecies, levelLow, levelHigh):
         self.mapIdNumber: str = mapIdNumber
         self.encounterDensities: list[str] = encounterDensities

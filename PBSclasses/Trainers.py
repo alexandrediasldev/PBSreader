@@ -20,7 +20,12 @@ class Trainer:
         for pkm in self.pokemonList:
             pkm.print()
 
-    def getWinMoney(self):
+    def getWinMoney(self) -> int:
+        """
+        The amount of money a trainer gives is decided according to this formula
+        baseMoney * highestPokemonLevel
+        :return: Win money
+        """
         baseMoney = int(self.type.baseMoney)
         maxLevel = 0
         for pkm in self.pokemonList:

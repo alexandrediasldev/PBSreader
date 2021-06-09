@@ -1,3 +1,4 @@
+from PBSclasses import Item
 from PBSclasses.Species import Species
 from PBSclasses.Move import Move
 from utils import *
@@ -6,23 +7,36 @@ from Finder import *
 
 class Pokemon:
     species: Species
+    level: str
+    heldItem: Item
+    moveList: List[Move]
+    ability: str
+    form: str
+    gender: str
+    shininess: str
+    nature: str
+    IVs: str
+    hapiness: str
+    nickname: str
+    shadow: str
+    ballType: str
 
     def __init__(self, species, level, heldItem, moveList, ability, form, gender, shininess, nature, IVs, hapiness,
                  nickname, shadow, ballType):
-        self.species: str = species
-        self.level: str = level
-        self.heldItem: str = heldItem
-        self.moveList: list[Move] = moveList
-        self.ability: str = ability
-        self.form: str = form
-        self.gender: str = gender
-        self.shininess: str = shininess
-        self.nature: str = nature
-        self.IVs: str = IVs
-        self.hapiness: str = hapiness
-        self.nickname: str = nickname
-        self.shadow: str = shadow
-        self.ballType: str = ballType
+        self.species = species
+        self.level = level
+        self.heldItem = heldItem
+        self.moveList = moveList
+        self.ability = ability
+        self.form = form
+        self.gender = gender
+        self.shininess = shininess
+        self.nature = nature
+        self.IVs = IVs
+        self.hapiness = hapiness
+        self.nickname = nickname
+        self.shadow = shadow
+        self.ballType = ballType
 
     def __init__(self, pokemonAttributes, speciesList, moveList, itemList):
         self.species = self.level = self.heldItem = self.moveList = self.ability = \
