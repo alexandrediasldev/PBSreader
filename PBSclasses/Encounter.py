@@ -7,12 +7,12 @@ class Encounter:
     pokemonSpecies: Species
     encounterMethod: EncounterMethod
     def __init__(self, mapIdNumber, encounterDensities, encounterMethod, pokemonSpecies, levelLow, levelHigh):
-        self.mapIdNumber = mapIdNumber
-        self.encounterDensities = encounterDensities
-        self.encounterMethod = encounterMethod
-        self.levelLow = levelLow
-        self.pokemonSpecies = pokemonSpecies
-        self.levelHigh = levelHigh
+        self.mapIdNumber: str = mapIdNumber
+        self.encounterDensities: list[str] = encounterDensities
+        self.encounterMethod: EncounterMethod = encounterMethod
+        self.levelLow: str = levelLow
+        self.pokemonSpecies: Species = pokemonSpecies
+        self.levelHigh: str = levelHigh
 
     def print(self):
         printIfValue("Map id number:", self.mapIdNumber)

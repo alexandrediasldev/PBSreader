@@ -6,10 +6,10 @@ class Trainer:
     type: TrainerType
 
     def __init__(self, type, name, nbPokemon, pokemonList):
-        self.type = type
-        self.name = name
-        self.nbPokemon = nbPokemon
-        self.pokemonList = pokemonList
+        self.type: TrainerType = type
+        self.name: str = name
+        self.nbPokemon: str = nbPokemon
+        self.pokemonList: list[Pokemon] = pokemonList
 
     def print(self):
         print("Trainer:")

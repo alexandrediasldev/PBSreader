@@ -4,17 +4,17 @@ from utils import printIfValue
 class Item:
     def __init__(self,idNumber, id, name, namePlural, pocket,price, description,
                  usabilityOutBattle, usabilityInBattle, specialItems, moveName):
-        self.description = description
-        self.price = price
-        self.pocket = pocket
-        self.namePlural = namePlural
-        self.name = name
-        self.id = id
-        self.idNumber = idNumber
-        self.usabilityOutBattle = usabilityOutBattle
-        self.usabilityInBattle = usabilityInBattle
-        self.specialItems = specialItems
-        self.moveName = moveName
+        self.description: str = description
+        self.price: str = price
+        self.pocket: str = pocket
+        self.namePlural: str = namePlural
+        self.name: str = name
+        self.id: str = id
+        self.idNumber: str = idNumber
+        self.usabilityOutBattle: str = usabilityOutBattle
+        self.usabilityInBattle: str = usabilityInBattle
+        self.specialItems: str = specialItems
+        self.moveName: str = moveName
     def print(self):
         textList = ["ID number:", "Id:", "Name:", "Name plural:", "Pocket:", "Price:", "Desciption:",
                     "Usability outside of battle:", "Usability inside of battle:","Special items:", "Move name:"]

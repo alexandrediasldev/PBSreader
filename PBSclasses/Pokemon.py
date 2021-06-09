@@ -1,4 +1,5 @@
 from PBSclasses.Species import Species
+from PBSclasses.Move import Move
 from utils import *
 from Finder import *
 
@@ -8,20 +9,20 @@ class Pokemon:
 
     def __init__(self, species, level, heldItem, moveList, ability, form, gender, shininess, nature, IVs, hapiness,
                  nickname, shadow, ballType):
-        self.species = species
-        self.level = level
-        self.heldItem = heldItem
-        self.moveList = moveList
-        self.ability = ability
-        self.form = form
-        self.gender = gender
-        self.shininess = shininess
-        self.nature = nature
-        self.IVs = IVs
-        self.hapiness = hapiness
-        self.nickname = nickname
-        self.shadow = shadow
-        self.ballType = ballType
+        self.species: str = species
+        self.level: str = level
+        self.heldItem: str = heldItem
+        self.moveList: list[Move] = moveList
+        self.ability: str = ability
+        self.form: str = form
+        self.gender: str = gender
+        self.shininess: str = shininess
+        self.nature: str = nature
+        self.IVs: str = IVs
+        self.hapiness: str = hapiness
+        self.nickname: str = nickname
+        self.shadow: str = shadow
+        self.ballType: str = ballType
 
     def __init__(self, pokemonAttributes, speciesList, moveList, itemList):
         self.species = self.level = self.heldItem = self.moveList = self.ability = \
@@ -35,15 +36,15 @@ class Pokemon:
             elif (i == 1):
                 self.level = attribute
             elif (i == 2):
-                self.heldItem = getItemFromName(attribute,itemList)
+                self.heldItem = getItemFromName(attribute, itemList)
             elif (i == 3):
                 self.moveList = []
-                for i in range(3,7):
-                    if(i >= len(pokemonAttributes)):
+                for i in range(3, 7):
+                    if (i >= len(pokemonAttributes)):
                         break
                     moveName = pokemonAttributes[i]
-                    if(moveName != ""):
-                        self.moveList.append(getMoveFromName(moveName,moveList))
+                    if (moveName != ""):
+                        self.moveList.append(getMoveFromName(moveName, moveList))
             elif (i == 7):
                 self.ability = attribute
             elif (i == 8):
@@ -73,17 +74,17 @@ class Pokemon:
                          self.ballType]
         for i in range(len(attributeList)):
             if (textList[i] == "Species:" or textList[i] == "Held item:"):
-                if(attributeList[i] != ""):
-                    printIfValue(textList[i],attributeList[i].name)
-            elif(textList[i] == "Move list:"):
-                for j,m in enumerate(attributeList[i]):
-                    printIfValue("Move " + str(j+1) + ":",m.name)
+                if (attributeList[i] != ""):
+                    printIfValue(textList[i], attributeList[i].name)
+            elif (textList[i] == "Move list:"):
+                for j, m in enumerate(attributeList[i]):
+                    printIfValue("Move " + str(j + 1) + ":", m.name)
             else:
                 printIfValue(textList[i], attributeList[i])
 
-    def toTrainerEntryBulbapedia(self):
+    def toTrainerEntryBulbapedia(self) -> str:
         speciesId = ""
-        if(self.species.id < 100):
+        if (self.species.id < 100):
             speciesId = "0"
         speciesId += str(self.species.id)
         trainerEntry = speciesId + "|" + self.species.name + "|"
@@ -92,11 +93,11 @@ class Pokemon:
 
         trainerEntry += self.gender + "|" + self.level + "||"
 
-        if(self.heldItem != ""):
+        if (self.heldItem != ""):
             trainerEntry += self.heldItem.name
 
         trainerEntry += "|" + self.ability + "|"
-        if(self.moveList):
+        if (self.moveList):
             for i in range(len(self.moveList)):
                 trainerEntry += self.moveList[i].name + "|"
         else:

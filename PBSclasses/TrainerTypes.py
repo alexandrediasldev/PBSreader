@@ -3,15 +3,15 @@ from utils import *
 
 class TrainerType:
     def __init__(self, idNumber, id, name, baseMoney, battleBGM, victoryME, introME, gender, skillLevel):
-        self.idNumber = idNumber
-        self.id = id
-        self.name = name
-        self.baseMoney = baseMoney
-        self.battleBGM = battleBGM
-        self.victoryME = victoryME
-        self.introME = introME
-        self.gender = gender
-        self.skillLevel = skillLevel
+        self.idNumber: str = idNumber
+        self.id: str = id
+        self.name: str = name
+        self.baseMoney: str = baseMoney
+        self.battleBGM: str = battleBGM
+        self.victoryME: str = victoryME
+        self.introME: str = introME
+        self.gender: str = gender
+        self.skillLevel: str = skillLevel
 
     def print(self):
         textList = ["Number:", "Id:", "Name:", "Base Money:", "Battle BGM:", "Victory ME:",

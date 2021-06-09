@@ -24,11 +24,8 @@ if __name__ == '__main__':
     defaultEncounterMethodList = getDefaultEncounterMethodList()
     encounterList = parseEncounter(csvEncounter, defaultEncounterMethodList, speciesList)
 
+
     #f, ax = Visualization.plotAllEncounterMapTypes(encounterList)
     #f.show()
 
 
-    for t in trainerList:
-        t.print()
-        if(t.type.id == "VILLAGER_M"):
-            print(t.toTrainerEntryBulbapedia())

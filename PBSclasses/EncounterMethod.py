@@ -4,9 +4,9 @@ from utils import *
 class EncounterMethod:
 
     def __init__(self, methodName, numberOfEntries, probabilityOfEncounter):
-        self.probabilityOfEncounter = probabilityOfEncounter
-        self.numberOfEntries = numberOfEntries
-        self.methodName = methodName
+        self.probabilityOfEncounter: list[str] = probabilityOfEncounter
+        self.numberOfEntries: str = numberOfEntries
+        self.methodName: str = methodName
 
     def print(self):
         printIfValue("Method Name:", self.methodName)
