@@ -7,6 +7,7 @@ import PBSclasses.Item as it
 import PBSclasses.Encounter as en
 from Finder import *
 import PBSclasses.Environment as env
+from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
 
 
@@ -85,12 +86,37 @@ def parseTrainerTypes(csvOutput):
         trainerTypeList.append(type)
     return trainerTypeList
 
+
+def parsePokemonMove(moves):
+    movesAndLevel = moves.split(',')
+    levelMoves = []
+    for i in range(0,len(movesAndLevel),2):
+        level = movesAndLevel[i]
+        if(i+1< len(movesAndLevel)):
+            move = movesAndLevel[i+1]
+            levelMoves.append((level,move))
+    return levelMoves
+
+
+
 def parsePokemonBaseStats(baseStats):
     stats = baseStats.split(',')
     if(len(stats) < 5):
         return SpeciesStats(1,1,1,1,1,1)
 
     return SpeciesStats(stats[0],stats[1],stats[2],stats[3],stats[4], stats[5])
+def parsePokemonEvolution(evolution):
+    evo = evolution.split(',')
+    name = method = parameter = ""
+    if(len(evo) >= 1):
+        name = evo[0]
+    if(len(evo) >= 2):
+        method = evo[1]
+    if (len(evo) >= 3):
+        parameter = evo[2]
+
+    return SpeciesEvolution(name,method,parameter)
+
 def parsePokemon(equalOutput):
     id = -1
     speciesList = []
@@ -126,13 +152,13 @@ def parsePokemon(equalOutput):
         elif (first == "BaseEXP"):
             baseEXP = second
         elif (first == "Moves"):
-            moves = second
+            moves = parsePokemonMove(second)
         elif (first == "Height"):
             height = second
         elif (first == "Pokedex"):
             pokedex = second
         elif (first == "Evolutions"):
-            evolutions = second
+            evolutions = parsePokemonEvolution(second)
 
     species = sp.Species(id, name, internalName, type1, type2, baseStats, genderRate, baseEXP, moves, height, pokedex,
                          evolutions)

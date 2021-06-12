@@ -10,7 +10,7 @@ class Species:
         self.baseStats: SpeciesStats = baseStats
         self.genderRate:str = genderRate
         self.baseEXP:str  = baseEXP
-        self.moves: list[str] = moves
+        self.moves: list[Tuple[str,str]] = moves
         self.height:str  = height
         self.evolutions:list[str]  = evolutions
         self.pokedex:str  = pokedex
@@ -20,7 +20,7 @@ class Species:
         attributeList = [self.id, self.name, self.internalName, self.type1, self.type2, self.baseStats,
                          self.genderRate, self.baseEXP, self.moves, self.height, self.evolutions, self.pokedex]
         for i in range(len(attributeList)):
-            if(textList[i] == "Base Stats:"):
+            if(textList[i] == "Base Stats:" or textList[i] == "Evolutions:"):
                 attributeList[i].print()
             else:
                 printIfValue(textList[i],attributeList[i])
