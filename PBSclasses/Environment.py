@@ -1,5 +1,6 @@
 from typing import List
 import Parser as pr
+from PBSclasses.Ability import Ability
 from PBSclasses.EncounterMethod import *
 import Exception as ex
 
@@ -18,9 +19,12 @@ class Environment:
     itemList: List[Item] = None
     trainerList: List[Trainer] = None
     encounterList: List[Encounter] = None
+    abilityList: List[Ability] = None
 
     def __init__(self):
         pass
+    def loadAbilityList(self,csvAbility):
+        self.abilityList = pr.parseAbility(csvAbility)
 
     def loadTrainerTypeList(self, csvTrainerType):
         self.trainerTypeList = pr.parseTrainerTypes(csvTrainerType)
@@ -54,7 +58,9 @@ class Environment:
             self.trainerList = pr.parseTrainerList(csvTrainer, self)
 
     def loadEnvironment(self, csvTrainerType, equalPokemonSpecies, csvMove, csvItem, csvTrainer, csvEncounter,
+                        csvAbility,
                         encounterMethodList=getDefaultEncounterMethodList()):
+        self.loadAbilityList(csvAbility)
         self.loadTrainerTypeList(csvTrainerType)
         self.loadSpeciesList(equalPokemonSpecies)
         self.loadMoveList(csvMove)

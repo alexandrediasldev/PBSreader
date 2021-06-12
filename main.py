@@ -11,13 +11,14 @@ if __name__ == '__main__':
     csvTrainerType = FileLoader.FileCsvTolist('PBS/trainertypes.txt')
     csvMove = FileLoader.FileCsvTolist('PBS/moves.txt')
     csvItem = FileLoader.FileCsvTolist('PBS/items.txt')
+    csvAbility = FileLoader.FileCsvTolist('PBS/abilities.txt')
     csvEncounter = FileLoader.FileCsvTolist('PBS/encounters.txt')
     equalPokemonSpecies = FileLoader.FileEqualToList('PBS/pokemon.txt')
 
     env = Environment()
-    env.loadEnvironment(csvTrainerType,equalPokemonSpecies,csvMove,csvItem,csvTrainer,csvEncounter)
-    env.speciesList[12].print()
-    env.moveList[5].print()
+    env.loadEnvironment(csvTrainerType,equalPokemonSpecies,csvMove,csvItem,csvTrainer,csvEncounter,csvAbility)
+    for q in env.abilityList:
+        q.print()
 
     #f, ax = Visualization.plotAllEncounterMapTypes(env.encounterList)
     #f.show()

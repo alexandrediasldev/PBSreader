@@ -5,12 +5,18 @@ import PBSclasses.Species as sp
 import PBSclasses.Move as mv
 import PBSclasses.Item as it
 import PBSclasses.Encounter as en
+import PBSclasses.Ability as ab
 from Finder import *
 import PBSclasses.Environment as env
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
 
-
+def parseAbility(csvOutput):
+    abilityList = []
+    for line in csvOutput:
+        ability = ab.Ability(line[0],line[1],line[2],line[3])
+        abilityList.append(ability)
+    return abilityList
 def parseItem(csvOutput, hasPluralName=False):
     itemList = []
     for line in csvOutput:
