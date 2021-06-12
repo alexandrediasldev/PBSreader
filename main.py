@@ -16,6 +16,8 @@ if __name__ == '__main__':
 
     env = Environment()
     env.loadEnvironment(csvTrainerType,equalPokemonSpecies,csvMove,csvItem,csvTrainer,csvEncounter)
+    env.speciesList[12].print()
+    env.moveList[5].print()
 
     #f, ax = Visualization.plotAllEncounterMapTypes(env.encounterList)
     #f.show()

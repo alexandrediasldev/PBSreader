@@ -7,6 +7,7 @@ import PBSclasses.Item as it
 import PBSclasses.Encounter as en
 from Finder import *
 import PBSclasses.Environment as env
+from PBSclasses.SpeciesStats import SpeciesStats
 
 
 def parseItem(csvOutput, hasPluralName=False):
@@ -84,7 +85,12 @@ def parseTrainerTypes(csvOutput):
         trainerTypeList.append(type)
     return trainerTypeList
 
+def parsePokemonBaseStats(baseStats):
+    stats = baseStats.split(',')
+    if(len(stats) < 5):
+        return SpeciesStats(1,1,1,1,1,1)
 
+    return SpeciesStats(stats[0],stats[1],stats[2],stats[3],stats[4], stats[5])
 def parsePokemon(equalOutput):
     id = -1
     speciesList = []
@@ -114,7 +120,7 @@ def parsePokemon(equalOutput):
         elif (first == "Type2"):
             type2 = second
         elif (first == "BaseStats"):
-            baseStats = second
+            baseStats = parsePokemonBaseStats(second)
         elif (first == "GenderRate"):
             genderRate = second
         elif (first == "BaseEXP"):
