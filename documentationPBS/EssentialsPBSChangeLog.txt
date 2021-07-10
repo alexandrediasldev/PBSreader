@@ -54,11 +54,17 @@ Implemented the PBS file "pokemonforms.txt".
 Item data for whether an item is an evolution stone, gem, mulch or Mega Stone is now stored in "items.txt" (file updated accordingly).
 
 v16.2/v16.1/v16
-Added way to define form-specific heights and species text (currently only used in the Pokédex).
 Added the Incense property to "pokemon.txt".
 Added item name plurals to the PBS file "items.txt".
+Added skillcode to "trainertypes.txt"
 Moved berry plant data into their own PBS file.
 
 v15.1/v15
 Base version of the PBS files this program reads.
+
+-----
+Changes are signaled by color
+red: removed 🔴
+yellow: modified 🟡
+green: added 🟢
 
