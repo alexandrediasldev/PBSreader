@@ -7,12 +7,12 @@ class Species:
                  evolutions):
         self.id: str = id
         self.name: str = name
-        self.internalName: str = internal_name
+        self.internal_name: str = internal_name
         self.type1: str = type1
         self.type2: str = type2
-        self.baseStats: SpeciesStats = base_stats
-        self.genderRate: str = gender_rate
-        self.baseEXP: str = base_exp
+        self.base_stats: SpeciesStats = base_stats
+        self.gender_rate: str = gender_rate
+        self.base_exp: str = base_exp
         self.moves: list[Tuple[str, str]] = moves
         self.height: str = height
         self.evolutions: list[str] = evolutions
@@ -21,8 +21,8 @@ class Species:
     def print(self)->None:
         text_list = ["Id:", "Name:", "Internal Name:", "Type1:", "Type2:", "Base Stats:", "Gender Rate:",
                      "Base EXP:", "Moves:", "Height:", "Evolutions:", "Pokedex:"]
-        attribute_list = [self.id, self.name, self.internalName, self.type1, self.type2, self.baseStats,
-                          self.genderRate, self.baseEXP, self.moves, self.height, self.evolutions, self.pokedex]
+        attribute_list = [self.id, self.name, self.internal_name, self.type1, self.type2, self.base_stats,
+                          self.gender_rate, self.base_exp, self.moves, self.height, self.evolutions, self.pokedex]
         for i in range(len(attribute_list)):
             if (text_list[i] == "Base Stats:" or text_list[i] == "Evolutions:"):
                 attribute_list[i].print()

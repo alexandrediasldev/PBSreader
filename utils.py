@@ -30,17 +30,17 @@ def get_dicts_encounters_name_type(encounter_list, skip_number=False) -> Tuple[
     d_type: Dict[str, str] = dict()
     for e in encounter_list:
         if (skip_number):
-            map_name = e.mapIdNumber[6:]
+            map_name = e.map_id_number[6:]
         else:
-            map_name = e.mapIdNumber
+            map_name = e.map_id_number
 
         if (map_name not in d_name):
             d_name[map_name], d_type[map_name] = [], []
             mapNames.append(map_name)
-        if (e.pokemonSpecies.name not in d_name[map_name]):
-            d_type[map_name].append(e.pokemonSpecies.type1)
-            if (e.pokemonSpecies.type2 != ""):
-                d_type[map_name].append(e.pokemonSpecies.type2)
-            d_name[map_name].append(e.pokemonSpecies.name)
+        if (e.pokemon_species.name not in d_name[map_name]):
+            d_type[map_name].append(e.pokemon_species.type1)
+            if (e.pokemon_species.type2 != ""):
+                d_type[map_name].append(e.pokemon_species.type2)
+            d_name[map_name].append(e.pokemon_species.name)
 
     return d_name, d_type, mapNames

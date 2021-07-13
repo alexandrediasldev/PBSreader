@@ -7,7 +7,7 @@ def get_species_from_name(name: str, species_list: list[Species]) -> Species:
     if (name == ""):
         return ""
     for s in species_list:
-        if (name == s.internalName):
+        if (name == s.internal_name):
             return s
     # in case of # after name
     for s in species_list:
@@ -49,7 +49,7 @@ def get_encounter_method_from_name(name: str, encounter_method_list: list[Encoun
     if (name == ""):
         return ""
     for m in encounter_method_list:
-        if (m.methodName == name):
+        if (m.method_name == name):
             return m
     return ""
 

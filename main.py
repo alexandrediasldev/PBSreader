@@ -19,14 +19,15 @@ if __name__ == '__main__':
     env.load_environment(csv_trainer_type, equal_pokemon_species, csv_move, csv_item, csv_trainer, csv_encounter,
                          csv_ability)
 
-    # spe = get_species_from_name("LUCARIO",env.species_list)
-    # spe.print()
-    #tre = get_trainer_type_from_name("EclipseDame",env.trainer_type_list)
+    spe = get_species_from_name("LUCARIO",env.species_list)
+    spe.print()
+    tre = get_trainer_type_from_name("EclipseDame",env.trainer_type_list)
 
-    # tre.print()
+    tre.print()
 
-    #firestone= get_item_from_name("FIRESTONE", env.item_list)
-    #firestone.print()
+    firestone= get_item_from_name("FIRESTONE", env.item_list)
+    env.trainer_list[23].print()
+    firestone.print()
 
 
 

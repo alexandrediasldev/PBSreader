@@ -2,7 +2,7 @@ class SpeciesEvolution:
     def __init__(self, name, method, evolution_parameter):
         self.name: str = name
         self.method: str = method
-        self.evolutionParameter: str = evolution_parameter
+        self.evolution_parameter: str = evolution_parameter
 
     def print(self)->None:
         if(self.name != ""):
@@ -10,6 +10,6 @@ class SpeciesEvolution:
             print("Name:", self.name," ",end="")
         if(self.method != ""):
               print("Method:", self.method," ",end="")
-        if(self.evolutionParameter != ""):
-            print("Parameter:", self.evolutionParameter,end="")
+        if(self.evolution_parameter != ""):
+            print("Parameter:", self.evolution_parameter, end="")
         print()

@@ -11,22 +11,22 @@ class Move:
         self.flags: str = flags
         self.priority: str = priority
         self.target: str = target
-        self.additionalEffectChance: str = additional_effect_chance
-        self.totalPP: str = total_pp
-        self.damageCategory: str = damage_category
+        self.additional_effect_chance: str = additional_effect_chance
+        self.total_pp: str = total_pp
+        self.damage_category: str = damage_category
         self.type: str = type
-        self.basePower: str = base_power
+        self.base_power: str = base_power
         self.id: str = id
-        self.idNumber: str = id_number
-        self.functionCode: str = function_code
+        self.id_number: str = id_number
+        self.function_code: str = function_code
 
     def print(self)->None:
         text_list = ["ID number:", "ID:", "Name:", "Function code:", "Base Power:", "Type:", "Damage category:",
                      "Accuracy:",
                      "Total PP:", "Additional effect chance:", "Target:", "Priority:", "Flags:", "Description:"]
-        attribute_list = [self.idNumber, self.id, self.name, self.functionCode, self.basePower, self.type,
-                          self.damageCategory,
-                          self.accuracy, self.totalPP, self.additionalEffectChance, self.target, self.priority,
+        attribute_list = [self.id_number, self.id, self.name, self.function_code, self.base_power, self.type,
+                          self.damage_category,
+                          self.accuracy, self.total_pp, self.additional_effect_chance, self.target, self.priority,
                           self.flags,
                           self.description]
         for i in range(len(attribute_list)):

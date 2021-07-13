@@ -5,14 +5,14 @@ from typing import List
 class EncounterMethod:
 
     def __init__(self, method_name, number_of_entries, probability_of_encounter):
-        self.probabilityOfEncounter: list[str] = probability_of_encounter
-        self.numberOfEntries: str = number_of_entries
-        self.methodName: str = method_name
+        self.probability_of_encounter: list[str] = probability_of_encounter
+        self.number_of_entries: str = number_of_entries
+        self.method_name: str = method_name
 
     def print(self)->None:
-        print_if_value("Method Name:", self.methodName)
-        print_if_value("Number of Entries:", self.numberOfEntries)
-        print_if_value("Probability of Encounter:", self.probabilityOfEncounter)
+        print_if_value("Method Name:", self.method_name)
+        print_if_value("Number of Entries:", self.number_of_entries)
+        print_if_value("Probability of Encounter:", self.probability_of_encounter)
 
 
 def get_default_encounter_method_list() -> list[EncounterMethod]:

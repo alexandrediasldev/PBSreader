@@ -23,7 +23,8 @@ class Environment:
 
     def __init__(self):
         pass
-    def load_ability_list(self,csv_ability):
+
+    def load_ability_list(self, csv_ability):
         self.ability_list = pr.parse_ability(csv_ability)
 
     def load_trainer_type_list(self, csv_trainer_type):
@@ -39,7 +40,7 @@ class Environment:
         self.item_list = pr.parse_item(csv_item)
 
     def load_encounter_list(self, csv_encounter,
-                          encounter_method_list=get_default_encounter_method_list()):
+                            encounter_method_list=get_default_encounter_method_list()):
         if (self.species_list):
             self.encounter_list = pr.parse_encounter(csv_encounter, encounter_method_list, self)
         else:
@@ -58,8 +59,8 @@ class Environment:
             self.trainer_list = pr.parse_trainer_list(csv_trainer, self)
 
     def load_environment(self, csv_trainer_type, equal_pokemon_species, csv_move, csv_item, csv_trainer, csv_encounter,
-                        csv_ability,
-                        encounter_method_list=get_default_encounter_method_list()):
+                         csv_ability,
+                         encounter_method_list=get_default_encounter_method_list()):
         self.load_ability_list(csv_ability)
         self.load_trainer_type_list(csv_trainer_type)
         self.load_species_list(equal_pokemon_species)
