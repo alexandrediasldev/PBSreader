@@ -16,9 +16,19 @@ if __name__ == '__main__':
     equal_pokemon_species = FileLoader.file_equal_to_list('PBS/pokemon.txt')
 
     env = Environment()
-    env.load_environment(csv_trainer_type,equal_pokemon_species,csv_move,csv_item,csv_trainer,csv_encounter,csv_ability)
-    for q in env.ability_list:
-        q.print()
+    env.load_environment(csv_trainer_type, equal_pokemon_species, csv_move, csv_item, csv_trainer, csv_encounter,
+                         csv_ability)
+
+    # spe = get_species_from_name("LUCARIO",env.species_list)
+    # spe.print()
+    #tre = get_trainer_type_from_name("EclipseDame",env.trainer_type_list)
+
+    # tre.print()
+
+    #firestone= get_item_from_name("FIRESTONE", env.item_list)
+    #firestone.print()
+
+
 
     #f, ax = Visualization.plot_all_encounter_map_types(env.encounter_list)
     #f.show()

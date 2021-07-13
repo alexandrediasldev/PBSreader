@@ -1,7 +1,7 @@
 from typing import Dict, List, Tuple
 
 
-def print_if_value(text, value):
+def print_if_value(text, value) -> None:
     if (value != ""):
         print(text, value)
 

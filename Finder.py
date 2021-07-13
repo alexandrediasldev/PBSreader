@@ -1,7 +1,9 @@
 import Exception as ex
+from PBSclasses import EncounterMethod, Move, Item, Species
+from PBSclasses.TrainerTypes import TrainerType
 
 
-def get_species_from_name(name, species_list):
+def get_species_from_name(name: str, species_list: list[Species]) -> Species:
     if (name == ""):
         return ""
     for s in species_list:
@@ -15,7 +17,7 @@ def get_species_from_name(name, species_list):
     raise ex.UnknownPBSName(name + " not found in species list")
 
 
-def get_item_from_name(name, item_list):
+def get_item_from_name(name: str, item_list: list[Item]) -> Item:
     if (name == ""):
         return ""
     for item in item_list:
@@ -28,7 +30,7 @@ def get_item_from_name(name, item_list):
     raise ex.UnknownPBSName(name + " not found in item list")
 
 
-def get_move_from_name(name, move_list):
+def get_move_from_name(name: str, move_list: list[Move]) -> Move:
     if (name == ""):
         return ""
     for m in move_list:
@@ -42,7 +44,8 @@ def get_move_from_name(name, move_list):
     raise ex.UnknownPBSName(name + " not found in move list")
 
 
-def get_encounter_method_from_name(name, encounter_method_list):
+def get_encounter_method_from_name(name: str, encounter_method_list: list[EncounterMethod]) -> EncounterMethod:
+
     if (name == ""):
         return ""
     for m in encounter_method_list:
@@ -51,7 +54,7 @@ def get_encounter_method_from_name(name, encounter_method_list):
     return ""
 
 
-def get_trainer_type_from_name(name, trainer_type_list):
+def get_trainer_type_from_name(name: str, trainer_type_list: list[TrainerType]) -> TrainerType:
     if (name == ""):
         return ""
     for t in trainer_type_list:

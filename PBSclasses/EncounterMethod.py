@@ -1,4 +1,5 @@
 from utils import *
+from typing import List
 
 
 class EncounterMethod:
@@ -8,13 +9,13 @@ class EncounterMethod:
         self.numberOfEntries: str = number_of_entries
         self.methodName: str = method_name
 
-    def print(self):
+    def print(self)->None:
         print_if_value("Method Name:", self.methodName)
         print_if_value("Number of Entries:", self.numberOfEntries)
         print_if_value("Probability of Encounter:", self.probabilityOfEncounter)
 
 
-def get_default_encounter_method_list():
+def get_default_encounter_method_list() -> list[EncounterMethod]:
     """
     Default encounter method in base essential
     :return: List of Encounter Methods

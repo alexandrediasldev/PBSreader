@@ -18,7 +18,7 @@ class Species:
         self.evolutions: list[str] = evolutions
         self.pokedex: str = pokedex
 
-    def print(self):
+    def print(self)->None:
         text_list = ["Id:", "Name:", "Internal Name:", "Type1:", "Type2:", "Base Stats:", "Gender Rate:",
                      "Base EXP:", "Moves:", "Height:", "Evolutions:", "Pokedex:"]
         attribute_list = [self.id, self.name, self.internalName, self.type1, self.type2, self.baseStats,

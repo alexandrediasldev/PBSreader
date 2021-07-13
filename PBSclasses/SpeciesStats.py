@@ -9,7 +9,7 @@ class SpeciesStats:
         self.speed: str = speed
         self.specialAttack: str = special_attack
         self.specialDefense: str = special_defense
-    def print(self):
+    def print(self)->None:
         text_list = ["Hp:", "Attack:","Defense:", "Speed:", "Special attack:","Special Defense:"]
         attribute_list = [self.hp, self.attack, self.defense, self.speed, self.specialAttack, self.specialDefense]
 

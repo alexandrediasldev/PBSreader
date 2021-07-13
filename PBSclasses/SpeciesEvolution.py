@@ -4,7 +4,7 @@ class SpeciesEvolution:
         self.method: str = method
         self.evolutionParameter: str = evolution_parameter
 
-    def print(self):
+    def print(self)->None:
         if(self.name != ""):
             print("Evolution: ",end="")
             print("Name:", self.name," ",end="")

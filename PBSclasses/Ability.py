@@ -8,7 +8,7 @@ class Ability:
         self.id: str = id
         self.idNumber: str = id_number
 
-    def print(self):
+    def print(self)->None:
         text_list = ["ID number:", "ID:", "Name:", "Description:"]
         attribute_list = [self.idNumber, self.id, self.name, self.description]
         for i in range(len(attribute_list)):

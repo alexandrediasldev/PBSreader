@@ -13,7 +13,7 @@ class Trainer:
         self.nbPokemon: str = nb_pokemon
         self.pokemonList: list[Pokemon] = pokemon_list
 
-    def print(self):
+    def print(self) -> None:
         print("Trainer:")
         self.type.print()
         print_if_value("Name:", self.name)
@@ -35,7 +35,7 @@ class Trainer:
                 max_level = int(pkm.level)
         return base_money * max_level
 
-    def to_trainer_entry_bulbapedia(self):
+    def to_trainer_entry_bulbapedia(self)-> str:
         trainer_entry = "{{Trainer/entry"
         trainer_entry += "|" + self.type.to_trainer_entry_bulbapedia() + "|" + self.name + "|"
         trainer_entry += str(self.get_win_money()) + "|"

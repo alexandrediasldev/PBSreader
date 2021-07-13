@@ -13,7 +13,7 @@ class Encounter:
         self.pokemonSpecies: Species = pokemon_species
         self.levelHigh: str = level_high
 
-    def print(self):
+    def print(self)->None:
         print_if_value("Map id number:", self.mapIdNumber)
         print_if_value("Encounter density:", self.encounterDensities)
         self.encounterMethod.print()

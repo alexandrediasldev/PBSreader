@@ -13,7 +13,7 @@ class TrainerType:
         self.gender: str = gender
         self.skillLevel: str = skill_level
 
-    def print(self):
+    def print(self) -> None:
         text_list = ["Number:", "Id:", "Name:", "Base Money:", "Battle BGM:", "Victory ME:",
                     "Intro ME:", "Gender:", "Skill level:"]
         attribute_list = [self.id_number, self.id, self.name, self.base_money, self.battle_bgm,
@@ -22,6 +22,6 @@ class TrainerType:
             print_if_value(text_list[i], attribute_list[i])
 
 
-    def to_trainer_entry_bulbapedia(self):
+    def to_trainer_entry_bulbapedia(self) -> str:
         return self.id + ".png" + "|" + self.name
 

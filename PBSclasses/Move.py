@@ -20,7 +20,7 @@ class Move:
         self.idNumber: str = id_number
         self.functionCode: str = function_code
 
-    def print(self):
+    def print(self)->None:
         text_list = ["ID number:", "ID:", "Name:", "Function code:", "Base Power:", "Type:", "Damage category:",
                      "Accuracy:",
                      "Total PP:", "Additional effect chance:", "Target:", "Priority:", "Flags:", "Description:"]

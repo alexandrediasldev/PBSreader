@@ -1,6 +1,7 @@
 from PBSclasses import Item
 from PBSclasses.Species import Species
 from PBSclasses.Move import Move
+from typing import List
 from utils import *
 from Finder import *
 
@@ -9,7 +10,7 @@ class Pokemon:
     species: Species
     level: str
     held_item: Item
-    move_list: List[Move]
+    move_list: list[Move]
     ability: str
     form: str
     gender: str
@@ -38,7 +39,7 @@ class Pokemon:
         self.shadow = shadow
         self.ball_type = ball_type
 
-    def print(self):
+    def print(self)->None:
         text_list = ["Species:", "Level:", "Held item:", "Move list:", "Ability:", "Gender:", "Form:", "Shininess:",
                      "Nature:", "IVs:", "Hapiness:", "Nickname:", "Shadow:", "Ball Type:"]
         attribute_list = [self.species, self.level, self.held_item, self.move_list, self.ability, self.gender,

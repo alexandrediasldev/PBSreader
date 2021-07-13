@@ -5,19 +5,23 @@ import PBSclasses.Species as sp
 import PBSclasses.Move as mv
 import PBSclasses.Item as it
 import PBSclasses.Encounter as en
+import PBSclasses.EncounterMethod as enm
 import PBSclasses.Ability as ab
 from Finder import *
 import PBSclasses.Environment as env
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
 
-def parse_ability(csv_output):
+
+def parse_ability(csv_output) -> list[ab.Ability]:
     ability_list = []
     for line in csv_output:
-        ability = ab.Ability(line[0],line[1],line[2],line[3])
+        ability = ab.Ability(line[0], line[1], line[2], line[3])
         ability_list.append(ability)
     return ability_list
-def parse_item(csv_output, has_plural_name=False):
+
+
+def parse_item(csv_output, has_plural_name=False) -> list[it.Item]:
     item_list = []
     for line in csv_output:
         move_name = ""
@@ -33,8 +37,7 @@ def parse_item(csv_output, has_plural_name=False):
     return item_list
 
 
-def parse_encounter(csv_output, encounter_methods, environment):
-
+def parse_encounter(csv_output, encounter_methods: list[enm.EncounterMethod], environment) -> list[en.Encounter]:
     encounter_list = []
     l = len(csv_output)
     i = 0
@@ -72,7 +75,7 @@ def parse_encounter(csv_output, encounter_methods, environment):
     return encounter_list
 
 
-def parser_move(csv_output):
+def parser_move(csv_output) -> list[mv.Move]:
     moves_list = []
     for line in csv_output:
         move = mv.Move(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8],
@@ -82,7 +85,7 @@ def parser_move(csv_output):
     return moves_list
 
 
-def parse_trainer_types(csv_output):
+def parse_trainer_types(csv_output) -> list[tr.TrainerType]:
     trainer_type_list = []
     for line in csv_output:
         id_number, id, name, base_money, battle_bgm, victory_me, intro_me, gender, skill_level = \
@@ -96,34 +99,36 @@ def parse_trainer_types(csv_output):
 def parse_pokemon_move(moves):
     moves_and_level = moves.split(',')
     level_moves = []
-    for i in range(0,len(moves_and_level),2):
+    for i in range(0, len(moves_and_level), 2):
         level = moves_and_level[i]
-        if(i+1< len(moves_and_level)):
-            move = moves_and_level[i+1]
-            level_moves.append((level,move))
+        if (i + 1 < len(moves_and_level)):
+            move = moves_and_level[i + 1]
+            level_moves.append((level, move))
     return level_moves
 
 
-
-def parse_pokemon_base_stats(base_stats):
+def parse_pokemon_base_stats(base_stats) -> SpeciesStats:
     stats = base_stats.split(',')
-    if(len(stats) < 5):
+    if (len(stats) < 5):
         return SpeciesStats(1, 1, 1, 1, 1, 1)
 
     return SpeciesStats(stats[0], stats[1], stats[2], stats[3], stats[4], stats[5])
-def parse_pokemon_evolution(evolution):
+
+
+def parse_pokemon_evolution(evolution) -> SpeciesEvolution:
     evo = evolution.split(',')
     name = method = parameter = ""
-    if(len(evo) >= 1):
+    if (len(evo) >= 1):
         name = evo[0]
-    if(len(evo) >= 2):
+    if (len(evo) >= 2):
         method = evo[1]
     if (len(evo) >= 3):
         parameter = evo[2]
 
-    return SpeciesEvolution(name,method,parameter)
+    return SpeciesEvolution(name, method, parameter)
 
-def parse_pokemon(equal_output):
+
+def parse_pokemon(equal_output) -> list[Species]:
     id = -1
     species_list = []
     for line in equal_output:
@@ -166,55 +171,58 @@ def parse_pokemon(equal_output):
         elif (first == "Evolutions"):
             evolutions = parse_pokemon_evolution(second)
 
-    species = sp.Species(id, name, internal_name, type1, type2, base_stats, gender_rate, base_exp, moves, height, pokedex,
+    species = sp.Species(id, name, internal_name, type1, type2, base_stats, gender_rate, base_exp, moves, height,
+                         pokedex,
                          evolutions)
     species_list.append(species)
     return species_list
 
-def parse_trainer_pokemon(pokemon_attributes, environment):
-        species = level = held_item = move_list = ability = \
-            gender = form = shininess = nature = i_vs = hapiness = \
-            nickname = shadow = ball_type = ""
-        for i in range(len(pokemon_attributes)):
-            attribute = pokemon_attributes[i]
-            if (i == 0):
-                species = get_species_from_name(attribute, environment.species_list)
-            elif (i == 1):
-                level = attribute
-            elif (i == 2):
-                held_item = get_item_from_name(attribute, environment.item_list)
-            elif (i == 3):
-                move_list = []
-                for i in range(3, 7):
-                    if (i >= len(pokemon_attributes)):
-                        break
-                    move_name = pokemon_attributes[i]
-                    if (move_name != ""):
-                        move_list.append(get_move_from_name(move_name, environment.move_list))
-            elif (i == 7):
-                ability = attribute
-            elif (i == 8):
-                gender = attribute
-            elif (i == 9):
-                form = attribute
-            elif (i == 10):
-                shininess = attribute
-            elif (i == 11):
-                nature = attribute
-            elif (i == 12):
-                i_vs = attribute
-            elif (i == 13):
-                hapiness = attribute
-            elif (i == 14):
-                nickname = attribute
-            elif (i == 15):
-                shadow = attribute
-            elif (i == 16):
-                ball_type = attribute
-        return pk.Pokemon(species, level, held_item, move_list, ability, form, gender,
-                          shininess, nature, i_vs, hapiness, nickname, shadow, ball_type)
 
-def parse_trainer_list(csv_output, environment):
+def parse_trainer_pokemon(pokemon_attributes, environment) -> pk.Pokemon:
+    species = level = held_item = move_list = ability = \
+        gender = form = shininess = nature = i_vs = hapiness = \
+        nickname = shadow = ball_type = ""
+    for i in range(len(pokemon_attributes)):
+        attribute = pokemon_attributes[i]
+        if (i == 0):
+            species = get_species_from_name(attribute, environment.species_list)
+        elif (i == 1):
+            level = attribute
+        elif (i == 2):
+            held_item = get_item_from_name(attribute, environment.item_list)
+        elif (i == 3):
+            move_list = []
+            for i in range(3, 7):
+                if (i >= len(pokemon_attributes)):
+                    break
+                move_name = pokemon_attributes[i]
+                if (move_name != ""):
+                    move_list.append(get_move_from_name(move_name, environment.move_list))
+        elif (i == 7):
+            ability = attribute
+        elif (i == 8):
+            gender = attribute
+        elif (i == 9):
+            form = attribute
+        elif (i == 10):
+            shininess = attribute
+        elif (i == 11):
+            nature = attribute
+        elif (i == 12):
+            i_vs = attribute
+        elif (i == 13):
+            hapiness = attribute
+        elif (i == 14):
+            nickname = attribute
+        elif (i == 15):
+            shadow = attribute
+        elif (i == 16):
+            ball_type = attribute
+    return pk.Pokemon(species, level, held_item, move_list, ability, form, gender,
+                      shininess, nature, i_vs, hapiness, nickname, shadow, ball_type)
+
+
+def parse_trainer_list(csv_output, environment) -> list[tr.Trainer]:
     line_num = 0
     pokemon_list = []
     trainer_list = []
