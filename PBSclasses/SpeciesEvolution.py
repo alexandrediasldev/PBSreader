@@ -1,8 +1,8 @@
 class SpeciesEvolution:
-    def __init__(self, name, method, evolutionParameter):
+    def __init__(self, name, method, evolution_parameter):
         self.name: str = name
         self.method: str = method
-        self.evolutionParameter: str = evolutionParameter
+        self.evolutionParameter: str = evolution_parameter
 
     def print(self):
         if(self.name != ""):

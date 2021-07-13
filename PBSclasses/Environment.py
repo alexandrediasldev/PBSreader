@@ -13,57 +13,57 @@ from PBSclasses.Trainers import Trainer
 
 
 class Environment:
-    trainerTypeList: List[TrainerType] = None
-    speciesList: List[Species] = None
-    moveList: List[Move] = None
-    itemList: List[Item] = None
-    trainerList: List[Trainer] = None
-    encounterList: List[Encounter] = None
-    abilityList: List[Ability] = None
+    trainer_type_list: List[TrainerType] = None
+    species_list: List[Species] = None
+    move_list: List[Move] = None
+    item_list: List[Item] = None
+    trainer_list: List[Trainer] = None
+    encounter_list: List[Encounter] = None
+    ability_list: List[Ability] = None
 
     def __init__(self):
         pass
-    def loadAbilityList(self,csvAbility):
-        self.abilityList = pr.parseAbility(csvAbility)
+    def load_ability_list(self,csv_ability):
+        self.ability_list = pr.parse_ability(csv_ability)
 
-    def loadTrainerTypeList(self, csvTrainerType):
-        self.trainerTypeList = pr.parseTrainerTypes(csvTrainerType)
+    def load_trainer_type_list(self, csv_trainer_type):
+        self.trainer_type_list = pr.parse_trainer_types(csv_trainer_type)
 
-    def loadSpeciesList(self, equalPokemonSpecies):
-        self.speciesList = pr.parsePokemon(equalPokemonSpecies)
+    def load_species_list(self, equal_pokemon_species):
+        self.species_list = pr.parse_pokemon(equal_pokemon_species)
 
-    def loadMoveList(self, csvMove):
-        self.moveList = pr.parserMove(csvMove)
+    def load_move_list(self, csv_move):
+        self.move_list = pr.parser_move(csv_move)
 
-    def loadItemList(self, csvItem):
-        self.itemList = pr.parseItem(csvItem)
+    def load_item_list(self, csv_item):
+        self.item_list = pr.parse_item(csv_item)
 
-    def loadEncounterList(self, csvEncounter,
-                          encounterMethodList=getDefaultEncounterMethodList()):
-        if (self.speciesList):
-            self.encounterList = pr.parseEncounter(csvEncounter, encounterMethodList, self)
+    def load_encounter_list(self, csv_encounter,
+                          encounter_method_list=get_default_encounter_method_list()):
+        if (self.species_list):
+            self.encounter_list = pr.parse_encounter(csv_encounter, encounter_method_list, self)
         else:
             raise ex.EnvironmentLoadingException("Need to load species list before encounter list")
 
-    def loadTrainerList(self, csvTrainer):
-        if (not self.trainerTypeList):
+    def load_trainer_list(self, csv_trainer):
+        if (not self.trainer_type_list):
             raise ex.EnvironmentLoadingException("Need to load trainer type list before trainer list")
-        elif (not self.speciesList):
+        elif (not self.species_list):
             raise ex.EnvironmentLoadingException("Need to load species list before trainer list")
-        elif (not self.moveList):
+        elif (not self.move_list):
             raise ex.EnvironmentLoadingException("Need to load move list before trainer list")
-        elif (not self.itemList):
+        elif (not self.item_list):
             raise ex.EnvironmentLoadingException("Need to load item list before trainer list")
         else:
-            self.trainerList = pr.parseTrainerList(csvTrainer, self)
+            self.trainer_list = pr.parse_trainer_list(csv_trainer, self)
 
-    def loadEnvironment(self, csvTrainerType, equalPokemonSpecies, csvMove, csvItem, csvTrainer, csvEncounter,
-                        csvAbility,
-                        encounterMethodList=getDefaultEncounterMethodList()):
-        self.loadAbilityList(csvAbility)
-        self.loadTrainerTypeList(csvTrainerType)
-        self.loadSpeciesList(equalPokemonSpecies)
-        self.loadMoveList(csvMove)
-        self.loadItemList(csvItem)
-        self.loadTrainerList(csvTrainer)
-        self.loadEncounterList(csvEncounter, encounterMethodList)
+    def load_environment(self, csv_trainer_type, equal_pokemon_species, csv_move, csv_item, csv_trainer, csv_encounter,
+                        csv_ability,
+                        encounter_method_list=get_default_encounter_method_list()):
+        self.load_ability_list(csv_ability)
+        self.load_trainer_type_list(csv_trainer_type)
+        self.load_species_list(equal_pokemon_species)
+        self.load_move_list(csv_move)
+        self.load_item_list(csv_item)
+        self.load_trainer_list(csv_trainer)
+        self.load_encounter_list(csv_encounter, encounter_method_list)

@@ -3,56 +3,56 @@ from utils import *
 
 class EncounterMethod:
 
-    def __init__(self, methodName, numberOfEntries, probabilityOfEncounter):
-        self.probabilityOfEncounter: list[str] = probabilityOfEncounter
-        self.numberOfEntries: str = numberOfEntries
-        self.methodName: str = methodName
+    def __init__(self, method_name, number_of_entries, probability_of_encounter):
+        self.probabilityOfEncounter: list[str] = probability_of_encounter
+        self.numberOfEntries: str = number_of_entries
+        self.methodName: str = method_name
 
     def print(self):
-        printIfValue("Method Name:", self.methodName)
-        printIfValue("Number of Entries:", self.numberOfEntries)
-        printIfValue("Probability of Encounter:", self.probabilityOfEncounter)
+        print_if_value("Method Name:", self.methodName)
+        print_if_value("Number of Entries:", self.numberOfEntries)
+        print_if_value("Probability of Encounter:", self.probabilityOfEncounter)
 
 
-def getDefaultEncounterMethodList():
+def get_default_encounter_method_list():
     """
     Default encounter method in base essential
     :return: List of Encounter Methods
     """
-    encounterMethodList = []
+    encounter_method_list = []
 
-    probabilityType1 = [20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1]
-    numberOfEntries1 = len(probabilityType1)
-    encounterMethod1 = ["Land", "LandMorning", "LandDay", "LandNight", "Cave", "BugContest"]
+    probability_type1 = [20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1]
+    number_of_entries1 = len(probability_type1)
+    encounter_method1 = ["Land", "LandMorning", "LandDay", "LandNight", "Cave", "BugContest"]
 
-    probabilityType2 = [60, 30, 5, 4, 1]
-    numberOfEntries2 = len(probabilityType2)
-    encounterMethod2 = ["Water", "RockSmash"]
+    probability_type2 = [60, 30, 5, 4, 1]
+    number_of_entries2 = len(probability_type2)
+    encounter_method2 = ["Water", "RockSmash"]
 
-    probabilityType3 = [70, 30]
-    numberOfEntries3 = len(probabilityType3)
-    encounterMethod3 = ["OldRod"]
+    probability_type3 = [70, 30]
+    number_of_entries3 = len(probability_type3)
+    encounter_method3 = ["OldRod"]
 
-    probabilityType4 = [60, 20, 20]
-    numberOfEntries4 = len(probabilityType4)
-    encounterMethod4 = ["GoodRod"]
+    probability_type4 = [60, 20, 20]
+    number_of_entries4 = len(probability_type4)
+    encounter_method4 = ["GoodRod"]
 
-    probabilityType5 = [40, 40, 15, 4, 1]
-    numberOfEntries5 = len(probabilityType5)
-    encounterMethod5 = ["SuperRod"]
+    probability_type5 = [40, 40, 15, 4, 1]
+    number_of_entries5 = len(probability_type5)
+    encounter_method5 = ["SuperRod"]
 
-    probabilityType6 = [30, 25, 20, 10, 5, 5, 4, 1]
-    numberOfEntries6 = len(probabilityType6)
-    encounterMethod6 = ["HeadbuttLow", "HeadbuttHigh"]
+    probability_type6 = [30, 25, 20, 10, 5, 5, 4, 1]
+    number_of_entries6 = len(probability_type6)
+    encounter_method6 = ["HeadbuttLow", "HeadbuttHigh"]
 
-    defaultMethods = [(probabilityType1, numberOfEntries1, encounterMethod1),
-                      (probabilityType2, numberOfEntries2, encounterMethod2),
-                      (probabilityType3, numberOfEntries3, encounterMethod3),
-                      (probabilityType4, numberOfEntries4, encounterMethod4),
-                      (probabilityType5, numberOfEntries5, encounterMethod5),
-                      (probabilityType6, numberOfEntries6, encounterMethod6)]
+    default_methods = [(probability_type1, number_of_entries1, encounter_method1),
+                      (probability_type2, number_of_entries2, encounter_method2),
+                      (probability_type3, number_of_entries3, encounter_method3),
+                      (probability_type4, number_of_entries4, encounter_method4),
+                      (probability_type5, number_of_entries5, encounter_method5),
+                      (probability_type6, number_of_entries6, encounter_method6)]
 
-    for probability, number, encounterList in defaultMethods:
+    for probability, number, encounterList in default_methods:
         for e in encounterList:
-            encounterMethodList.append(EncounterMethod(e, number, probability))
-    return encounterMethodList
+            encounter_method_list.append(EncounterMethod(e, number, probability))
+    return encounter_method_list

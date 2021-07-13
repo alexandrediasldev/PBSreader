@@ -8,73 +8,72 @@ from Finder import *
 class Pokemon:
     species: Species
     level: str
-    heldItem: Item
-    moveList: List[Move]
+    held_item: Item
+    move_list: List[Move]
     ability: str
     form: str
     gender: str
     shininess: str
     nature: str
-    IVs: str
+    i_vs: str
     hapiness: str
     nickname: str
     shadow: str
-    ballType: str
+    ball_type: str
 
-    def __init__(self, species, level, heldItem, moveList, ability, form, gender, shininess, nature, IVs, hapiness,
-                 nickname, shadow, ballType):
+    def __init__(self, species, level, held_item, move_list, ability, form, gender, shininess, nature, i_vs, hapiness,
+                 nickname, shadow, ball_type):
         self.species = species
         self.level = level
-        self.heldItem = heldItem
-        self.moveList = moveList
+        self.held_item = held_item
+        self.move_list = move_list
         self.ability = ability
         self.form = form
         self.gender = gender
         self.shininess = shininess
         self.nature = nature
-        self.IVs = IVs
+        self.i_vs = i_vs
         self.hapiness = hapiness
         self.nickname = nickname
         self.shadow = shadow
-        self.ballType = ballType
-
-
+        self.ball_type = ball_type
 
     def print(self):
-        textList = ["Species:", "Level:", "Held item:", "Move list:", "Ability:", "Gender:", "Form:", "Shininess:",
-                    "Nature:", "IVs:", "Hapiness:", "Nickname:", "Shadow:", "Ball Type:"]
-        attributeList = [self.species, self.level, self.heldItem, self.moveList, self.ability, self.gender, self.form,
-                         self.shininess, self.nature, self.IVs, self.hapiness, self.nickname, self.shadow,
-                         self.ballType]
-        for i in range(len(attributeList)):
-            if (textList[i] == "Species:" or textList[i] == "Held item:"):
-                if (attributeList[i] != ""):
-                    printIfValue(textList[i], attributeList[i].name)
-            elif (textList[i] == "Move list:"):
-                for j, m in enumerate(attributeList[i]):
-                    printIfValue("Move " + str(j + 1) + ":", m.name)
+        text_list = ["Species:", "Level:", "Held item:", "Move list:", "Ability:", "Gender:", "Form:", "Shininess:",
+                     "Nature:", "IVs:", "Hapiness:", "Nickname:", "Shadow:", "Ball Type:"]
+        attribute_list = [self.species, self.level, self.held_item, self.move_list, self.ability, self.gender,
+                          self.form,
+                          self.shininess, self.nature, self.i_vs, self.hapiness, self.nickname, self.shadow,
+                          self.ball_type]
+        for i in range(len(attribute_list)):
+            if (text_list[i] == "Species:" or text_list[i] == "Held item:"):
+                if (attribute_list[i] != ""):
+                    print_if_value(text_list[i], attribute_list[i].name)
+            elif (text_list[i] == "Move list:"):
+                for j, m in enumerate(attribute_list[i]):
+                    print_if_value("Move " + str(j + 1) + ":", m.name)
             else:
-                printIfValue(textList[i], attributeList[i])
+                print_if_value(text_list[i], attribute_list[i])
 
-    def toTrainerEntryBulbapedia(self) -> str:
-        speciesId = ""
+    def to_trainer_entry_bulbapedia(self) -> str:
+        species_id = ""
         if (self.species.id < 100):
-            speciesId = "0"
-        speciesId += str(self.species.id)
-        trainerEntry = speciesId + "|" + self.species.name + "|"
+            species_id = "0"
+        species_id += str(self.species.id)
+        trainer_entry = species_id + "|" + self.species.name + "|"
         if (self.gender == ""):
-            trainerEntry += "Both"
+            trainer_entry += "Both"
 
-        trainerEntry += self.gender + "|" + self.level + "||"
+        trainer_entry += self.gender + "|" + self.level + "||"
 
-        if (self.heldItem != ""):
-            trainerEntry += self.heldItem.name
+        if (self.held_item != ""):
+            trainer_entry += self.held_item.name
 
-        trainerEntry += "|" + self.ability + "|"
-        if (self.moveList):
-            for i in range(len(self.moveList)):
-                trainerEntry += self.moveList[i].name + "|"
+        trainer_entry += "|" + self.ability + "|"
+        if (self.move_list):
+            for i in range(len(self.move_list)):
+                trainer_entry += self.move_list[i].name + "|"
         else:
-            trainerEntry += "||||"
+            trainer_entry += "||||"
 
-        return trainerEntry
+        return trainer_entry

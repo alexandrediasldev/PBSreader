@@ -1,15 +1,15 @@
 import csv
 
-def FileCsvTolist(filename):
+def file_csv_tolist(filename):
     with open(filename, encoding="utf8") as csvfile:
-        csvOutput = csv.reader(csvfile, delimiter=',')
-        csvOutput = [x for x in csvOutput if not x[0].startswith('#')]
-        return csvOutput
+        csv_output = csv.reader(csvfile, delimiter=',')
+        csv_output = [x for x in csv_output if not x[0].startswith('#')]
+        return csv_output
 
 
-def FileEqualToList(filename):
+def file_equal_to_list(filename):
     with open(filename, encoding="utf8") as equalfile:
-        equalOutput = csv.reader(equalfile, delimiter='=')
-        equalOutput = [x for x in equalOutput if not x[0][0].startswith('#')]
-        return equalOutput
+        equal_output = csv.reader(equalfile, delimiter='=')
+        equal_output = [x for x in equal_output if not x[0][0].startswith('#')]
+        return equal_output
 

@@ -5,18 +5,18 @@ from utils import *
 
 class Encounter:
     
-    def __init__(self, mapIdNumber, encounterDensities, encounterMethod, pokemonSpecies, levelLow, levelHigh):
-        self.mapIdNumber: str = mapIdNumber
-        self.encounterDensities: list[str] = encounterDensities
-        self.encounterMethod: EncounterMethod = encounterMethod
-        self.levelLow: str = levelLow
-        self.pokemonSpecies: Species = pokemonSpecies
-        self.levelHigh: str = levelHigh
+    def __init__(self, map_id_number, encounter_densities, encounter_method, pokemon_species, level_low, level_high):
+        self.mapIdNumber: str = map_id_number
+        self.encounterDensities: list[str] = encounter_densities
+        self.encounterMethod: EncounterMethod = encounter_method
+        self.levelLow: str = level_low
+        self.pokemonSpecies: Species = pokemon_species
+        self.levelHigh: str = level_high
 
     def print(self):
-        printIfValue("Map id number:", self.mapIdNumber)
-        printIfValue("Encounter density:", self.encounterDensities)
+        print_if_value("Map id number:", self.mapIdNumber)
+        print_if_value("Encounter density:", self.encounterDensities)
         self.encounterMethod.print()
-        printIfValue("Pokemon name:",self.pokemonSpecies.name)
-        printIfValue("Level low:", self.levelLow)
-        printIfValue("Level high:", self.levelHigh)
+        print_if_value("Pokemon name:",self.pokemonSpecies.name)
+        print_if_value("Level low:", self.levelLow)
+        print_if_value("Level high:", self.levelHigh)

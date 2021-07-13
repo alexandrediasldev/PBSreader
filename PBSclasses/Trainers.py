@@ -1,44 +1,46 @@
 from PBSclasses.TrainerTypes import TrainerType
 from PBSclasses.Pokemon import Pokemon
 from utils import *
+
+
 class Trainer:
     pokemonList: [Pokemon]
     type: TrainerType
 
-    def __init__(self, type, name, nbPokemon, pokemonList):
+    def __init__(self, type, name, nb_pokemon, pokemon_list):
         self.type: TrainerType = type
         self.name: str = name
-        self.nbPokemon: str = nbPokemon
-        self.pokemonList: list[Pokemon] = pokemonList
+        self.nbPokemon: str = nb_pokemon
+        self.pokemonList: list[Pokemon] = pokemon_list
 
     def print(self):
         print("Trainer:")
         self.type.print()
-        printIfValue("Name:", self.name)
-        printIfValue("nbPokemon:", self.nbPokemon)
+        print_if_value("Name:", self.name)
+        print_if_value("nbPokemon:", self.nbPokemon)
         print("pokemonList:")
         for pkm in self.pokemonList:
             pkm.print()
 
-    def getWinMoney(self) -> int:
+    def get_win_money(self) -> int:
         """
         The amount of money a trainer gives is decided according to this formula
         baseMoney * highestPokemonLevel
         :return: Win money
         """
-        baseMoney = int(self.type.baseMoney)
-        maxLevel = 0
+        base_money = int(self.type.base_money)
+        max_level = 0
         for pkm in self.pokemonList:
-            if (maxLevel < int(pkm.level)):
-                maxLevel = int(pkm.level)
-        return baseMoney * maxLevel
+            if (max_level < int(pkm.level)):
+                max_level = int(pkm.level)
+        return base_money * max_level
 
-    def toTrainerEntryBulbapedia(self):
-        trainerEntry = "{{Trainer/entry"
-        trainerEntry += "|"+self.type.toTrainerEntryBulbapedia() + "|" + self.name + "|"
-        trainerEntry += str(self.getWinMoney()) + "|"
-        trainerEntry += str(self.nbPokemon) + "|"
+    def to_trainer_entry_bulbapedia(self):
+        trainer_entry = "{{Trainer/entry"
+        trainer_entry += "|" + self.type.to_trainer_entry_bulbapedia() + "|" + self.name + "|"
+        trainer_entry += str(self.get_win_money()) + "|"
+        trainer_entry += str(self.nbPokemon) + "|"
         for p in self.pokemonList:
-            trainerEntry += p.toTrainerEntryBulbapedia()
-        trainerEntry += "}}"
-        return trainerEntry
+            trainer_entry += p.to_trainer_entry_bulbapedia()
+        trainer_entry += "}}"
+        return trainer_entry
