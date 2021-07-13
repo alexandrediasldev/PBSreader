@@ -1,4 +1,4 @@
-## trainertypes.txt
+## 🟡 trainertypes.txt
 
 Information pulled from the old wiki on the way back machine:  
 March 17th 2017 - http://pokemonessentials.wikia.com/wiki/Defining_a_trainer  

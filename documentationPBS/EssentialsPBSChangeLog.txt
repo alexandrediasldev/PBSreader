@@ -29,10 +29,11 @@ Updated Pokémon colours to Gen 7 standards, including differing colours for dif
 Added the evolution method LevelEvening
 Added support for an evolution method's parameter being an ability's internal name
 Added data for the glowing fused Kyurem forms
-In "pokemonforms.txt", added the new PokedexForm property which is the form that should be registered as seen in the Pokédex instead of this one
-In "pokemonforms.txt", allowed Compatibility to be a defined property
-In "pokemonforms.txt", a form can now be defined with an evolution method of "None", which overrides the base form's evolutions but is treated as non-existent (used for spiky-eared Pichu)
-In "pokemonforms.txt", allowed the sections to be written like [PIKACHU,1] and [PIKACHU 1] as well as [PIKACHU-1]
+"pokemonforms.txt":
+ 	added the new PokedexForm property which is the form that should be registered as seen in the Pokédex instead of this one
+ 	allowed Compatibility to be a defined property
+ 	a form can now be defined with an evolution method of "None", which overrides the base form's evolutions but is treated as non-existent (used for spiky-eared Pichu)
+	allowed the sections to be written like [PIKACHU,1] and [PIKACHU 1] as well as [PIKACHU-1]
 Each form defined in "pokemonforms.txt" is now given its own species internal name in the form of PBSpecies::PIKACHU_1 (most places where you might think of using it are untested)
 "trainers.txt":
 Rewrote the trainers.txt compiler and related scripts to add support for another data format
@@ -52,12 +53,13 @@ Move base powers can now exceed 255
 v17.2/v17.1/v17
 Implemented the PBS file "pokemonforms.txt".
 Item data for whether an item is an evolution stone, gem, mulch or Mega Stone is now stored in "items.txt" (file updated accordingly).
+Added shape property to "pokemon.txt" 
 
 v16.2/v16.1/v16
 Added the Incense property to "pokemon.txt".
 Added item name plurals to the PBS file "items.txt".
 Added skillcode to "trainertypes.txt"
-Moved berry plant data into their own PBS file.
+Moved berry plant data into their own PBS file "berryplants.txt".
 
 v15.1/v15
 Base version of the PBS files this program reads.
