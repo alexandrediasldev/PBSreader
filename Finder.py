@@ -1,3 +1,5 @@
+from typing import List
+
 import Exception as ex
 from PBSclasses import EncounterMethod, Move, Item, Species
 from PBSclasses.TrainerTypes import TrainerType

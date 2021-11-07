@@ -15,7 +15,7 @@ class EncounterMethod:
         print_if_value("Probability of Encounter:", self.probability_of_encounter)
 
 
-def get_default_encounter_method_list() -> list[EncounterMethod]:
+def get_default_encounter_method_list():
     """
     Default encounter method in base essential
     :return: List of Encounter Methods
