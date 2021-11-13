@@ -1,7 +1,7 @@
-##🟡 trainers.txt
+## 🟡 trainers.txt
 
 Information pulled from the new wiki:  
-30 September 2020 - https://essentialsdocs.fandom.com/wiki/Defining_a_trainer
+30 September 2020 - https://essentialsdocs.fandom.com/wiki/Defining_a_trainer  
 https://essentialsdocs.fandom.com/wiki/Defining_a_trainer?oldid=938
 
 

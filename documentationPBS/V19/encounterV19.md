@@ -1,8 +1,7 @@
-
 ## 🟡 encounters.txt
 
 Information pulled from the new wiki:  
-9 November 2021 - https://essentialsdocs.fandom.com/wiki/Wild_encounters
+9 November 2021 - https://essentialsdocs.fandom.com/wiki/Wild_encounters  
 https://essentialsdocs.fandom.com/wiki/Wild_encounters?oldid=1115
 
 **🟡 1.**  

@@ -1,7 +1,7 @@
 ## 🟢 ribbons.txt
 
 Information pulled from the new wiki:  
-7 November 2021 - https://essentialsdocs.fandom.com/wiki/Defining_a_ribbon
+7 November 2021 - https://essentialsdocs.fandom.com/wiki/Defining_a_ribbon  
 https://essentialsdocs.fandom.com/wiki/Defining_a_ribbon?oldid=1109
 
 **1. ID number:**  

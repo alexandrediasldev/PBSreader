@@ -1,7 +1,7 @@
 ## 🟢 regionaldexes.txt
 
 Information pulled from the new wiki:  
-7 November 2021 - https://essentialsdocs.fandom.com/wiki/Multiple_regions
+7 November 2021 - https://essentialsdocs.fandom.com/wiki/Multiple_regions  
 https://essentialsdocs.fandom.com/wiki/Multiple_regions?oldid=1117
 
 

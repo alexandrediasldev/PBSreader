@@ -1,7 +1,7 @@
 ## 🟡 pokemon.txt
 
 Information pulled from the new wiki:  
-29 September 2020 - https://essentialsdocs.fandom.com/wiki/Defining_a_species 
+29 September 2020 - https://essentialsdocs.fandom.com/wiki/Defining_a_species  
 https://essentialsdocs.fandom.com/wiki/Defining_a_species?oldid=937
 
 ### Mandatory

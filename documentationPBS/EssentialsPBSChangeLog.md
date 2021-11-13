@@ -1,7 +1,7 @@
-##List of all the changes to PBS files from v15 to v19.1
+## List of all the changes to PBS files from v15 to v19.1
 
 
-##v19.1/v19
+## v19.1/v19
 
 ### File structure  
 #### "tm.txt"

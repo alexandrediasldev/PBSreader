@@ -2,7 +2,7 @@
 
 
 Information pulled from the new wiki:
-November 7th 2021 - https://essentialsdocs.fandom.com/wiki/Metadata
+November 7th 2021 - https://essentialsdocs.fandom.com/wiki/Metadata  
 https://essentialsdocs.fandom.com/wiki/Metadata?oldid=1106
 
 ### Global metadata
