@@ -1,18 +1,34 @@
 #List of all the changes to PBS files from v15 to v19.1
 
-v19.1
-Renamed trainer charsets to be in line with the new naming conventions.
-Added missing HM item icons.
 
-v19
-Move targets defined in moves.txt can no longer be ID numbers.
-Added the "Generation" property to pokemon.txt/pokemonforms.txt, and filled these in.
-Merged tm.txt into pokemon.txt/pokemonforms.txt as the property "TutorMoves".
-Created PBS file regionaldexes.txt and extracted the Regional Dex numbers information from pokemon.txt/pokemonforms.txt.
-Created PBS file ribbons.txt rather than hardcoding their data.
-Added item field use number 6 for TRs, which are one-use TMs.
-Moved ribbon data into a new PBS file.
-Implemented a new encounters.txt format, which allows any number of slots, customised probabilities per slot and encounter type-specific step trigger chances. It also supposed multiple versions of encounter tables for the same map.
+v19.1/v19
+
+- File structure
+"tm.txt"
+    Merged into pokemon.txt/pokemonforms.txt as the property "TutorMoves".
+
+"pokemon.txt" and "pokemonforms.tx"
+    Removed Regional Dex numbers information
+    Added the "Generation" property, and filled these in.
+    Added "TutorMoves"
+
+"regionaldexes.txt"
+    Created PBS file and extracted the Regional Dex numbers information from pokemon.txt/pokemonforms.txt.
+
+"ribbons.txt"
+    Created PBS file rather than hardcoding their data.
+
+"encounters.txt"
+    Implemented a new format, which allows any number of slots, customised probabilities per slot and encounter type-specific step trigger chances. It also supposed multiple versions of encounter tables for the same map.
+
+
+- Property changed
+"moves.txt"
+    Move targets defined in moves.txt can no longer be ID numbers.
+"items.txt"
+    Added item field use number 6 for TRs, which are one-use TMs.
+
+
 
 v18.1/v18
 - File structure
