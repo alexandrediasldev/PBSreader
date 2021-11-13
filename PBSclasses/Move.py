@@ -1,10 +1,24 @@
-from utils import *
+from PBSclasses.BaseData import BaseData
 
 
-class Move:
-
-    def __init__(self, id_number, id, name, function_code, base_power, type, damage_category,
-                 accuracy, total_pp, additional_effect_chance, target, priority, flags, description):
+class Move(BaseData):
+    def __init__(
+        self,
+        id_number,
+        id,
+        name,
+        function_code,
+        base_power,
+        type,
+        damage_category,
+        accuracy,
+        total_pp,
+        additional_effect_chance,
+        target,
+        priority,
+        flags,
+        description,
+    ):
         self.name: str = name
         self.accuracy: str = accuracy
         self.description: str = description
@@ -19,15 +33,3 @@ class Move:
         self.id: str = id
         self.id_number: str = id_number
         self.function_code: str = function_code
-
-    def print(self)->None:
-        text_list = ["ID number:", "ID:", "Name:", "Function code:", "Base Power:", "Type:", "Damage category:",
-                     "Accuracy:",
-                     "Total PP:", "Additional effect chance:", "Target:", "Priority:", "Flags:", "Description:"]
-        attribute_list = [self.id_number, self.id, self.name, self.function_code, self.base_power, self.type,
-                          self.damage_category,
-                          self.accuracy, self.total_pp, self.additional_effect_chance, self.target, self.priority,
-                          self.flags,
-                          self.description]
-        for i in range(len(attribute_list)):
-            print_if_value(text_list[i], attribute_list[i])
