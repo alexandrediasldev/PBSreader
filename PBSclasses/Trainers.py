@@ -1,26 +1,14 @@
+from PBSclasses.BaseData import BaseData
 from PBSclasses.TrainerTypes import TrainerType
 from PBSclasses.Pokemon import Pokemon
-from utils import *
 
 
-class Trainer:
-    pokemon_list: [Pokemon]
-    type: TrainerType
-
+class Trainer(BaseData):
     def __init__(self, type, name, nb_pokemon, pokemon_list):
         self.type: TrainerType = type
         self.name: str = name
         self.nb_pokemon: str = nb_pokemon
         self.pokemon_list: list[Pokemon] = pokemon_list
-
-    def print(self) -> None:
-        print("Trainer:")
-        self.type.print()
-        print_if_value("Name:", self.name)
-        print_if_value("nbPokemon:", self.nb_pokemon)
-        print("pokemonList:")
-        for pkm in self.pokemon_list:
-            pkm.print()
 
     def get_win_money(self) -> int:
         """
@@ -31,11 +19,11 @@ class Trainer:
         base_money = int(self.type.base_money)
         max_level = 0
         for pkm in self.pokemon_list:
-            if (max_level < int(pkm.level)):
+            if max_level < int(pkm.level):
                 max_level = int(pkm.level)
         return base_money * max_level
 
-    def to_trainer_entry_bulbapedia(self)-> str:
+    def to_trainer_entry_bulbapedia(self) -> str:
         trainer_entry = "{{Trainer/entry"
         trainer_entry += "|" + self.type.to_trainer_entry_bulbapedia() + "|" + self.name + "|"
         trainer_entry += str(self.get_win_money()) + "|"

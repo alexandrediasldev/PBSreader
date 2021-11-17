@@ -1,18 +1,11 @@
-from utils import *
-from typing import List
+from PBSclasses.BaseData import BaseData
 
 
-class EncounterMethod:
-
+class EncounterMethod(BaseData):
     def __init__(self, method_name, number_of_entries, probability_of_encounter):
         self.probability_of_encounter: list[str] = probability_of_encounter
         self.number_of_entries: str = number_of_entries
         self.method_name: str = method_name
-
-    def print(self)->None:
-        print_if_value("Method Name:", self.method_name)
-        print_if_value("Number of Entries:", self.number_of_entries)
-        print_if_value("Probability of Encounter:", self.probability_of_encounter)
 
 
 def get_default_encounter_method_list():
@@ -46,12 +39,14 @@ def get_default_encounter_method_list():
     number_of_entries6 = len(probability_type6)
     encounter_method6 = ["HeadbuttLow", "HeadbuttHigh"]
 
-    default_methods = [(probability_type1, number_of_entries1, encounter_method1),
-                      (probability_type2, number_of_entries2, encounter_method2),
-                      (probability_type3, number_of_entries3, encounter_method3),
-                      (probability_type4, number_of_entries4, encounter_method4),
-                      (probability_type5, number_of_entries5, encounter_method5),
-                      (probability_type6, number_of_entries6, encounter_method6)]
+    default_methods = [
+        (probability_type1, number_of_entries1, encounter_method1),
+        (probability_type2, number_of_entries2, encounter_method2),
+        (probability_type3, number_of_entries3, encounter_method3),
+        (probability_type4, number_of_entries4, encounter_method4),
+        (probability_type5, number_of_entries5, encounter_method5),
+        (probability_type6, number_of_entries6, encounter_method6),
+    ]
 
     for probability, number, encounterList in default_methods:
         for e in encounterList:
