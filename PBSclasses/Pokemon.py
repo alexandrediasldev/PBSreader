@@ -14,7 +14,7 @@ class Pokemon(BaseData):
     gender: str
     shininess: str
     nature: str
-    i_vs: str
+    ivs: str
     hapiness: str
     nickname: str
     shadow: str
@@ -24,18 +24,18 @@ class Pokemon(BaseData):
         self,
         species,
         level,
-        held_item,
-        move_list,
-        ability,
-        form,
-        gender,
-        shininess,
-        nature,
-        i_vs,
-        hapiness,
-        nickname,
-        shadow,
-        ball_type,
+        held_item="",
+        move_list=[],
+        ability="",
+        form="0",
+        gender="",
+        shininess="false",
+        nature="",
+        ivs="10",
+        hapiness="70",
+        nickname="",
+        shadow="",
+        ball_type="",
     ):
         self.species = species
         self.level = level
@@ -46,7 +46,7 @@ class Pokemon(BaseData):
         self.gender = gender
         self.shininess = shininess
         self.nature = nature
-        self.i_vs = i_vs
+        self.ivs = ivs
         self.hapiness = hapiness
         self.nickname = nickname
         self.shadow = shadow

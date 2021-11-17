@@ -1,10 +1,11 @@
 from typing import List
 import Parser as pr
 from PBSclasses.Ability import Ability
-from PBSclasses.EncounterMethod import *
+
 import Exception as ex
 
 from PBSclasses.Encounter import Encounter
+from PBSclasses.EncounterMethod import get_default_encounter_method_list
 from PBSclasses.Item import Item
 from PBSclasses.Move import Move
 from PBSclasses.Species import Species
@@ -13,13 +14,13 @@ from PBSclasses.Trainers import Trainer
 
 
 class Environment:
-    trainer_type_list: List[TrainerType] = None
-    species_list: List[Species] = None
-    move_list: List[Move] = None
-    item_list: List[Item] = None
-    trainer_list: List[Trainer] = None
-    encounter_list: List[Encounter] = None
-    ability_list: List[Ability] = None
+    trainer_type_list: List[TrainerType] = []
+    species_list: List[Species] = []
+    move_list: List[Move] = []
+    item_list: List[Item] = []
+    trainer_list: List[Trainer] = []
+    encounter_list: List[Encounter] = []
+    ability_list: List[Ability] = []
 
     def __init__(self):
         pass
@@ -37,30 +38,41 @@ class Environment:
         self.move_list = pr.parser_move(csv_move)
 
     def load_item_list(self, csv_item):
-        self.item_list = pr.parse_item(csv_item)
+        self.item_list = pr.parse_item(csv_item, 15)
 
-    def load_encounter_list(self, csv_encounter,
-                            encounter_method_list=get_default_encounter_method_list()):
-        if (self.species_list):
+    def load_encounter_list(
+        self, csv_encounter, encounter_method_list=get_default_encounter_method_list()
+    ):
+        if self.species_list:
             self.encounter_list = pr.parse_encounter(csv_encounter, encounter_method_list, self)
         else:
             raise ex.EnvironmentLoadingException("Need to load species list before encounter list")
 
     def load_trainer_list(self, csv_trainer):
-        if (not self.trainer_type_list):
-            raise ex.EnvironmentLoadingException("Need to load trainer type list before trainer list")
-        elif (not self.species_list):
+        if not self.trainer_type_list:
+            raise ex.EnvironmentLoadingException(
+                "Need to load trainer type list before trainer list"
+            )
+        elif not self.species_list:
             raise ex.EnvironmentLoadingException("Need to load species list before trainer list")
-        elif (not self.move_list):
+        elif not self.move_list:
             raise ex.EnvironmentLoadingException("Need to load move list before trainer list")
-        elif (not self.item_list):
+        elif not self.item_list:
             raise ex.EnvironmentLoadingException("Need to load item list before trainer list")
         else:
             self.trainer_list = pr.parse_trainer_list(csv_trainer, self)
 
-    def load_environment(self, csv_trainer_type, equal_pokemon_species, csv_move, csv_item, csv_trainer, csv_encounter,
-                         csv_ability,
-                         encounter_method_list=get_default_encounter_method_list()):
+    def load_environment(
+        self,
+        csv_trainer_type,
+        equal_pokemon_species,
+        csv_move,
+        csv_item,
+        csv_trainer,
+        csv_encounter,
+        csv_ability,
+        encounter_method_list=get_default_encounter_method_list(),
+    ):
         self.load_ability_list(csv_ability)
         self.load_trainer_type_list(csv_trainer_type)
         self.load_species_list(equal_pokemon_species)

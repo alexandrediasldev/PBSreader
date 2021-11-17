@@ -7,28 +7,29 @@ from PBSclasses.SpeciesStats import SpeciesStats
 class Species(BaseData):
     def __init__(
         self,
-        id,
-        name,
-        internal_name,
-        type1,
-        type2,
-        base_stats,
-        gender_rate,
-        base_exp,
-        moves,
-        height,
-        pokedex,
-        evolutions,
+        Id,
+        Name,
+        InternalName,
+        Type1,
+        BaseStats,
+        GenderRate,
+        BaseEXP,
+        Moves,
+        Height,
+        Pokedex,
+        Evolutions,
+        Type2="",
+        Incense="",
     ):
-        self.name: str = name
-        self.internal_name: str = internal_name
-        self.id: str = id
-        self.type1: str = type1
-        self.type2: str = type2
-        self.base_stats: SpeciesStats = base_stats
-        self.gender_rate: str = gender_rate
-        self.base_exp: str = base_exp
-        self.moves: list[Tuple[str, str]] = moves
-        self.height: str = height
-        self.evolutions: list[str] = evolutions
-        self.pokedex: str = pokedex
+        self.name: str = Name
+        self.internal_name: str = InternalName
+        self.id: str = Id
+        self.type1: str = Type1
+        self.type2: str = Type2
+        self.base_stats: SpeciesStats = BaseStats
+        self.gender_rate: str = GenderRate
+        self.base_exp: str = BaseEXP
+        self.moves: list[Tuple[str, str]] = Moves
+        self.height: str = Height
+        self.evolutions: list[str] = Evolutions
+        self.pokedex: str = Pokedex

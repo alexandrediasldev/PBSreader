@@ -13,7 +13,7 @@ class TrainerType(BaseData):
         self.victory_me: str = victory_me
         self.intro_me: str = intro_me
         self.gender: str = gender
-        self.skillLevel: str = skill_level
+        self.skill_level: str = skill_level
 
     def to_trainer_entry_bulbapedia(self) -> str:
         return self.id + ".png" + "|" + self.name
