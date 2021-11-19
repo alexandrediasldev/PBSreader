@@ -30,6 +30,10 @@ class BaseData:
     def print(self):
         print(self.string())
 
+    @classmethod
+    def get_attr_names(cls):
+        return list(cls.__annotations__.keys())
+
 
 def _format_name(name):
     return name.replace("_", " ").capitalize()

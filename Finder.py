@@ -7,7 +7,7 @@ def get_species_from_name(name: str, species_list: list[Species]) -> Species:
     if name == "":
         return ""
     for s in species_list:
-        if name == s.InternalName:
+        if name == s.internal_name:
             return s
     # in case of # after name
     for s in species_list:

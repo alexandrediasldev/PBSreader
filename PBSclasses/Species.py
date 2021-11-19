@@ -7,16 +7,16 @@ from PBSclasses.SpeciesStats import SpeciesStats
 
 @dataclass
 class Species(BaseData):
-    Id: str
-    Name: str
-    InternalName: str
-    Type1: str
-    BaseStats: SpeciesStats
-    GenderRate: str
-    BaseEXP: str
-    Moves: list[Tuple[str, str]]
-    Height: str
-    Pokedex: str
-    Evolutions: str
-    Type2: str = ""
-    Incense: str = ""
+    id: str
+    name: str
+    internal_name: str
+    type1: str
+    base_stats: SpeciesStats
+    gender_rate: str
+    base_Exp: str
+    moves: list[Tuple[str, str]]
+    height: str
+    pokedex: str
+    evolutions: str
+    type2: str = ""
+    incense: str = ""

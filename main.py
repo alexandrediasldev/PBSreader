@@ -4,7 +4,6 @@ from PBSclasses.Environment import Environment
 
 import FileLoader
 
-
 if __name__ == "__main__":
     csv_trainer = FileLoader.file_csv_tolist("PBS/trainers.txt")
     csv_trainer_type = FileLoader.file_csv_tolist("PBS/trainertypes.txt")

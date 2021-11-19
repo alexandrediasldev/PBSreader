@@ -192,6 +192,20 @@ def parse_pokemon(equal_output) -> list[Species]:
     kwargs = dict()
     id = -1
     species_list = []
+    argument_translator = {
+        "Name": "name",
+        "InternalName": "internal_name",
+        "Type1": "type1",
+        "Type2": "type2",
+        "GenderRate": "gender_rate",
+        "BaseEXP": "base_Exp",
+        "Height": "height",
+        "Pokedex": "pokedex",
+        "Incense": "incense",
+        "Evolutions": "evolutions",
+        "Moves": "moves",
+        "BaseStats": "base_stats",
+    }
     for line in equal_output:
         if line[0].startswith("\ufeff"):
             line[0] = line[0][1:]
@@ -200,7 +214,7 @@ def parse_pokemon(equal_output) -> list[Species]:
             second = line[1]
         if first.startswith("[") and first.endswith("]"):
             if id != -1:
-                kwargs["Id"] = id
+                kwargs["id"] = id
                 species = sp.Species(**kwargs)
                 species_list.append(species)
                 kwargs = dict()
@@ -216,36 +230,21 @@ def parse_pokemon(equal_output) -> list[Species]:
             "Pokedex",
             "Incense",
         ]:
-            kwargs[first] = second
+            kwargs[argument_translator[first]] = second
         elif first == "BaseStats":
-            kwargs[first] = parse_pokemon_base_stats(second)
+            kwargs[argument_translator[first]] = parse_pokemon_base_stats(second)
         elif first == "Moves":
-            kwargs[first] = parse_pokemon_move(second)
+            kwargs[argument_translator[first]] = parse_pokemon_move(second)
         elif first == "Evolutions":
-            kwargs[first] = parse_pokemon_evolution(second)
-    kwargs["Id"] = id
+            kwargs[argument_translator[first]] = parse_pokemon_evolution(second)
+    kwargs["id"] = id
     species = sp.Species(**kwargs)
     species_list.append(species)
     return species_list
 
 
 def parse_trainer_pokemon(pokemon_attributes, environment) -> pk.Pokemon:
-    attr_names = [
-        "species",
-        "level",
-        "held_item",
-        "move_list",
-        "ability",
-        "gender",
-        "form",
-        "shininess",
-        "nature",
-        "ivs",
-        "hapiness",
-        "nickname",
-        "shadow",
-        "ball_type",
-    ]
+    attr_names = pk.Pokemon.get_attr_names()
     kwargs = dict()
     attribute_index = 0
     for i in range(len(pokemon_attributes)):
