@@ -1,56 +1,27 @@
+from dataclasses import dataclass, field
+
 from PBSclasses.BaseData import BaseData
 from PBSclasses.Item import Item
 from PBSclasses.Move import Move
 from PBSclasses.Species import Species
 
 
+@dataclass
 class Pokemon(BaseData):
     species: Species
     level: str
-    held_item: Item
-    move_list: list[Move]
-    ability: str
-    form: str
-    gender: str
-    shininess: str
-    nature: str
-    ivs: str
-    hapiness: str
-    nickname: str
-    shadow: str
-    ball_type: str
-
-    def __init__(
-        self,
-        species,
-        level,
-        held_item="",
-        move_list=[],
-        ability="",
-        form="0",
-        gender="",
-        shininess="false",
-        nature="",
-        ivs="10",
-        hapiness="70",
-        nickname="",
-        shadow="",
-        ball_type="",
-    ):
-        self.species = species
-        self.level = level
-        self.held_item = held_item
-        self.move_list = move_list
-        self.ability = ability
-        self.form = form
-        self.gender = gender
-        self.shininess = shininess
-        self.nature = nature
-        self.ivs = ivs
-        self.hapiness = hapiness
-        self.nickname = nickname
-        self.shadow = shadow
-        self.ball_type = ball_type
+    held_item: Item = None
+    move_list: list[Move] = field(default_factory=list)
+    ability: str = ""
+    form: str = "0"
+    gender: str = ""
+    shininess: str = "false"
+    nature: str = ""
+    ivs: str = "10"
+    hapiness: str = "70"
+    nickname: str = ""
+    shadow: str = ""
+    ball_type: str = ""
 
     def to_trainer_entry_bulbapedia(self) -> str:
         species_id = ""

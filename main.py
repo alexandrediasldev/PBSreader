@@ -32,14 +32,14 @@ if __name__ == "__main__":
     tr_type = env.trainer_list[23]
     abi = env.ability_list[8]
     encou = env.encounter_list[3]
-    spe.print()
-    tre.print()
-    mov.print()
-    firestone.print()
-    tr_type.print()
-    abi.print()
-    encou.print()
+
     print(encou)
+    print(firestone)
+    print(abi)
+    print(mov)
+    print(tre)
+    print(spe)
+    print(tr_type)
 
     # f, ax = Visualization.plot_all_encounter_map_types(env.encounter_list)
     # f.show()
