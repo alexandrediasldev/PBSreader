@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass()
 class BaseData:
     def string(self, line_ending="\n"):
         representation = ""

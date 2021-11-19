@@ -39,6 +39,7 @@ if __name__ == "__main__":
     tr_type.print()
     abi.print()
     encou.print()
+    print(encou)
 
     # f, ax = Visualization.plot_all_encounter_map_types(env.encounter_list)
     # f.show()
