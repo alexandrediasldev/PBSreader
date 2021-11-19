@@ -13,7 +13,7 @@ class Species(BaseData):
     type1: str
     base_stats: SpeciesStats
     gender_rate: str
-    base_Exp: str
+    base_EXP: str
     moves: list[Tuple[str, str]]
     height: str
     pokedex: str

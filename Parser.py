@@ -1,6 +1,7 @@
+import re
+
 import PBSclasses.Trainers as tr
 import PBSclasses.Pokemon as pk
-import PBSclasses.TrainerTypes as tp
 import PBSclasses.Species as sp
 import PBSclasses.Move as mv
 import PBSclasses.Item as it
@@ -20,50 +21,42 @@ from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
 
 
-def parse_ability(csv_output) -> list[ab.Ability]:
-    ability_list = []
-    for line in csv_output:
-        ability = ab.Ability(line[0], line[1], line[2], line[3])
+def parse_one_line_coma(attr_names, line):
+    kwargs = dict()
+    for name, value in zip(attr_names, line):
+        kwargs[name] = value
+    return kwargs
 
-        ability_list.append(ability)
-    return ability_list
+
+def parse_simple_csv(csv_output, object_class, attr_names=None):
+    object_list = []
+    if not attr_names:
+        attr_names = object_class.get_attr_names()
+    for line in csv_output:
+        kwargs = parse_one_line_coma(attr_names, line)
+        obj = object_class(**kwargs)
+        object_list.append(obj)
+
+    return object_list
+
+
+def parse_ability(csv_output) -> list[ab.Ability]:
+    return parse_simple_csv(csv_output, ab.Ability)
+
+
+def parser_move(csv_output) -> list[mv.Move]:
+    return parse_simple_csv(csv_output, mv.Move)
+
+
+def parse_trainer_types(csv_output) -> list[tr.TrainerType]:
+    return parse_simple_csv(csv_output, tr.TrainerType)
 
 
 def parse_item(csv_output, version) -> list[it.Item]:
-    item_list = []
-    for line in csv_output:
-        line.append("")
-        if version >= 16:
-            item = it.Item(
-                line[0],
-                line[1],
-                line[2],
-                line[3],
-                line[4],
-                line[5],
-                line[6],
-                line[7],
-                line[8],
-                line[9],
-                line[10],
-            )
-        else:
-            item = it.Item(
-                line[0],
-                line[1],
-                line[2],
-                "",
-                line[3],
-                line[4],
-                line[5],
-                line[6],
-                line[7],
-                line[8],
-                line[9],
-            )
-        item_list.append(item)
-
-    return item_list
+    attr_names = it.Item.get_attr_names()
+    if version < 16:
+        attr_names.remove("name_plural")
+    return parse_simple_csv(csv_output, it.Item, attr_names)
 
 
 def parse_encounter(
@@ -110,52 +103,6 @@ def parse_encounter(
     return encounter_list
 
 
-def parser_move(csv_output) -> list[mv.Move]:
-    moves_list = []
-    for line in csv_output:
-        move = mv.Move(
-            line[0],
-            line[1],
-            line[2],
-            line[3],
-            line[4],
-            line[5],
-            line[6],
-            line[7],
-            line[8],
-            line[9],
-            line[10],
-            line[11],
-            line[12],
-            line[13],
-        )
-        moves_list.append(move)
-
-    return moves_list
-
-
-def parse_trainer_types(csv_output) -> list[tr.TrainerType]:
-    trainer_type_list = []
-    for line in csv_output:
-        id_number, id, name, base_money, battle_bgm, victory_me, intro_me, gender, skill_level = (
-            line[0],
-            line[1],
-            line[2],
-            line[3],
-            line[4],
-            line[5],
-            line[6],
-            line[7],
-            line[8],
-        )
-
-        type = tp.TrainerType(
-            id_number, id, name, base_money, battle_bgm, victory_me, intro_me, gender, skill_level
-        )
-        trainer_type_list.append(type)
-    return trainer_type_list
-
-
 def parse_pokemon_move(moves):
     moves_and_level = moves.split(",")
     level_moves = []
@@ -188,58 +135,62 @@ def parse_pokemon_evolution(evolution) -> SpeciesEvolution:
     return SpeciesEvolution(name, method, parameter)
 
 
+def parse_bracket_header(line):
+    result = re.search("\\[(.*)\\]", line)
+    if result:
+        return result.group(1)
+    return None
+
+
+def _parse_pokemon_one_line(first, second):
+    if first in [
+        "Name",
+        "InternalName",
+        "Type1",
+        "Type2",
+        "GenderRate",
+        "BaseEXP",
+        "Height",
+        "Pokedex",
+        "Incense",
+    ]:
+        return second
+    elif first == "BaseStats":
+        return parse_pokemon_base_stats(second)
+    elif first == "Moves":
+        return parse_pokemon_move(second)
+    elif first == "Evolutions":
+        return parse_pokemon_evolution(second)
+    return None
+
+
 def parse_pokemon(equal_output) -> list[Species]:
     kwargs = dict()
     id = -1
     species_list = []
-    argument_translator = {
-        "Name": "name",
-        "InternalName": "internal_name",
-        "Type1": "type1",
-        "Type2": "type2",
-        "GenderRate": "gender_rate",
-        "BaseEXP": "base_Exp",
-        "Height": "height",
-        "Pokedex": "pokedex",
-        "Incense": "incense",
-        "Evolutions": "evolutions",
-        "Moves": "moves",
-        "BaseStats": "base_stats",
-    }
+    argument_translator = pk.Species.get_attr_dict()
     for line in equal_output:
         if line[0].startswith("\ufeff"):
             line[0] = line[0][1:]
         first = line[0]
         if len(line) > 1:
             second = line[1]
-        if first.startswith("[") and first.endswith("]"):
+        if parse_bracket_header(first):
             if id != -1:
                 kwargs["id"] = id
                 species = sp.Species(**kwargs)
                 species_list.append(species)
                 kwargs = dict()
-            id = int(first[1:-1])
-        elif first in [
-            "Name",
-            "InternalName",
-            "Type1",
-            "Type2",
-            "GenderRate",
-            "BaseEXP",
-            "Height",
-            "Pokedex",
-            "Incense",
-        ]:
-            kwargs[argument_translator[first]] = second
-        elif first == "BaseStats":
-            kwargs[argument_translator[first]] = parse_pokemon_base_stats(second)
-        elif first == "Moves":
-            kwargs[argument_translator[first]] = parse_pokemon_move(second)
-        elif first == "Evolutions":
-            kwargs[argument_translator[first]] = parse_pokemon_evolution(second)
+            id = parse_bracket_header(first)
+        else:
+            value = _parse_pokemon_one_line(first, second)
+            if value:
+                kwargs[argument_translator[first]] = value
+
     kwargs["id"] = id
     species = sp.Species(**kwargs)
     species_list.append(species)
+
     return species_list
 
 
@@ -281,9 +232,9 @@ def parse_trainer_list(csv_output, environment) -> list[tr.Trainer]:
         elif line_num == 1:
             name = line[0]
         elif line_num == 2:
-            nb_pokemon = int(line[0])
+            nb_pokemon = line[0]
         else:
-            if nb_pokemon + 2 == line_num:
+            if int(nb_pokemon) + 2 == line_num:
                 pkm = parse_trainer_pokemon(line, environment)
                 pokemon_list.append(pkm)
 

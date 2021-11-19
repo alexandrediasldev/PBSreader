@@ -25,7 +25,7 @@ class Pokemon(BaseData):
 
     def to_trainer_entry_bulbapedia(self) -> str:
         species_id = ""
-        if self.species.id < 100:
+        if int(self.species.id) < 100:
             species_id = "0"
         species_id += str(self.species.id)
         trainer_entry = species_id + "|" + self.species.name + "|"

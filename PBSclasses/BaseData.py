@@ -34,6 +34,21 @@ class BaseData:
     def get_attr_names(cls):
         return list(cls.__annotations__.keys())
 
+    @classmethod
+    def get_attr_pbs_names(cls):
+        attr_pbs_names = []
+        for k in cls.__annotations__.keys():
+            attr_pbs_names.append(_format_pbs(k))
+        return attr_pbs_names
+
+    @classmethod
+    def get_attr_dict(cls):
+        return dict(zip(cls.get_attr_pbs_names(), cls.get_attr_names()))
+
+
+def _format_pbs(name):
+    return "".join(word[0].upper() + word[1:] for word in name.split("_"))
+
 
 def _format_name(name):
     return name.replace("_", " ").capitalize()

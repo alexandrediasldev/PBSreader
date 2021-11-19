@@ -1,4 +1,4 @@
-from PBSclasses import TrainerTypes
+from PBSclasses.TrainerTypes import TrainerType
 from PBSclasses.Item import Item
 from PBSclasses.Move import Move
 from Parser import parse_ability, parse_item, parser_move, parse_trainer_types
@@ -55,7 +55,7 @@ def test_parse_move(move_obj):
 @given(st.lists(st.text(), min_size=9))
 def test_parse_trainer_types(trainer_types):
     csv_output = [trainer_types]
-    list_dict = TrainerTypes.get_attr_names()
+    list_dict = TrainerType.get_attr_names()
     version = 15
     trainer_list = parse_trainer_types(csv_output)
     parse_item_func(trainer_list, trainer_types, list_dict, version)
