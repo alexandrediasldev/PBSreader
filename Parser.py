@@ -116,8 +116,8 @@ def parse_pokemon_move(moves):
 
 def parse_pokemon_base_stats(base_stats) -> SpeciesStats:
     stats = base_stats.split(",")
-    if len(stats) < 5:
-        return SpeciesStats(1, 1, 1, 1, 1, 1)
+    if len(stats) < 6:
+        return SpeciesStats("1", "1", "1", "1", "1", "1")
 
     return SpeciesStats(stats[0], stats[1], stats[2], stats[3], stats[4], stats[5])
 
@@ -154,6 +154,7 @@ def _parse_pokemon_one_line(first, second):
         "Pokedex",
         "Incense",
     ]:
+
         return second
     elif first == "BaseStats":
         return parse_pokemon_base_stats(second)
@@ -170,12 +171,14 @@ def parse_pokemon(equal_output) -> list[Species]:
     species_list = []
     argument_translator = pk.Species.get_attr_dict()
     for line in equal_output:
-        if line[0].startswith("\ufeff"):
-            line[0] = line[0][1:]
         first = line[0]
+        second = None
+
         if len(line) > 1:
             second = line[1]
+        # print(first,second)
         if parse_bracket_header(first):
+            # print("HEADER"+first)
             if id != -1:
                 kwargs["id"] = id
                 species = sp.Species(**kwargs)
@@ -183,7 +186,9 @@ def parse_pokemon(equal_output) -> list[Species]:
                 kwargs = dict()
             id = parse_bracket_header(first)
         else:
+            # print("parse ","|"+first+"|", second)
             value = _parse_pokemon_one_line(first, second)
+            # print(value)
             if value:
                 kwargs[argument_translator[first]] = value
 
