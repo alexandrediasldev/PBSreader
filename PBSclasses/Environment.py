@@ -40,6 +40,9 @@ class Environment:
     def load_item_list(self, csv_item):
         self.item_list = pr.parse_item(csv_item, 15)
 
+    def load_connection_list(self, csv_connection):
+        self.connection_list = pr.parse_connection(csv_connection)
+
     def load_encounter_list(
         self, csv_encounter, encounter_method_list=get_default_encounter_method_list()
     ):
@@ -71,6 +74,7 @@ class Environment:
         csv_trainer,
         csv_encounter,
         csv_ability,
+        csv_connection,
         encounter_method_list=get_default_encounter_method_list(),
     ):
         self.load_ability_list(csv_ability)
@@ -80,3 +84,4 @@ class Environment:
         self.load_item_list(csv_item)
         self.load_trainer_list(csv_trainer)
         self.load_encounter_list(csv_encounter, encounter_method_list)
+        self.load_connection_list(csv_connection)

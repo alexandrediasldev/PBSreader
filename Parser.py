@@ -16,6 +16,7 @@ from Finder import (
     get_trainer_type_from_name,
 )
 from PBSclasses import Species
+from PBSclasses.Connection import Connection
 
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
@@ -50,6 +51,10 @@ def parser_move(csv_output) -> list[mv.Move]:
 
 def parse_trainer_types(csv_output) -> list[tr.TrainerType]:
     return parse_simple_csv(csv_output, tr.TrainerType)
+
+
+def parse_connection(csv_output) -> list[Connection]:
+    return parse_simple_csv(csv_output, Connection)
 
 
 def parse_item(csv_output, version) -> list[it.Item]:
@@ -114,6 +119,11 @@ def parse_pokemon_move(moves):
     return level_moves
 
 
+def parse_coma_equal_field(field):
+    coma_list = field.split(",")
+    return coma_list
+
+
 def parse_pokemon_base_stats(base_stats) -> SpeciesStats:
     stats = base_stats.split(",")
     if len(stats) < 6:
@@ -149,17 +159,30 @@ def _parse_pokemon_one_line(first, second):
         "Type1",
         "Type2",
         "GenderRate",
+        "GrowthRate",
+        "Rareness",
+        "Happiness",
+        "StepsToHatch",
         "BaseEXP",
         "Height",
+        "Weight",
+        "Color",
+        "Habitat",
+        "Kind",
         "Pokedex",
+        "BattlerPlayerY",
+        "BattlerEnemyY",
+        "BattlerAltitude",
         "Incense",
     ]:
 
         return second
-    elif first == "BaseStats":
+    elif first in ["BaseStats", "EffortPoints"]:
         return parse_pokemon_base_stats(second)
     elif first == "Moves":
         return parse_pokemon_move(second)
+    elif first in ["Abilities", "EggMoves", "Compatibility"]:
+        return parse_coma_equal_field(second)
     elif first == "Evolutions":
         return parse_pokemon_evolution(second)
     return None

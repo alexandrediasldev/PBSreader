@@ -1,20 +1,20 @@
 ## items.txt
 
-Information pulled from the old wiki on the way back machine:  
-September 28th 2015 - http://pokemonessentials.wikia.com/wiki/Defining_an_item   
+Information pulled from the old wiki on the way back machine:
+September 28th 2015 - http://pokemonessentials.wikia.com/wiki/Defining_an_item
 https://web.archive.org/web/20150928235506/http://pokemonessentials.wikia.com/wiki/Defining_an_item
 
 
-**1. ID Number**:  
+**1. ID Number**:
 Each item's ID number must be different. The ID number must be a whole number greater than 0 (i.e. 1,2,3...). Missing numbers are not a problem (e.g. the sequence 23,24,25,58,59,60,... is allowed).
 
-**2. Internal name:**  	
+**2. Internal name:**
 Typically written only in capital letters with no spaces or symbols. This is the name the scripts refer to and use. This name is never seen by the player.
 
-**3. Display name:**  	
+**3. Display name:**
 The actual name of the item. This is only used when displaying the item's name on the screen.
 
-**4. Pocket:**  
+**4. Pocket:**
 The Bag pocket number the item is stored in. By default, is one of:
 1. - Items
 2. - Medicine
@@ -25,15 +25,15 @@ The Bag pocket number the item is stored in. By default, is one of:
 7. - Battle Items
 8. - Key Items
 
-**5. Price:**  	
+**5. Price:**
 The cost of the item when you buy it. Note that when the item is sold, it is sold for half this price (by default). If an item has a price of 0, it cannot be sold.
 
-**6. Description:**  
+**6. Description:**
 The description of the item.
 If there are any commas or apostrophes/double quote marks in the description, the entire description must be enclosed in double quote marks. The double quote marks in the description must also be preceded by a backslash "\".
 Typically TMs and HMs will have the same description as the moves they teach, but they don't need to.
 
-**7. Usability out of battle:**  
+**7. Usability out of battle:**
 Is one of the following values:
 0. - The item cannot be used out of battle.
 1. - The item can be used on a Pokémon, and disappears after use (e.g. Potions, Elixirs). The party screen will appear when using this item, allowing you to choose the Pokémon to use it on. Not for TMs and HMs, though.
@@ -42,14 +42,15 @@ Is one of the following values:
 4. - The item is a HM. It teaches a move to a Pokémon, but does not disappear after use.
 5. - The item can be used on a Pokémon, but it does not disappear after use (e.g. Poké Flute).
 
-**8. Usability in battle:**  
+**8. Usability in battle:**
 Is one of the following values:
 0. - The item cannot be used in battle.
 1. - The item can be used on one of your party Pokémon, and disappears after use (e.g. Potions, Elixirs). The party screen will appear when using this item, allowing you to choose the Pokémon to use it on.
 2. - The item is a Poké Ball, or the item can be used directly (e.g. X Accuracy et al, Poké Doll).
 3. - The item can be used on a Pokémon, but does not disappear after use (e.g. Poké Flute).
 4. - The item can be used directly, but does not disappear after use.
-**9. Special items:**  	
+
+**9. Special items:**
 Is one of the following values:
 0. - The item is none of the items below.
 1. - The item is a Mail item.
@@ -58,7 +59,8 @@ Is one of the following values:
 4. - The item is a Poké Ball item.
 5. - The item is a berry that can be planted.
 6. - The item is a Key Item
-**10. TM/HM move:**  
+
+**10. TM/HM move:**
 This field is for TMs and HMs only, and contains the internal name of the move that it teaches.
 
 

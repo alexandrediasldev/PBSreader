@@ -5,9 +5,9 @@ from PBSclasses.BaseData import BaseData
 
 @dataclass
 class Item(BaseData):
-    id_number: str
-    id: str
-    name: str
+    id_number: str = ""
+    id: str = ""
+    name: str = ""
     name_plural: str = ""
     pocket: str = ""
     price: str = ""
