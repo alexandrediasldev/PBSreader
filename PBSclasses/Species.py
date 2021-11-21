@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Tuple
+from typing import Tuple, List
 
 from PBSclasses.BaseData import BaseData
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
@@ -13,17 +13,17 @@ class Species(BaseData):
     internal_name: str = ""
     type1: str = ""
     type2: str = ""
-    base_stats: SpeciesStats = SpeciesStats("1", "1", "1", "1", "1", "1")
+    base_stats: SpeciesStats = field(default_factory=SpeciesStats)
     gender_rate: str = ""
     growth_rate: str = ""
     base_EXP: str = ""
-    effort_points: SpeciesStats = SpeciesStats("0", "0", "0", "0", "0", "0")
+    effort_points: SpeciesStats = field(default_factory=SpeciesStats)
     rareness: str = ""
     happiness: str = ""
-    abilities: list[str] = field(default_factory=list)
-    moves: list[Tuple[str, str]] = field(default_factory=list)
-    egg_moves: list[str] = field(default_factory=list)
-    compatibility: list[str] = field(default_factory=list)
+    abilities: List[str] = field(default_factory=list)
+    moves: List[Tuple[str, str]] = field(default_factory=list)
+    egg_moves: List[str] = field(default_factory=list)
+    compatibility: List[str] = field(default_factory=list)
     steps_to_hatch: str = ""
     height: str = ""
     weight: str = ""
@@ -34,5 +34,5 @@ class Species(BaseData):
     battler_player_y: str = ""
     battler_enemy_y: str = ""
     battler_altitude: str = ""
-    evolutions: SpeciesEvolution = None
+    evolutions: SpeciesEvolution = field(default_factory=SpeciesEvolution)
     incense: str = ""

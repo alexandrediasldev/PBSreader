@@ -16,12 +16,10 @@ from Finder import (
 )
 from PBSclasses import Species
 from PBSclasses.Connection import Connection
-from PBSclasses.MetaData import MetaData, PlayerMetaData, HomeMetaData
+from PBSclasses.MetaData import MetaData, PlayerMetaData
 from PBSclasses.Phone import Phone
 from PBSclasses.ShadowPokemon import ShadowPokemon
 
-from PBSclasses.SpeciesEvolution import SpeciesEvolution
-from PBSclasses.SpeciesStats import SpeciesStats
 from PBSclasses.TownMap import TownMap, TownPoint
 from PBSclasses.Type import Type
 
@@ -101,59 +99,39 @@ def parse_phone(csv_output):
     return Phone(**kwargs)
 
 
-def _parse_type_one_line(first, second):
-    if first in ["Name", "InternalName", "IsSpecialType"]:
-        return second
-    elif first in ["Weaknesses", "Resistances", "Immunities"]:
-        return parse_coma_equal_field(second)
-    return None
+def _parse_townmap_one_line(first, second, attr_pbs_categories, obj_class, argument_translator):
+    value = _parse_object_one_line(
+        first, second, attr_pbs_categories, obj_class, argument_translator
+    )
+    if not value:
+        if first in ["Point"]:
+            value = TownPoint(
+                **parse_one_line_coma(TownPoint.get_attr_names(), parse_coma_equal_field(second))
+            )
+    return value
 
 
-def _parse_townmap_one_line(first, second):
-    if first in ["Name", "Filename"]:
-        return second
-    elif first in ["Point"]:
-        return TownPoint(
-            **parse_one_line_coma(TownPoint.get_attr_names(), parse_coma_equal_field(second))
-        )
+def _parse_metadata_one_line(first, second, attr_pbs_categories, obj_class, argument_translator):
+    value = _parse_object_one_line(
+        first, second, attr_pbs_categories, obj_class, argument_translator
+    )
+    if not value:
+        if first.startswith("Player"):
+            value = PlayerMetaData(
+                **parse_one_line_coma(
+                    PlayerMetaData.get_attr_names(), parse_coma_equal_field(second)
+                )
+            )
+    return value
 
-    return None
 
-
-def _parse_metadata_one_line(first, second):
-    if first in [
-        "BycycleBGM",
-        "SurfBGM",
-        "WildBattleBGM",
-        "TrainerBattleBGM",
-        "WildVIctoryME",
-        "TrainerVictoryME",
-        "Outdoor",
-        "Bicycle",
-        "BycleAlways",
-        "HealingSpot",
-        "MapPosition",
-        "MapSize",
-        "ShowArea",
-        "Weather",
-        "DarkMap",
-        "DiveMap",
-        "SafariMap",
-        "SnapEdges",
-        "Dungeon",
-        "BattleBack",
-    ]:
-        return second
-    elif first.startswith("Player"):
-        return PlayerMetaData(
-            **parse_one_line_coma(PlayerMetaData.get_attr_names(), parse_coma_equal_field(second))
-        )
-    elif first in ["Home"]:
-        return HomeMetaData(
-            **parse_one_line_coma(HomeMetaData.get_attr_names(), parse_coma_equal_field(second))
-        )
-
-    return None
+def _parse_pokemon_one_line(first, second, attr_pbs_categories, obj_class, argument_translator):
+    if first == "Moves":
+        return parse_pokemon_move(second)
+    value = _parse_object_one_line(
+        first, second, attr_pbs_categories, obj_class, argument_translator
+    )
+    return value
 
 
 def custom_value_handler_townmap(kwargs, argument_translator, first, value):
@@ -178,9 +156,24 @@ def equal_value_handler(kwargs, argument_translator, first, value):
     kwargs[argument_translator[first]] = value
 
 
+def _parse_object_one_line(first, second, attr_pbs_categories, obj_class, argument_translator):
+    attr_pbs_string, attr_pbs_list, attr_pbs_basedata = attr_pbs_categories
+    if first in attr_pbs_string:
+        return second
+    elif first in attr_pbs_list:
+        return parse_coma_equal_field(second)
+    elif first in attr_pbs_basedata:
+        sub_class = obj_class.get_attr_class(argument_translator[first])
+        return sub_class(
+            **parse_one_line_coma(sub_class.get_attr_names(), parse_coma_equal_field(second))
+        )
+    return None
+
+
 def parse_section_equal_file(
     equal_output, obj_class, _parse_one_line, value_handler=equal_value_handler
 ):
+    attr_pbs_categories = obj_class.get_attr_pbs_by_types()
     obj_list = []
     kwargs = dict()
     id = -1
@@ -198,7 +191,9 @@ def parse_section_equal_file(
                 kwargs = dict()
             id = parse_bracket_header(first)
         else:
-            value = _parse_one_line(first, second)
+            value = _parse_one_line(
+                first, second, attr_pbs_categories, obj_class, argument_translator
+            )
             if value:
                 value_handler(kwargs, argument_translator, first, value)
 
@@ -211,7 +206,7 @@ def parse_section_equal_file(
 
 def parse_type(equal_output):
     return parse_section_equal_file(
-        equal_output, obj_class=Type, _parse_one_line=_parse_type_one_line
+        equal_output, obj_class=Type, _parse_one_line=_parse_object_one_line
     )
 
 
@@ -230,6 +225,12 @@ def parse_metadata(equal_output):
         obj_class=MetaData,
         _parse_one_line=_parse_metadata_one_line,
         value_handler=custom_value_handler_metadata,
+    )
+
+
+def parse_pokemon(equal_output) -> list[Species]:
+    return parse_section_equal_file(
+        equal_output, obj_class=pk.Species, _parse_one_line=_parse_pokemon_one_line
     )
 
 
@@ -293,74 +294,11 @@ def parse_coma_equal_field(field):
     return coma_list
 
 
-def parse_pokemon_base_stats(base_stats) -> SpeciesStats:
-    stats = base_stats.split(",")
-    if len(stats) < 6:
-        return SpeciesStats("1", "1", "1", "1", "1", "1")
-
-    return SpeciesStats(stats[0], stats[1], stats[2], stats[3], stats[4], stats[5])
-
-
-def parse_pokemon_evolution(evolution) -> SpeciesEvolution:
-    evo = evolution.split(",")
-    name = method = parameter = ""
-    if len(evo) >= 1:
-        name = evo[0]
-    if len(evo) >= 2:
-        method = evo[1]
-    if len(evo) >= 3:
-        parameter = evo[2]
-
-    return SpeciesEvolution(name, method, parameter)
-
-
 def parse_bracket_header(line):
     result = re.search("\\[(.*)\\]", line)
     if result:
         return result.group(1)
     return None
-
-
-def _parse_pokemon_one_line(first, second):
-    if first in [
-        "Name",
-        "InternalName",
-        "Type1",
-        "Type2",
-        "GenderRate",
-        "GrowthRate",
-        "Rareness",
-        "Happiness",
-        "StepsToHatch",
-        "BaseEXP",
-        "Height",
-        "Weight",
-        "Color",
-        "Habitat",
-        "Kind",
-        "Pokedex",
-        "BattlerPlayerY",
-        "BattlerEnemyY",
-        "BattlerAltitude",
-        "Incense",
-    ]:
-
-        return second
-    elif first in ["BaseStats", "EffortPoints"]:
-        return parse_pokemon_base_stats(second)
-    elif first == "Moves":
-        return parse_pokemon_move(second)
-    elif first in ["Abilities", "EggMoves", "Compatibility"]:
-        return parse_coma_equal_field(second)
-    elif first == "Evolutions":
-        return parse_pokemon_evolution(second)
-    return None
-
-
-def parse_pokemon(equal_output) -> list[Species]:
-    return parse_section_equal_file(
-        equal_output, obj_class=pk.Species, _parse_one_line=_parse_pokemon_one_line
-    )
 
 
 def parse_trainer_pokemon(pokemon_attributes, environment) -> pk.Pokemon:

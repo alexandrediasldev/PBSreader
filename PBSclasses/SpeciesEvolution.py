@@ -5,6 +5,6 @@ from PBSclasses.BaseData import BaseData
 
 @dataclass
 class SpeciesEvolution(BaseData):
-    name: str
-    method: str
-    evolution_parameter: str
+    name: str = ""
+    method: str = ""
+    evolution_parameter: str = ""

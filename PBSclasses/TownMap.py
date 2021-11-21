@@ -1,14 +1,7 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List
 
 from PBSclasses.BaseData import BaseData
-
-
-@dataclass
-class TownMap(BaseData):
-    id: str = ""
-    name: str = ""
-    filename: str = ""
-    points: str = ""
 
 
 @dataclass
@@ -21,3 +14,11 @@ class TownPoint(BaseData):
     fly_destiation_x: str = ""
     fly_destiation_y: str = ""
     switch: str = ""
+
+
+@dataclass
+class TownMap(BaseData):
+    id: str = ""
+    name: str = ""
+    filename: str = ""
+    points: List[TownPoint] = field(default_factory=TownPoint)

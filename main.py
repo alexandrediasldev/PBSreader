@@ -3,7 +3,7 @@ from PBSclasses.Environment import Environment
 
 
 import FileLoader
-from PBSclasses.MetaData import metadata_info
+
 
 if __name__ == "__main__":
     csv_trainer = FileLoader.file_csv_tolist("PBS/trainers.txt")
@@ -49,10 +49,10 @@ if __name__ == "__main__":
     pho = env.phone
     ty = env.type_list[2]
     town = env.townmap_list[0]
-    met = env.metadata_list[1]
+    met = env.metadata_list[0]
 
     # print(met)
-    metadata_info()
+    print(spe)
 
     # f, ax = Visualization.plot_all_encounter_map_types(env.encounter_list)
     # f.show()
