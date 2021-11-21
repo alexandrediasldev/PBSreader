@@ -2,7 +2,6 @@ import re
 
 import PBSclasses.Trainers as tr
 import PBSclasses.Pokemon as pk
-import PBSclasses.Species as sp
 import PBSclasses.Move as mv
 import PBSclasses.Item as it
 import PBSclasses.Encounter as en
@@ -17,9 +16,13 @@ from Finder import (
 )
 from PBSclasses import Species
 from PBSclasses.Connection import Connection
+from PBSclasses.Phone import Phone
+from PBSclasses.ShadowPokemon import ShadowPokemon
 
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
+from PBSclasses.TownMap import TownMap, TownPoint
+from PBSclasses.Type import Type
 
 
 def parse_one_line_coma(attr_names, line):
@@ -62,6 +65,117 @@ def parse_item(csv_output, version) -> list[it.Item]:
     if version < 16:
         attr_names.remove("name_plural")
     return parse_simple_csv(csv_output, it.Item, attr_names)
+
+
+def parse_shadow_pokemon(csv_output, environment) -> list[ShadowPokemon]:
+    attr_names = ShadowPokemon.get_attr_names()
+    kwargs = dict()
+    shadow_list = []
+    for line in csv_output:
+        first, second = line[0], line[1]
+        kwargs[attr_names[0]] = get_species_from_name(first, environment.species_list)
+        kwargs[attr_names[1]] = parse_coma_equal_field(second)
+        shadow_list.append(ShadowPokemon(**kwargs))
+    return shadow_list
+
+
+def parse_phone(csv_output):
+    kwargs = dict()
+    phone_lines = []
+    section_name = None
+    argument_translator = Phone.get_attr_dict()
+    for line in csv_output:
+        first = line[0]
+        if parse_bracket_header(first):
+            if section_name:
+                kwargs[argument_translator[section_name]] = phone_lines
+            phone_lines = []
+            section_name = parse_bracket_header(first)
+            section_name = section_name.removesuffix(">")
+            section_name = section_name.removeprefix("<")
+        else:
+            phone_lines.append(first)
+    kwargs[argument_translator[section_name]] = phone_lines
+
+    return Phone(**kwargs)
+
+
+def _parse_type_one_line(first, second):
+    if first in ["Name", "InternalName", "IsSpecialType"]:
+        return second
+    elif first in ["Weaknesses", "Resistances", "Immunities"]:
+        return parse_coma_equal_field(second)
+    return None
+
+
+def _parse_townmap_one_line(first, second):
+    if first in ["Name", "Filename"]:
+        return second
+    elif first in ["Point"]:
+        return TownPoint(
+            **parse_one_line_coma(TownPoint.get_attr_names(), parse_coma_equal_field(second))
+        )
+
+    return None
+
+
+def custom_value_handler_townmap(kwargs, argument_translator, first, value):
+    if "Point" == first:
+        if "points" not in kwargs:
+            kwargs["points"] = []
+        kwargs["points"].append(value)
+    else:
+        kwargs[argument_translator[first]] = value
+
+
+def equal_value_handler(kwargs, argument_translator, first, value):
+    kwargs[argument_translator[first]] = value
+
+
+def parse_section_equal_file(
+    equal_output, obj_class, _parse_one_line, value_handler=equal_value_handler
+):
+    obj_list = []
+    kwargs = dict()
+    id = -1
+    argument_translator = obj_class.get_attr_dict()
+    for line in equal_output:
+        first = line[0]
+        second = None
+        if len(line) > 1:
+            second = line[1]
+        if parse_bracket_header(first):
+            if id != -1:
+                kwargs["id"] = id
+                obj = obj_class(**kwargs)
+                obj_list.append(obj)
+                kwargs = dict()
+            id = parse_bracket_header(first)
+        else:
+            value = _parse_one_line(first, second)
+            if value:
+                value_handler(kwargs, argument_translator, first, value)
+
+    kwargs["id"] = id
+    obj = obj_class(**kwargs)
+    obj_list.append(obj)
+
+    return obj_list
+
+
+def parse_type(equal_output):
+    return parse_section_equal_file(
+        equal_output, obj_class=Type, _parse_one_line=_parse_type_one_line
+    )
+
+
+def parse_townmap(equal_output):
+    return parse_section_equal_file(
+        equal_output,
+        obj_class=TownMap,
+        _parse_one_line=_parse_townmap_one_line,
+        value_handler=custom_value_handler_townmap,
+    )
 
 
 def parse_encounter(
@@ -189,37 +303,9 @@ def _parse_pokemon_one_line(first, second):
 
 
 def parse_pokemon(equal_output) -> list[Species]:
-    kwargs = dict()
-    id = -1
-    species_list = []
-    argument_translator = pk.Species.get_attr_dict()
-    for line in equal_output:
-        first = line[0]
-        second = None
-
-        if len(line) > 1:
-            second = line[1]
-        # print(first,second)
-        if parse_bracket_header(first):
-            # print("HEADER"+first)
-            if id != -1:
-                kwargs["id"] = id
-                species = sp.Species(**kwargs)
-                species_list.append(species)
-                kwargs = dict()
-            id = parse_bracket_header(first)
-        else:
-            # print("parse ","|"+first+"|", second)
-            value = _parse_pokemon_one_line(first, second)
-            # print(value)
-            if value:
-                kwargs[argument_translator[first]] = value
-
-    kwargs["id"] = id
-    species = sp.Species(**kwargs)
-    species_list.append(species)
-
-    return species_list
+    return parse_section_equal_file(
+        equal_output, obj_class=pk.Species, _parse_one_line=_parse_pokemon_one_line
+    )
 
 
 def parse_trainer_pokemon(pokemon_attributes, environment) -> pk.Pokemon:

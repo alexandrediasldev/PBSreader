@@ -3,14 +3,19 @@ import Parser as pr
 from PBSclasses.Ability import Ability
 
 import Exception as ex
+from PBSclasses.Connection import Connection
 
 from PBSclasses.Encounter import Encounter
 from PBSclasses.EncounterMethod import get_default_encounter_method_list
 from PBSclasses.Item import Item
 from PBSclasses.Move import Move
+from PBSclasses.Phone import Phone
+from PBSclasses.ShadowPokemon import ShadowPokemon
 from PBSclasses.Species import Species
+from PBSclasses.TownMap import TownMap
 from PBSclasses.TrainerTypes import TrainerType
 from PBSclasses.Trainers import Trainer
+from PBSclasses.Type import Type
 
 
 class Environment:
@@ -21,9 +26,23 @@ class Environment:
     trainer_list: List[Trainer] = []
     encounter_list: List[Encounter] = []
     ability_list: List[Ability] = []
+    connection_list: List[Connection] = []
+    shadow_list: List[ShadowPokemon] = []
+    type_list: List[Type] = []
+    townmap_list: List[TownMap] = []
+    phone: Phone = None
 
     def __init__(self):
         pass
+
+    def load_townmap(self, equal_townmap):
+        self.townmap_list = pr.parse_townmap(equal_townmap)
+
+    def load_type(self, equal_type):
+        self.type_list = pr.parse_type(equal_type)
+
+    def load_phone(self, csv_phone):
+        self.phone = pr.parse_phone(csv_phone)
 
     def load_ability_list(self, csv_ability):
         self.ability_list = pr.parse_ability(csv_ability)
@@ -51,6 +70,12 @@ class Environment:
         else:
             raise ex.EnvironmentLoadingException("Need to load species list before encounter list")
 
+    def load_shadow_list(self, equal_pokemon_shadow):
+        if self.species_list:
+            self.shadow_list = pr.parse_shadow_pokemon(equal_pokemon_shadow, self)
+        else:
+            raise ex.EnvironmentLoadingException("Need to load species list before shadow list")
+
     def load_trainer_list(self, csv_trainer):
         if not self.trainer_type_list:
             raise ex.EnvironmentLoadingException(
@@ -75,6 +100,10 @@ class Environment:
         csv_encounter,
         csv_ability,
         csv_connection,
+        equal_pokemon_shadow,
+        csv_phone,
+        equal_type,
+        equal_townmap,
         encounter_method_list=get_default_encounter_method_list(),
     ):
         self.load_ability_list(csv_ability)
@@ -85,3 +114,7 @@ class Environment:
         self.load_trainer_list(csv_trainer)
         self.load_encounter_list(csv_encounter, encounter_method_list)
         self.load_connection_list(csv_connection)
+        self.load_shadow_list(equal_pokemon_shadow)
+        self.load_phone(csv_phone)
+        self.load_type(equal_type)
+        self.load_townmap(equal_townmap)

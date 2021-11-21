@@ -13,6 +13,10 @@ if __name__ == "__main__":
     csv_encounter = FileLoader.file_csv_tolist("PBS/encounters.txt")
     csv_connection = FileLoader.file_csv_tolist("PBS/connections.txt")
     equal_pokemon_species = FileLoader.file_equal_to_list("PBS/pokemon.txt")
+    equal_pokemon_shadow = FileLoader.file_equal_to_list("PBS/shadowmoves.txt")
+    equal_phone = FileLoader.file_equal_to_list("PBS/phone.txt")
+    equal_type = FileLoader.file_equal_to_list("PBS/types.txt")
+    equal_townmap = FileLoader.file_equal_to_list("PBS/townmap.txt")
 
     env = Environment()
     env.load_environment(
@@ -24,6 +28,10 @@ if __name__ == "__main__":
         csv_encounter,
         csv_ability,
         csv_connection,
+        equal_pokemon_shadow,
+        equal_phone,
+        equal_type,
+        equal_townmap,
     )
 
     spe = get_species_from_name("RIOLU", env.species_list)
@@ -34,7 +42,13 @@ if __name__ == "__main__":
     abi = env.ability_list[8]
     encou = env.encounter_list[3]
     conn = env.connection_list[3]
-    print(firestone)
+    shadow = env.shadow_list[4]
+    pho = env.phone
+    ty = env.type_list[2]
+    town = env.townmap_list[0]
+
+    print(town.points[8])
+    print(spe)
 
     # f, ax = Visualization.plot_all_encounter_map_types(env.encounter_list)
     # f.show()
