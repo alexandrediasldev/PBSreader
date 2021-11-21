@@ -3,6 +3,7 @@ from PBSclasses.Environment import Environment
 
 
 import FileLoader
+from PBSclasses.MetaData import metadata_info
 
 if __name__ == "__main__":
     csv_trainer = FileLoader.file_csv_tolist("PBS/trainers.txt")
@@ -17,6 +18,7 @@ if __name__ == "__main__":
     equal_phone = FileLoader.file_equal_to_list("PBS/phone.txt")
     equal_type = FileLoader.file_equal_to_list("PBS/types.txt")
     equal_townmap = FileLoader.file_equal_to_list("PBS/townmap.txt")
+    equal_metadata = FileLoader.file_equal_to_list("PBS/metadata.txt")
 
     env = Environment()
     env.load_environment(
@@ -32,6 +34,7 @@ if __name__ == "__main__":
         equal_phone,
         equal_type,
         equal_townmap,
+        equal_metadata,
     )
 
     spe = get_species_from_name("RIOLU", env.species_list)
@@ -46,9 +49,10 @@ if __name__ == "__main__":
     pho = env.phone
     ty = env.type_list[2]
     town = env.townmap_list[0]
+    met = env.metadata_list[1]
 
-    print(town.points[8])
-    print(spe)
+    # print(met)
+    metadata_info()
 
     # f, ax = Visualization.plot_all_encounter_map_types(env.encounter_list)
     # f.show()

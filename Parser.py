@@ -16,6 +16,7 @@ from Finder import (
 )
 from PBSclasses import Species
 from PBSclasses.Connection import Connection
+from PBSclasses.MetaData import MetaData, PlayerMetaData, HomeMetaData
 from PBSclasses.Phone import Phone
 from PBSclasses.ShadowPokemon import ShadowPokemon
 
@@ -119,11 +120,56 @@ def _parse_townmap_one_line(first, second):
     return None
 
 
+def _parse_metadata_one_line(first, second):
+    if first in [
+        "BycycleBGM",
+        "SurfBGM",
+        "WildBattleBGM",
+        "TrainerBattleBGM",
+        "WildVIctoryME",
+        "TrainerVictoryME",
+        "Outdoor",
+        "Bicycle",
+        "BycleAlways",
+        "HealingSpot",
+        "MapPosition",
+        "MapSize",
+        "ShowArea",
+        "Weather",
+        "DarkMap",
+        "DiveMap",
+        "SafariMap",
+        "SnapEdges",
+        "Dungeon",
+        "BattleBack",
+    ]:
+        return second
+    elif first.startswith("Player"):
+        return PlayerMetaData(
+            **parse_one_line_coma(PlayerMetaData.get_attr_names(), parse_coma_equal_field(second))
+        )
+    elif first in ["Home"]:
+        return HomeMetaData(
+            **parse_one_line_coma(HomeMetaData.get_attr_names(), parse_coma_equal_field(second))
+        )
+
+    return None
+
+
 def custom_value_handler_townmap(kwargs, argument_translator, first, value):
     if "Point" == first:
         if "points" not in kwargs:
             kwargs["points"] = []
         kwargs["points"].append(value)
+    else:
+        kwargs[argument_translator[first]] = value
+
+
+def custom_value_handler_metadata(kwargs, argument_translator, first, value):
+    if first.startswith("Player"):
+        if "players" not in kwargs:
+            kwargs["players"] = []
+        kwargs["players"].append(value)
     else:
         kwargs[argument_translator[first]] = value
 
@@ -175,6 +221,15 @@ def parse_townmap(equal_output):
         obj_class=TownMap,
         _parse_one_line=_parse_townmap_one_line,
         value_handler=custom_value_handler_townmap,
+    )
+
+
+def parse_metadata(equal_output):
+    return parse_section_equal_file(
+        equal_output,
+        obj_class=MetaData,
+        _parse_one_line=_parse_metadata_one_line,
+        value_handler=custom_value_handler_metadata,
     )
 
 

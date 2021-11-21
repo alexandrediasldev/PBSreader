@@ -8,6 +8,7 @@ from PBSclasses.Connection import Connection
 from PBSclasses.Encounter import Encounter
 from PBSclasses.EncounterMethod import get_default_encounter_method_list
 from PBSclasses.Item import Item
+from PBSclasses.MetaData import MetaData
 from PBSclasses.Move import Move
 from PBSclasses.Phone import Phone
 from PBSclasses.ShadowPokemon import ShadowPokemon
@@ -30,10 +31,14 @@ class Environment:
     shadow_list: List[ShadowPokemon] = []
     type_list: List[Type] = []
     townmap_list: List[TownMap] = []
+    metadata_list: List[MetaData] = []
     phone: Phone = None
 
     def __init__(self):
         pass
+
+    def load_metadata(self, equal_metadata):
+        self.metadata_list = pr.parse_metadata(equal_metadata)
 
     def load_townmap(self, equal_townmap):
         self.townmap_list = pr.parse_townmap(equal_townmap)
@@ -104,6 +109,7 @@ class Environment:
         csv_phone,
         equal_type,
         equal_townmap,
+        equal_metadata,
         encounter_method_list=get_default_encounter_method_list(),
     ):
         self.load_ability_list(csv_ability)
@@ -118,3 +124,4 @@ class Environment:
         self.load_phone(csv_phone)
         self.load_type(equal_type)
         self.load_townmap(equal_townmap)
+        self.load_metadata(equal_metadata)
