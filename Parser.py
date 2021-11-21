@@ -38,6 +38,13 @@ def parse_simple_csv(csv_output, object_class, attr_names=None):
     for line in csv_output:
         kwargs = parse_one_line_coma(attr_names, line)
         obj = object_class(**kwargs)
+        # deserialized = deserialize_simple_csv(obj)
+        # line_joined = ','.join(line)
+        # if deserialized != line_joined:
+        #    print("WARNING SERIALIZATION:")
+        #    print(line_joined)
+        #    print(deserialized)
+
         object_list.append(obj)
 
     return object_list

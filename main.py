@@ -3,7 +3,12 @@ from PBSclasses.Environment import Environment
 
 
 import FileLoader
-
+from Exporter import (
+    deserialize_simple_csv,
+    deserialize_shadow,
+    deserialize_phone,
+    deserialize_equal_data,
+)
 
 if __name__ == "__main__":
     csv_trainer = FileLoader.file_csv_tolist("PBS/trainers.txt")
@@ -38,10 +43,10 @@ if __name__ == "__main__":
     )
 
     spe = get_species_from_name("RIOLU", env.species_list)
-    tre = get_trainer_type_from_name("EclipseDame", env.trainer_type_list)
+    tr_type = get_trainer_type_from_name("EclipseDame", env.trainer_type_list)
     mov = env.move_list[5]
     firestone = get_item_from_name("FIRESTONE", env.item_list)
-    tr_type = env.trainer_list[23]
+    tra = env.trainer_list[23]
     abi = env.ability_list[8]
     encou = env.encounter_list[3]
     conn = env.connection_list[3]
@@ -51,8 +56,11 @@ if __name__ == "__main__":
     town = env.townmap_list[0]
     met = env.metadata_list[0]
 
-    # print(met)
-    print(spe)
+    print(deserialize_simple_csv(abi))
+    print(deserialize_shadow(shadow))
+    print(deserialize_phone(pho))
+    print(deserialize_equal_data(spe))
+    print(deserialize_equal_data(ty))
 
     # f, ax = Visualization.plot_all_encounter_map_types(env.encounter_list)
     # f.show()
