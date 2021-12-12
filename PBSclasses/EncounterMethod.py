@@ -1,11 +1,13 @@
+from dataclasses import dataclass
+
 from PBSclasses.BaseData import BaseData
 
 
+@dataclass
 class EncounterMethod(BaseData):
-    def __init__(self, method_name, number_of_entries, probability_of_encounter):
-        self.probability_of_encounter: list[str] = probability_of_encounter
-        self.number_of_entries: str = number_of_entries
-        self.method_name: str = method_name
+    method_name: str
+    number_of_entries: str
+    probability_of_encounter: list[str]
 
 
 def get_default_encounter_method_list():

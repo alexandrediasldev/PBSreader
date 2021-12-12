@@ -1,34 +1,38 @@
-from typing import Tuple
+from dataclasses import dataclass, field
+from typing import Tuple, List
 
 from PBSclasses.BaseData import BaseData
+from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
 
 
+@dataclass
 class Species(BaseData):
-    def __init__(
-        self,
-        id,
-        name,
-        internal_name,
-        type1,
-        type2,
-        base_stats,
-        gender_rate,
-        base_exp,
-        moves,
-        height,
-        pokedex,
-        evolutions,
-    ):
-        self.name: str = name
-        self.internal_name: str = internal_name
-        self.id: str = id
-        self.type1: str = type1
-        self.type2: str = type2
-        self.base_stats: SpeciesStats = base_stats
-        self.gender_rate: str = gender_rate
-        self.base_exp: str = base_exp
-        self.moves: list[Tuple[str, str]] = moves
-        self.height: str = height
-        self.evolutions: list[str] = evolutions
-        self.pokedex: str = pokedex
+    id: str = ""
+    name: str = ""
+    internal_name: str = ""
+    type1: str = ""
+    type2: str = ""
+    base_stats: SpeciesStats = field(default_factory=SpeciesStats)
+    gender_rate: str = ""
+    growth_rate: str = ""
+    base_EXP: str = ""
+    effort_points: SpeciesStats = field(default_factory=SpeciesStats)
+    rareness: str = ""
+    happiness: str = ""
+    abilities: List[str] = field(default_factory=list)
+    moves: List[Tuple[str, str]] = field(default_factory=list)
+    egg_moves: List[str] = field(default_factory=list)
+    compatibility: List[str] = field(default_factory=list)
+    steps_to_hatch: str = ""
+    height: str = ""
+    weight: str = ""
+    color: str = ""
+    habitat: str = ""
+    kind: str = ""
+    pokedex: str = ""
+    battler_player_y: str = ""
+    battler_enemy_y: str = ""
+    battler_altitude: str = ""
+    evolutions: SpeciesEvolution = field(default_factory=SpeciesEvolution)
+    incense: str = ""

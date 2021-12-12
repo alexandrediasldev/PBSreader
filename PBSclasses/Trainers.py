@@ -1,14 +1,18 @@
+from dataclasses import dataclass
+
 from PBSclasses.BaseData import BaseData
 from PBSclasses.TrainerTypes import TrainerType
 from PBSclasses.Pokemon import Pokemon
 
 
+@dataclass
 class Trainer(BaseData):
-    def __init__(self, type, name, nb_pokemon, pokemon_list):
-        self.type: TrainerType = type
-        self.name: str = name
-        self.nb_pokemon: str = nb_pokemon
-        self.pokemon_list: list[Pokemon] = pokemon_list
+    type: TrainerType
+    name: str
+    version_number: str
+    item_list: list[str]
+    nb_pokemon: str
+    pokemon_list: list[Pokemon]
 
     def get_win_money(self) -> int:
         """
