@@ -340,20 +340,32 @@ def parse_trainer_list(csv_output, environment) -> list[tr.Trainer]:
     line_num = 0
     pokemon_list = []
     trainer_list = []
+    item_list: list[str] = []
     for line in csv_output:
         if line_num == 0:
             type = line[0]
         elif line_num == 1:
             name = line[0]
+            if len(line) > 1:
+                version_number = line[1]
+            else:
+                version_number = ""
         elif line_num == 2:
             nb_pokemon = line[0]
+            if len(line) > 1:
+                item_list = []
+                for item in line[1:]:
+                    item_list.append(item)
+
         else:
             if int(nb_pokemon) + 2 == line_num:
                 pkm = parse_trainer_pokemon(line, environment)
                 pokemon_list.append(pkm)
 
                 trainer_type = get_trainer_type_from_name(type, environment.trainer_type_list)
-                train = tr.Trainer(trainer_type, name, nb_pokemon, pokemon_list)
+                train = tr.Trainer(
+                    trainer_type, name, version_number, item_list, nb_pokemon, pokemon_list
+                )
                 trainer_list.append(train)
 
                 pokemon_list = []

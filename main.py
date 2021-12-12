@@ -4,10 +4,19 @@ from PBSclasses.Environment import Environment
 
 import FileLoader
 from Exporter import (
-    deserialize_simple_csv,
     deserialize_shadow,
     deserialize_phone,
-    deserialize_equal_data,
+    deserialize_species,
+    deserialize_type,
+    deserialize_ability,
+    deserialize_move,
+    deserialize_trainer_types,
+    deserialize_item,
+    deserialize_connection,
+    deserialize_metadata,
+    deserialize_townmap,
+    deserialize_encounter,
+    deserialize_trainer,
 )
 
 if __name__ == "__main__":
@@ -56,11 +65,22 @@ if __name__ == "__main__":
     town = env.townmap_list[0]
     met = env.metadata_list[0]
 
-    print(deserialize_simple_csv(abi))
+    print(deserialize_species(spe))
+    print(deserialize_trainer_types(tr_type))
+    print(deserialize_move(mov))
+    print(deserialize_item(firestone, 15))
+    # print(deserialize_trainer(tra))
+    print(deserialize_ability(abi))
+    print(deserialize_encounter(encou))
+    print(deserialize_connection(conn))
     print(deserialize_shadow(shadow))
     print(deserialize_phone(pho))
-    print(deserialize_equal_data(spe))
-    print(deserialize_equal_data(ty))
+    print(deserialize_type(ty))
+    print(deserialize_townmap(town))
+    print(deserialize_metadata(met))
+
+    print(deserialize_trainer(tra))
+    # print(deserialize_encounters(env.encounter_list))
 
     # f, ax = Visualization.plot_all_encounter_map_types(env.encounter_list)
     # f.show()

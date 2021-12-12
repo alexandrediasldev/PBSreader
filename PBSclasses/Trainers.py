@@ -9,6 +9,8 @@ from PBSclasses.Pokemon import Pokemon
 class Trainer(BaseData):
     type: TrainerType
     name: str
+    version_number: str
+    item_list: list[str]
     nb_pokemon: str
     pokemon_list: list[Pokemon]
 

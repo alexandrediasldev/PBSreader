@@ -13,12 +13,12 @@ class Pokemon(BaseData):
     held_item: Item = None
     move_list: list[Move] = field(default_factory=list)
     ability: str = ""
-    form: str = "0"
+    form: str = ""
     gender: str = ""
-    shininess: str = "false"
+    shininess: str = ""
     nature: str = ""
-    ivs: str = "10"
-    hapiness: str = "70"
+    ivs: str = ""
+    hapiness: str = ""
     nickname: str = ""
     shadow: str = ""
     ball_type: str = ""
