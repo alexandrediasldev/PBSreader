@@ -9,6 +9,11 @@ class EncounterMethod(BaseData):
     number_of_entries: str
     probability_of_encounter: list[str]
 
+    # version v15
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return ["MethodName", "NumberOfEntries", "ProbabilityOfEncounter"]
+
 
 def get_default_encounter_method_list():
     """

@@ -9,3 +9,8 @@ class Ability(BaseData):
     id: str
     name: str
     description: str
+
+    # version v15
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return ["IdNumber", "Id", "Name", "Description"]

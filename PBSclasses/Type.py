@@ -13,3 +13,16 @@ class Type(BaseData):
     weaknesses: List[str] = field(default_factory=list)
     resistances: List[str] = field(default_factory=list)
     immunities: List[str] = field(default_factory=list)
+
+    # version v15
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return [
+            "Id",
+            "Name",
+            "InternalName",
+            "IsSpecialType",
+            "Weaknesses",
+            "Resistances",
+            "Immunities",
+        ]

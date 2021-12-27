@@ -65,11 +65,13 @@ if __name__ == "__main__":
     town = env.townmap_list[0]
     met = env.metadata_list[0]
 
+    encou.encounter_method.print_attr_export("15")
+
     print(deserialize_species(spe))
     print(deserialize_trainer_types(tr_type))
     print(deserialize_move(mov))
     print(deserialize_item(firestone, 15))
-    # print(deserialize_trainer(tra))
+    print(deserialize_trainer(tra))
     print(deserialize_ability(abi))
     print(deserialize_encounter(encou))
     print(deserialize_connection(conn))

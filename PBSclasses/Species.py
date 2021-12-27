@@ -36,3 +36,36 @@ class Species(BaseData):
     battler_altitude: str = ""
     evolutions: SpeciesEvolution = field(default_factory=SpeciesEvolution)
     incense: str = ""
+
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return [
+            "Id",
+            "Name",
+            "InternalName",
+            "Type1",
+            "Type2",
+            "BaseStats",
+            "GenderRate",
+            "GrowthRate",
+            "BaseEXP",
+            "EffortPoints",
+            "Rareness",
+            "Happiness",
+            "Abilities",
+            "Moves",
+            "EggMoves",
+            "Compatibility",
+            "StepsToHatch",
+            "Height",
+            "Weight",
+            "Color",
+            "Habitat",
+            "Kind",
+            "Pokedex",
+            "BattlerPlayerY",
+            "BattlerEnemyY",
+            "BattlerAltitude",
+            "Evolutions",
+            "Incense",
+        ]

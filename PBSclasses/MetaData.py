@@ -49,3 +49,32 @@ class MetaData(BaseData):
     snap_edges: str = ""
     dungeon: str = ""
     battle_back: str = ""
+
+    # version v15
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return [
+            "Id",
+            "Players",
+            "Home",
+            "BycycleBGM",
+            "SurfBGM",
+            "WildBattleBGM",
+            "TrainerBattleBGM",
+            "WildVictoryME",
+            "TrainerVictoryME",
+            "Outdoor",
+            "Bicycle",
+            "BicycleAlways",
+            "HealingSpot",
+            "MapPosition",
+            "MapSize",
+            "ShowArea",
+            "Weather",
+            "DarkMap",
+            "DiveMap",
+            "SafariMap",
+            "SnapEdges",
+            "Dungeon",
+            "BattleBack",
+        ]

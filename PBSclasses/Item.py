@@ -16,3 +16,20 @@ class Item(BaseData):
     usability_in_battle: str = ""
     special_items: str = ""
     move_name: str = ""
+
+    # version v15
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return [
+            "IdNumber",
+            "Id",
+            "Name",
+            "NamePlural",
+            "Pocket",
+            "Price",
+            "Description",
+            "UsabilityOutBattle",
+            "UsabilityInBattle",
+            "SpecialItems",
+            "MoveName",
+        ]

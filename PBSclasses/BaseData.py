@@ -36,8 +36,9 @@ class BaseData:
 
     @classmethod
     def get_attr_pbs_names(cls):
+        print(cls)
         attr_pbs_names = []
-        for k in cls.__annotations__.keys():
+        for k in cls.get_attr_names():
             attr_pbs_names.append(_format_pbs(k))
         return attr_pbs_names
 
@@ -78,6 +79,15 @@ class BaseData:
             else:
                 attr_list.append(n)
         return attr_string, attr_list, attr_basedata
+
+    def print_attr_export(self, version):
+        print(f"# version v{version}")
+        print("@classmethod")
+        print("def get_attr_names(cls):")
+        print("\treturn " + str(self.get_attr_names()))
+        print("@classmethod")
+        print("def get_attr_pbs_names(cls):")
+        print("\treturn " + str(self.get_attr_pbs_names()))
 
 
 def _format_pbs(name):

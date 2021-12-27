@@ -23,6 +23,26 @@ class Pokemon(BaseData):
     shadow: str = ""
     ball_type: str = ""
 
+    # version v15
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return [
+            "Species",
+            "Level",
+            "HeldItem",
+            "MoveList",
+            "Ability",
+            "Form",
+            "Gender",
+            "Shininess",
+            "Nature",
+            "Ivs",
+            "Hapiness",
+            "Nickname",
+            "Shadow",
+            "BallType",
+        ]
+
     def to_trainer_entry_bulbapedia(self) -> str:
         species_id = ""
         if int(self.species.id) < 100:

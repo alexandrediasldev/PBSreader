@@ -13,3 +13,16 @@ class Phone(BaseData):
     bodies2: List[str]
     generics: List[str]
     battle_requests: List[str]
+
+    # version v15
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return [
+            "Greetings",
+            "GreetingsMorning",
+            "GreetingsEvening",
+            "Bodies1",
+            "Bodies2",
+            "Generics",
+            "BattleRequests",
+        ]

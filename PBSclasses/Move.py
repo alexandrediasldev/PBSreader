@@ -19,3 +19,23 @@ class Move(BaseData):
     priority: str
     flags: str
     description: str
+
+    # version v15
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return [
+            "IdNumber",
+            "Id",
+            "Name",
+            "FunctionCode",
+            "BasePower",
+            "Type",
+            "DamageCategory",
+            "Accuracy",
+            "TotalPp",
+            "AdditionalEffectChance",
+            "Target",
+            "Priority",
+            "Flags",
+            "Description",
+        ]

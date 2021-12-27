@@ -13,3 +13,15 @@ class Encounter(BaseData):
     pokemon_species: Species
     level_low: str
     level_high: str
+
+    # version v15
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return [
+            "MapIdNumber",
+            "EncounterDensities",
+            "EncounterMethod",
+            "PokemonSpecies",
+            "LevelLow",
+            "LevelHigh",
+        ]

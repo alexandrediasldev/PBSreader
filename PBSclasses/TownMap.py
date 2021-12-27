@@ -22,3 +22,8 @@ class TownMap(BaseData):
     name: str = ""
     filename: str = ""
     points: List[TownPoint] = field(default_factory=TownPoint)
+
+    # version v15
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return ["Id", "Name", "Filename", "Points"]

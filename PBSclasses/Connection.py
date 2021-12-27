@@ -11,3 +11,15 @@ class Connection(BaseData):
     second_id_number: str
     second_edge: str
     second_point: str
+
+    # version v15
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return [
+            "FirstIdNumber",
+            "FirstEdge",
+            "FirstPoint",
+            "SecondIdNumber",
+            "SecondEdge",
+            "SecondPoint",
+        ]

@@ -14,6 +14,11 @@ class Trainer(BaseData):
     nb_pokemon: str
     pokemon_list: list[Pokemon]
 
+    # version v15
+    @classmethod
+    def get_attr_pbs_names(cls):
+        return ["Type", "Name", "VersionNumber", "ItemList", "NbPokemon", "PokemonList"]
+
     def get_win_money(self) -> int:
         """
         The amount of money a trainer gives is decided according to this formula
