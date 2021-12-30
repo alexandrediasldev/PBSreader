@@ -33,10 +33,11 @@ class ParsingSchema:
     lines: List[str]
     parsing_index: int
 
-    def __init__(self, lines, object_class, attr_names):
+    def __init__(self, lines, object_class, attr_names, environment=None):
         self.lines = lines
         self.attr_names = attr_names
         self.object_class = object_class
+        self.environment = environment
         self.parsing_index = 0
 
     def parse_object(self):
@@ -57,6 +58,8 @@ class ParsingSchema:
         for one_obj in self.object_definition:
             if one_obj == "\n":
                 self.parsing_index += 1
+            if one_obj == "val":
+                self.parsing_index += int(self.lines[self.parsing_index][0]) + 1
             if one_obj == "[]":
                 while end_index < max_index and not parse_bracket_header(self.lines[end_index][0]):
                     start_index += 1
@@ -71,20 +74,53 @@ class ParsingSchema:
     def apply_function_one_object(self, start_index, end_index):
         lines = self.lines[start_index:end_index]
         parsed_dict = {}
-        for function in self.object_function:
-            kwargs = function(self.attr_names, lines)
-            parsed_dict.update(kwargs)
+        kwargs = self.object_function(self.attr_names, lines)
+        parsed_dict.update(kwargs)
 
         return self.object_class(**parsed_dict)
 
 
-class ParsingSchemaCsv(ParsingSchema):
-    def __init__(self, lines, object_class, attr_names):
-        super().__init__(lines, object_class, attr_names)
-        self.object_definition = ["\n"]
-        self.object_function = [self.parse_one_line_coma]
+class ParsingSchemaPhone(ParsingSchema):
+    def __init__(self, lines, object_class, attr_names, environment=None):
+        super().__init__(lines, object_class, attr_names, environment)
+        self.object_definition = ["[]"]
 
-    def parse_one_line_coma(self, attr_names, lines):
+    def parse_object(self):
+        kwargs_objects = {}
+        obj = self.parse_one_object()
+        while obj:
+            kwargs_objects.update(obj)
+            obj = self.parse_one_object()
+
+        return self.object_class(**kwargs_objects)
+
+    def apply_function_one_object(self, start_index, end_index):
+        lines = self.lines[start_index:end_index]
+        parsed_dict = {}
+        kwargs = self.object_function(self.attr_names, lines)
+        parsed_dict.update(kwargs)
+
+        return parsed_dict
+
+    def object_function(self, attr_names, lines):
+
+        kwargs = dict()
+        section_name = parse_bracket_header(lines[0][0])
+        section_name = section_name.removesuffix(">")
+        section_name = section_name.removeprefix("<")
+
+        argument_translator = Phone.get_attr_dict()
+
+        kwargs[argument_translator[section_name]] = lines[1:]
+        return kwargs
+
+
+class ParsingSchemaCsv(ParsingSchema):
+    def __init__(self, lines, object_class, attr_names, environment=None):
+        super().__init__(lines, object_class, attr_names, environment)
+        self.object_definition = ["\n"]
+
+    def object_function(self, attr_names, lines):
         line = lines[0]
         kwargs = dict()
         for name, value in zip(attr_names, line):
@@ -92,14 +128,50 @@ class ParsingSchemaCsv(ParsingSchema):
         return kwargs
 
 
+class ParsingSchemaTrainer(ParsingSchema):
+    def __init__(self, lines, object_class, attr_names, environment=None):
+        super().__init__(lines, object_class, attr_names, environment)
+        self.object_definition = ["\n", "\n", "val"]
+
+    def object_function(self, attr_names, lines):
+        type = lines[0][0]
+        name = lines[1][0]
+        item_list = []
+        pokemon_list = []
+        if len(lines[1]) > 1:
+            version_number = lines[1][1]
+        else:
+            version_number = ""
+
+        nb_pokemon = lines[2][0]
+        if len(lines[2]) > 1:
+            item_list = []
+            for item in lines[2][1:]:
+                item_list.append(item)
+
+        for line in lines[3:]:
+            pkm = parse_trainer_pokemon(line, self.environment)
+            pokemon_list.append(pkm)
+
+        trainer_type = get_trainer_type_from_name(type, self.environment.trainer_type_list)
+        kwargs = {
+            "type": trainer_type,
+            "name": name,
+            "version_number": version_number,
+            "item_list": item_list,
+            "nb_pokemon": nb_pokemon,
+            "pokemon_list": pokemon_list,
+        }
+
+        return kwargs
+
+
 class ParsingSchemaShadow(ParsingSchema):
     def __init__(self, lines, object_class, attr_names, environment):
-        super().__init__(lines, object_class, attr_names)
-        self.environment = environment
+        super().__init__(lines, object_class, attr_names, environment)
         self.object_definition = ["\n"]
-        self.object_function = [self.parse_one_line_shadow]
 
-    def parse_one_line_shadow(self, attr_names, lines):
+    def object_function(self, attr_names, lines):
         kwargs = dict()
         line = lines[0]
         first, second = line[0], line[1]
@@ -125,12 +197,11 @@ class ParsingSchemaEqual(ParsingSchema):
             )
         return None
 
-    def __init__(self, lines, object_class, attr_names):
-        super().__init__(lines, object_class, attr_names)
+    def __init__(self, lines, object_class, attr_names, environment=None):
+        super().__init__(lines, object_class, attr_names, environment)
         self.object_definition = ["[]"]
-        self.object_function = [self.parse_one_line_equal]
 
-    def parse_one_line_equal(self, attr_names, lines):
+    def object_function(self, attr_names, lines):
         attr_pbs_categories = self.object_class.get_attr_pbs_by_types()
         argument_translator = self.object_class.get_attr_dict()
         kwargs = dict()
@@ -148,7 +219,7 @@ class ParsingSchemaEqual(ParsingSchema):
 
 class ParsingSchemaTownmap(ParsingSchemaEqual):
     def parser_function(self, first, second, attr_pbs_categories, obj_class, argument_translator):
-        value = _parse_object_one_line(
+        value = super().parser_function(
             first, second, attr_pbs_categories, obj_class, argument_translator
         )
         if not value:
@@ -173,7 +244,7 @@ class ParsingSchemaPokemon(ParsingSchemaEqual):
     def parser_function(self, first, second, attr_pbs_categories, obj_class, argument_translator):
         if first == "Moves":
             return parse_pokemon_move(second)
-        value = _parse_object_one_line(
+        value = super().parser_function(
             first, second, attr_pbs_categories, obj_class, argument_translator
         )
         return value
@@ -181,7 +252,7 @@ class ParsingSchemaPokemon(ParsingSchemaEqual):
 
 class ParsingSchemaMetadata(ParsingSchemaEqual):
     def parser_function(self, first, second, attr_pbs_categories, obj_class, argument_translator):
-        value = _parse_object_one_line(
+        value = super().parser_function(
             first, second, attr_pbs_categories, obj_class, argument_translator
         )
         if not value:
@@ -206,165 +277,62 @@ def equal_value_handler(kwargs, argument_translator, first, value):
     kwargs[argument_translator[first]] = value
 
 
-def parse_schema_equal(lines, object_class, schema_class=ParsingSchemaEqual, attr_names=None):
+def parse_schema(lines, object_class, schema_class, attr_names=None, environement=None):
     if not attr_names:
         attr_names = object_class.get_attr_names()
-    schema = schema_class(lines, object_class, attr_names)
+    schema = schema_class(lines, object_class, attr_names, environement)
     return schema.parse_object()
-
-
-def parse_schema_csv(lines, object_class, attr_names=None):
-
-    if not attr_names:
-        attr_names = object_class.get_attr_names()
-    schema = ParsingSchemaCsv(lines, object_class, attr_names)
-    return schema.parse_object()
-
-
-def parse_schema_shadow(lines, object_class, environment, attr_names=None):
-    if not attr_names:
-        attr_names = object_class.get_attr_names()
-    schema = ParsingSchemaShadow(lines, object_class, attr_names, environment)
-    return schema.parse_object()
-
-
-def parse_one_line_coma(attr_names, line):
-    kwargs = dict()
-    for name, value in zip(attr_names, line):
-        kwargs[name] = value
-    return kwargs
-
-
-def parse_simple_csv(csv_output, object_class, attr_names=None):
-    object_list = []
-    if not attr_names:
-        attr_names = object_class.get_attr_names()
-    for line in csv_output:
-        kwargs = parse_one_line_coma(attr_names, line)
-        obj = object_class(**kwargs)
-        # deserialized = deserialize_simple_csv(obj)
-        # line_joined = ','.join(line)
-        # if deserialized != line_joined:
-        #    print("WARNING SERIALIZATION:")
-        #    print(line_joined)
-        #    print(deserialized)
-
-        object_list.append(obj)
-
-    return object_list
 
 
 def parse_ability(csv_output) -> list[ab.Ability]:
-    return parse_schema_csv(csv_output, ab.Ability)
+    return parse_schema(csv_output, ab.Ability, ParsingSchemaCsv)
 
 
 def parser_move(csv_output) -> list[mv.Move]:
-    return parse_simple_csv(csv_output, mv.Move)
+    return parse_schema(csv_output, mv.Move, ParsingSchemaCsv)
 
 
 def parse_trainer_types(csv_output) -> list[tr.TrainerType]:
-    return parse_simple_csv(csv_output, tr.TrainerType)
+    return parse_schema(csv_output, tr.TrainerType, ParsingSchemaCsv)
 
 
 def parse_connection(csv_output) -> list[Connection]:
-    return parse_simple_csv(csv_output, Connection)
+    return parse_schema(csv_output, Connection, ParsingSchemaCsv)
 
 
 def parse_item(csv_output, version) -> list[it.Item]:
     attr_names = it.Item.get_attr_names()
     if version < 16:
         attr_names.remove("name_plural")
-    return parse_schema_csv(csv_output, it.Item, attr_names)
+    return parse_schema(csv_output, it.Item, ParsingSchemaCsv, attr_names)
 
 
 def parse_shadow_pokemon(csv_output, environment) -> list[ShadowPokemon]:
-    return parse_schema_shadow(csv_output, ShadowPokemon, environment=environment)
+    return parse_schema(csv_output, ShadowPokemon, ParsingSchemaShadow, environement=environment)
 
 
 def parse_phone(csv_output):
-
-    kwargs = dict()
-    phone_lines = []
-    section_name = None
-    argument_translator = Phone.get_attr_dict()
-    for line in csv_output:
-        first = line[0]
-        if parse_bracket_header(first):
-            if section_name:
-                kwargs[argument_translator[section_name]] = phone_lines
-            phone_lines = []
-            section_name = parse_bracket_header(first)
-            section_name = section_name.removesuffix(">")
-            section_name = section_name.removeprefix("<")
-        else:
-            phone_lines.append(first)
-    kwargs[argument_translator[section_name]] = phone_lines
-
-    return Phone(**kwargs)
-
-
-def _parse_object_one_line(first, second, attr_pbs_categories, obj_class, argument_translator):
-    attr_pbs_string, attr_pbs_list, attr_pbs_basedata = attr_pbs_categories
-    if first in attr_pbs_string:
-        return second
-    elif first in attr_pbs_list:
-        return parse_coma_equal_field(second)
-    elif first in attr_pbs_basedata:
-        sub_class = obj_class.get_attr_class(argument_translator[first])
-        return sub_class(
-            **parse_one_line_coma(sub_class.get_attr_names(), parse_coma_equal_field(second))
-        )
-    return None
-
-
-def parse_section_equal_file(
-    equal_output, obj_class, _parse_one_line, value_handler=equal_value_handler
-):
-    attr_pbs_categories = obj_class.get_attr_pbs_by_types()
-    obj_list = []
-    kwargs = dict()
-    id = -1
-    argument_translator = obj_class.get_attr_dict()
-    for line in equal_output:
-        first = line[0]
-        second = None
-        if len(line) > 1:
-            second = line[1]
-        if parse_bracket_header(first):
-            if id != -1:
-                kwargs["id"] = id
-                obj = obj_class(**kwargs)
-                obj_list.append(obj)
-                kwargs = dict()
-            id = parse_bracket_header(first)
-        else:
-            value = _parse_one_line(
-                first, second, attr_pbs_categories, obj_class, argument_translator
-            )
-            if value:
-                value_handler(kwargs, argument_translator, first, value)
-
-    kwargs["id"] = id
-    obj = obj_class(**kwargs)
-    obj_list.append(obj)
-
-    return obj_list
+    return parse_schema(csv_output, Phone, ParsingSchemaPhone)
 
 
 def parse_type(equal_output):
-    return parse_schema_equal(equal_output, Type)
+    return parse_schema(equal_output, Type, ParsingSchemaEqual)
 
 
 def parse_townmap(equal_output):
-    return parse_schema_equal(equal_output, TownMap, ParsingSchemaTownmap)
+    return parse_schema(equal_output, TownMap, ParsingSchemaTownmap)
 
 
 def parse_metadata(equal_output):
-    return parse_schema_equal(equal_output, MetaData, ParsingSchemaMetadata)
+    return parse_schema(equal_output, MetaData, ParsingSchemaMetadata)
 
 
 def parse_pokemon(equal_output) -> list[pk.Species]:
-    return parse_schema_equal(equal_output, pk.Species, ParsingSchemaPokemon)
+    return parse_schema(equal_output, pk.Species, ParsingSchemaPokemon)
+
+
+def parse_trainer_list(csv_output, environment) -> list[tr.Trainer]:
+    return parse_schema(csv_output, tr.Trainer, ParsingSchemaTrainer, environement=environment)
 
 
 def parse_encounter(
@@ -422,18 +390,6 @@ def parse_pokemon_move(moves):
     return level_moves
 
 
-def parse_coma_equal_field(field):
-    coma_list = field.split(",")
-    return coma_list
-
-
-def parse_bracket_header(line):
-    result = re.search("\\[(.*)\\]", line)
-    if result:
-        return result.group(1)
-    return None
-
-
 def parse_trainer_pokemon(pokemon_attributes, environment) -> pk.Pokemon:
     attr_names = pk.Pokemon.get_attr_names()
     kwargs = dict()
@@ -462,42 +418,20 @@ def parse_trainer_pokemon(pokemon_attributes, environment) -> pk.Pokemon:
     return pk.Pokemon(**kwargs)
 
 
-def parse_trainer_list(csv_output, environment) -> list[tr.Trainer]:
-    line_num = 0
-    pokemon_list = []
-    trainer_list = []
-    item_list: list[str] = []
-    for line in csv_output:
-        if line_num == 0:
-            type = line[0]
-        elif line_num == 1:
-            name = line[0]
-            if len(line) > 1:
-                version_number = line[1]
-            else:
-                version_number = ""
-        elif line_num == 2:
-            nb_pokemon = line[0]
-            if len(line) > 1:
-                item_list = []
-                for item in line[1:]:
-                    item_list.append(item)
+def parse_coma_equal_field(field):
+    coma_list = field.split(",")
+    return coma_list
 
-        else:
-            if int(nb_pokemon) + 2 == line_num:
-                pkm = parse_trainer_pokemon(line, environment)
-                pokemon_list.append(pkm)
 
-                trainer_type = get_trainer_type_from_name(type, environment.trainer_type_list)
-                train = tr.Trainer(
-                    trainer_type, name, version_number, item_list, nb_pokemon, pokemon_list
-                )
-                trainer_list.append(train)
+def parse_bracket_header(line):
+    result = re.search("\\[(.*)\\]", line)
+    if result:
+        return result.group(1)
+    return None
 
-                pokemon_list = []
-                line_num = -1
-            else:
-                pkm = parse_trainer_pokemon(line, environment)
-                pokemon_list.append(pkm)
-        line_num += 1
-    return trainer_list
+
+def parse_one_line_coma(attr_names, line):
+    kwargs = dict()
+    for name, value in zip(attr_names, line):
+        kwargs[name] = value
+    return kwargs

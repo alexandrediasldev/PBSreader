@@ -65,7 +65,7 @@ if __name__ == "__main__":
     town = env.townmap_list[0]
     met = env.metadata_list[0]
 
-    print(deserialize_species(spe))
+    # print(deserialize_species(spe))
     # print(deserialize_trainer_types(tr_type))
     # print(deserialize_move(mov))
     # print(deserialize_item(firestone, 15))
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     # print(deserialize_encounter(encou))
     # print(deserialize_connection(conn))
     # print(deserialize_shadow(shadow))
-    # print(deserialize_phone(pho))
+    print(deserialize_phone(pho))
     # print(deserialize_type(ty))
     # print(deserialize_townmap(town))
     # print(deserialize_metadata(met))
