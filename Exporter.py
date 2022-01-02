@@ -219,12 +219,7 @@ def deserialize_trainer(trainer: Trainer):
     )
 
     for pk in trainer.pokemon_list:
-        attr_dict = pk.get_attr_dict()
-        attr_dict.pop("Species")
-        pk_line = (
-            pk.species.internal_name
-            + ","
-            + deserialize_simple_csv(pk, attr_dict, type_deserializer)
-        )
+
+        pk_line = deserialize_simple_csv(pk, type_deserializer=type_deserializer)
         lines.append(pk_line)
     return lines

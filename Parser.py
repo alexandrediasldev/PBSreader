@@ -394,27 +394,25 @@ def parse_trainer_pokemon(pokemon_attributes, environment) -> pk.Pokemon:
     attr_names = pk.Pokemon.get_attr_names()
     kwargs = dict()
     attribute_index = 0
-    for i in range(len(pokemon_attributes)):
+    i = 0
+    while i < len(pokemon_attributes):
         attribute = pokemon_attributes[i]
-        if i == 0:
-            value = get_species_from_name(attribute, environment.species_list)
-        elif i == 1 or (i > 6 and i < 14):
-            value = attribute
-        elif i == 2:
-            value = get_item_from_name(attribute, environment.item_list)
-        elif i == 3:
+        if i == 3:
             move_list = []
             for i in range(3, 7):
                 if i >= len(pokemon_attributes):
                     break
                 move_name = pokemon_attributes[i]
                 if move_name != "":
-                    move_list.append(get_move_from_name(move_name, environment.move_list))
+                    move_list.append(move_name)
             value = move_list
+        else:
+            value = attribute
 
         if i < 14:
             kwargs[attr_names[attribute_index]] = value
             attribute_index += 1
+        i += 1
     return pk.Pokemon(**kwargs)
 
 
