@@ -8,14 +8,7 @@ import PBSclasses.Item as it
 import PBSclasses.Encounter as en
 import PBSclasses.EncounterMethod as enm
 import PBSclasses.Ability as ab
-from Finder import (
-    get_encounter_method_from_name,
-    get_species_from_name,
-    get_item_from_name,
-    get_move_from_name,
-    get_trainer_type_from_name,
-)
-from PBSclasses import Species
+from Finder import get_encounter_method_from_name, get_species_from_name
 from PBSclasses.Connection import Connection
 from PBSclasses.MetaData import MetaData, PlayerMetaData
 from PBSclasses.Phone import Phone
@@ -133,35 +126,26 @@ class ParsingSchemaTrainer(ParsingSchema):
         super().__init__(lines, object_class, attr_names, environment)
         self.object_definition = ["\n", "\n", "val"]
 
+    def _parse_trainer_pokemon(self, pokemon_attributes) -> pk.Pokemon:
+        attr_names = pk.Pokemon.get_attr_names()
+        moves = pokemon_attributes[3:7]
+        pokemon_attributes = pokemon_attributes[:3] + pokemon_attributes[7:]
+        attr_names.remove("move_list")
+        kwargs = parse_one_line_coma(attr_names, pokemon_attributes)
+        kwargs["move_list"] = moves
+
+        return pk.Pokemon(**kwargs)
+
     def object_function(self, attr_names, lines):
-        type = lines[0][0]
-        name = lines[1][0]
-        item_list = []
-        pokemon_list = []
-        if len(lines[1]) > 1:
-            version_number = lines[1][1]
-        else:
-            version_number = ""
+        coma_line = []
+        coma_line.append(lines[0][0])
+        coma_line.append(lines[1][0])
+        coma_line.append(lines[1][1] if len(lines[1]) > 1 else "")
+        coma_line.append(lines[2][1:])
+        coma_line.append(lines[2][0])
+        coma_line.append([self._parse_trainer_pokemon(line) for line in lines[3:]])
 
-        nb_pokemon = lines[2][0]
-        if len(lines[2]) > 1:
-            item_list = []
-            for item in lines[2][1:]:
-                item_list.append(item)
-
-        for line in lines[3:]:
-            pkm = parse_trainer_pokemon(line, self.environment)
-            pokemon_list.append(pkm)
-
-        trainer_type = get_trainer_type_from_name(type, self.environment.trainer_type_list)
-        kwargs = {
-            "type": trainer_type,
-            "name": name,
-            "version_number": version_number,
-            "item_list": item_list,
-            "nb_pokemon": nb_pokemon,
-            "pokemon_list": pokemon_list,
-        }
+        kwargs = parse_one_line_coma(attr_names, coma_line)
 
         return kwargs
 
@@ -243,11 +227,21 @@ class ParsingSchemaTownmap(ParsingSchemaEqual):
 class ParsingSchemaPokemon(ParsingSchemaEqual):
     def parser_function(self, first, second, attr_pbs_categories, obj_class, argument_translator):
         if first == "Moves":
-            return parse_pokemon_move(second)
+            return self._parse_pokemon_move(second)
         value = super().parser_function(
             first, second, attr_pbs_categories, obj_class, argument_translator
         )
         return value
+
+    def _parse_pokemon_move(self, moves):
+        moves_and_level = moves.split(",")
+        level_moves = []
+        for i in range(0, len(moves_and_level), 2):
+            level = moves_and_level[i]
+            if i + 1 < len(moves_and_level):
+                move = moves_and_level[i + 1]
+                level_moves.append((level, move))
+        return level_moves
 
 
 class ParsingSchemaMetadata(ParsingSchemaEqual):
@@ -377,43 +371,6 @@ def parse_encounter(
         i += 1
 
     return encounter_list
-
-
-def parse_pokemon_move(moves):
-    moves_and_level = moves.split(",")
-    level_moves = []
-    for i in range(0, len(moves_and_level), 2):
-        level = moves_and_level[i]
-        if i + 1 < len(moves_and_level):
-            move = moves_and_level[i + 1]
-            level_moves.append((level, move))
-    return level_moves
-
-
-def parse_trainer_pokemon(pokemon_attributes, environment) -> pk.Pokemon:
-    attr_names = pk.Pokemon.get_attr_names()
-    kwargs = dict()
-    attribute_index = 0
-    i = 0
-    while i < len(pokemon_attributes):
-        attribute = pokemon_attributes[i]
-        if i == 3:
-            move_list = []
-            for i in range(3, 7):
-                if i >= len(pokemon_attributes):
-                    break
-                move_name = pokemon_attributes[i]
-                if move_name != "":
-                    move_list.append(move_name)
-            value = move_list
-        else:
-            value = attribute
-
-        if i < 14:
-            kwargs[attr_names[attribute_index]] = value
-            attribute_index += 1
-        i += 1
-    return pk.Pokemon(**kwargs)
 
 
 def parse_coma_equal_field(field):

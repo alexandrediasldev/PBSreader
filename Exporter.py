@@ -202,7 +202,7 @@ def deserialize_trainer(trainer: Trainer):
         return ",".join(tmp_val)
 
     lines = []
-    lines.append(trainer.type.name)
+    lines.append(trainer.type)
     second_line = trainer.name
     if trainer.version_number:
         second_line += "," + trainer.version_number
