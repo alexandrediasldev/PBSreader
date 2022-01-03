@@ -4,7 +4,7 @@ from PBSclasses import TrainerTypes
 from PBSclasses.Ability import Ability
 from PBSclasses.BaseData import BaseData
 from PBSclasses.Connection import Connection
-from PBSclasses.Encounter import Encounter
+from PBSclasses.Encounter import Encounter, MapEncounter
 from PBSclasses.Item import Item
 from PBSclasses.Move import Move
 from PBSclasses.Phone import Phone
@@ -184,10 +184,20 @@ def deserialize_encounters(encounters: List[Encounter]):
     return lines
 
 
-def deserialize_encounter(encounter: Encounter):
-    line = encounter.pokemon_species.internal_name + "," + encounter.level_low
-    if encounter.level_high:
-        line += "," + encounter.level_high
+def deserialize_encounter(encounter: MapEncounter):
+    line = []
+    line.append(encounter.map_id_number)
+    line.append(",".join(encounter.encounter_densities))
+    last_method_name = ""
+    for encou in encounter.encounters:
+        if encou.encounter_method != last_method_name:
+            line.append(encou.encounter_method)
+        if encou.level_high:
+            line.append(encou.pokemon_species + "," + encou.level_low + "," + encou.level_high)
+        else:
+            line.append(encou.pokemon_species + "," + encou.level_low)
+        last_method_name = encou.encounter_method
+
     return line
 
 

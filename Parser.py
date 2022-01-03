@@ -61,6 +61,13 @@ class ParsingSchema:
                 while end_index < max_index and not parse_bracket_header(self.lines[end_index][0]):
                     end_index += 1
                 self.parsing_index = end_index
+            if one_obj == "int":
+                self.parsing_index += 1
+                for line in self.lines[self.parsing_index :]:
+                    num = line[0].split("#")[0].rstrip()
+                    if self.parsing_index > max_index or ((len(line) == 1 and num.isnumeric())):
+                        break
+                    self.parsing_index += 1
 
         return self.apply_function_one_object(start_index, self.parsing_index)
 
@@ -118,6 +125,49 @@ class ParsingSchemaCsv(ParsingSchema):
         kwargs = dict()
         for name, value in zip(attr_names, line):
             kwargs[name] = value
+        return kwargs
+
+
+class ParsingSchemaEncounter(ParsingSchema):
+    def __init__(self, lines, object_class, attr_names, environment=None, encounter_methods=None):
+        super().__init__(lines, object_class, attr_names, environment)
+        self.encounter_methods = encounter_methods
+        self.object_definition = ["int"]
+
+    def object_function(self, attr_names, lines):
+        comma_line = []
+        encounter_list = []
+
+        comma_line.append(lines[0][0])
+
+        index = 1
+        if len(lines[index]) == 1:
+            encounter_density = ["25", "10", "10"]
+        else:
+            encounter_density = lines[1]
+            index += 1
+        encounter_method = None
+        comma_line.append(encounter_density)
+        index_map = 0
+        for line in lines[index:]:
+            if len(line) == 1:
+                index_map = 0
+                encounter_method = get_encounter_method_from_name(line[0], self.encounter_methods)
+            else:
+                proba = encounter_method.probability_of_encounter[index_map]
+                species, level_low = line[0], line[1]
+                level_high = line[2] if len(line) > 2 else ""
+                encounter_list.append(
+                    en.Encounter(
+                        proba, encounter_method.method_name, species, level_low, level_high
+                    )
+                )
+                index_map += 1
+
+        comma_line.append(encounter_list)
+
+        kwargs = parse_one_line_coma(attr_names, comma_line)
+
         return kwargs
 
 
@@ -271,10 +321,10 @@ def equal_value_handler(kwargs, argument_translator, first, value):
     kwargs[argument_translator[first]] = value
 
 
-def parse_schema(lines, object_class, schema_class, attr_names=None, environement=None):
+def parse_schema(lines, object_class, schema_class, attr_names=None, environement=None, **kwargs):
     if not attr_names:
         attr_names = object_class.get_attr_names()
-    schema = schema_class(lines, object_class, attr_names, environement)
+    schema = schema_class(lines, object_class, attr_names, environement, **kwargs)
     return schema.parse_object()
 
 
@@ -332,45 +382,13 @@ def parse_trainer_list(csv_output, environment) -> list[tr.Trainer]:
 def parse_encounter(
     csv_output, encounter_methods: list[enm.EncounterMethod], environment
 ) -> list[en.Encounter]:
-    encounter_list = []
-    len_csv = len(csv_output)
-    i = 0
-    while i < len_csv:
-        line = csv_output[i]
-        if len(line) == 1:
-            is_map_name = True
-            method_tmp = get_encounter_method_from_name(line[0], encounter_methods)
-            if method_tmp != "":
-                method = method_tmp
-                is_map_name = False
 
-            if is_map_name:
-                map_name = line[0]
-                i += 1
-                if i < len_csv:
-                    line = csv_output[i]
-                    if len(line) == 1:
-                        encounter_density = ["25", "10", "10"]
-                    else:
-                        encounter_density = line
-
-        elif len(line) == 2:
-            species = get_species_from_name(line[0], environment.species_list)
-            level_low = line[1]
-            level_high = ""
-            encounter_list.append(
-                en.Encounter(map_name, encounter_density, method, species, level_low, level_high)
-            )
-        else:
-            species = get_species_from_name(line[0], environment.species_list)
-            level_low = line[1]
-            level_high = line[2]
-            encounter_list.append(
-                en.Encounter(map_name, encounter_density, method, species, level_low, level_high)
-            )
-        i += 1
-
-    return encounter_list
+    object_class = en.MapEncounter
+    attr_names = object_class.get_attr_names()
+    schema = ParsingSchemaEncounter(
+        csv_output, object_class, attr_names, encounter_methods=encounter_methods
+    )
+    return schema.parse_object()
 
 
 def parse_coma_equal_field(field):
