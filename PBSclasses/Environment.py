@@ -1,8 +1,8 @@
 from typing import List
-import Parser as pr
 from PBSclasses.Ability import Ability
 
-import Exception as ex
+from src import Exception as ex
+from src.parser import parser as pr
 from PBSclasses.Connection import Connection
 
 from PBSclasses.Encounter import Encounter

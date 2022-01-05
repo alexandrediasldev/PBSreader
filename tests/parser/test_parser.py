@@ -2,11 +2,10 @@ from typing import List
 
 from PBSclasses.Ability import Ability
 from PBSclasses.BaseData import BaseData
-from PBSclasses.SpeciesStats import SpeciesStats
 from PBSclasses.TrainerTypes import TrainerType
 from PBSclasses.Item import Item
 from PBSclasses.Move import Move
-from Parser import parse_ability, parse_item, parser_move, parse_trainer_types
+from src.parser.Parser import parse_ability, parse_item, parser_move, parse_trainer_types
 from hypothesis import given, strategies as st
 
 
