@@ -138,12 +138,12 @@ def deserialize_species(spe: Species):
 
 def deserialize_metadata(metadata):
     attr_dict = metadata.get_attr_dict()
-    attr_dict.pop("Players")
+    attr_dict.pop("Player")
     meta_data_lines = deserialize_equal_data(metadata, attr_dict)
-    if metadata.players:
+    if metadata.player:
         lines = []
         letter = "A"
-        for player in metadata.players:
+        for player in metadata.player:
             lines.append("Player" + letter + "=" + deserialize_simple_csv(player))
             letter = str(chr((ord(letter) + 1)))
         meta_data_lines = meta_data_lines[:1] + lines + meta_data_lines[1:]
@@ -153,11 +153,11 @@ def deserialize_metadata(metadata):
 
 def deserialize_townmap(townmap):
     attr_dict = townmap.get_attr_dict()
-    attr_dict.pop("Points")
+    attr_dict.pop("Point")
     point_lines = deserialize_equal_data(townmap, attr_dict)
-    if townmap.points:
+    if townmap.point:
         lines = []
-        for point in townmap.points:
+        for point in townmap.point:
             lines.append("Point=" + deserialize_simple_csv(point))
         point_lines = point_lines + lines
 

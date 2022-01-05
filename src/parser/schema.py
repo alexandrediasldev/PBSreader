@@ -26,31 +26,35 @@ class FileSpliter:
     def parse_one_object(self):
         start_index = self.parsing_index
         end_index = start_index
-        max_index = len(self.lines)
         if start_index >= len(self.lines):
             return None
         for one_obj in self.object_definition:
-            if one_obj == "\n":
-                self.parsing_index += 1
-            if one_obj == "val":
-                self.parsing_index += int(self.lines[self.parsing_index][0]) + 1
-            if one_obj == "[]":
-                while end_index < max_index and not parse_bracket_header(self.lines[end_index][0]):
-                    start_index += 1
-                    end_index += 1
-                end_index += 1
-                while end_index < max_index and not parse_bracket_header(self.lines[end_index][0]):
-                    end_index += 1
-                self.parsing_index = end_index
-            if one_obj == "int":
-                self.parsing_index += 1
-                for line in self.lines[self.parsing_index :]:
-                    num = line[0].split("#")[0].rstrip()
-                    if self.parsing_index > max_index or ((len(line) == 1 and num.isnumeric())):
-                        break
-                    self.parsing_index += 1
+            start_index, end_index = self.move_index(one_obj, start_index, end_index)
 
         return self.lines[start_index : self.parsing_index]
+
+    def move_index(self, move_type, start_index, end_index):
+        max_index = len(self.lines)
+        if move_type == "\n":
+            self.parsing_index += 1
+        if move_type == "val":
+            self.parsing_index += int(self.lines[self.parsing_index][0]) + 1
+        if move_type == "[]":
+            while end_index < max_index and not parse_bracket_header(self.lines[end_index][0]):
+                start_index += 1
+                end_index += 1
+            end_index += 1
+            while end_index < max_index and not parse_bracket_header(self.lines[end_index][0]):
+                end_index += 1
+            self.parsing_index = end_index
+        if move_type == "int":
+            self.parsing_index += 1
+            for line in self.lines[self.parsing_index :]:
+                num = line[0].split("#")[0].rstrip()
+                if self.parsing_index > max_index or ((len(line) == 1 and num.isnumeric())):
+                    break
+                self.parsing_index += 1
+        return start_index, end_index
 
 
 class ParsingSchema:
@@ -212,27 +216,46 @@ class ParsingSchemaEqual(ParsingSchema):
         return kwargs
 
 
+def value_handler_append(kwargs, argument_translator, first, value, attr_name):
+    if first.startswith(attr_name):
+        first = attr_name
+        if argument_translator[first] not in kwargs:
+            kwargs[argument_translator[first]] = []
+        kwargs[argument_translator[first]].append(value)
+    else:
+        kwargs[argument_translator[first]] = value
+
+
 class ParsingSchemaTownmap(ParsingSchemaEqual):
     def parser_function(self, first, second, attr_pbs_categories, obj_class, argument_translator):
+        if first == "Point":
+            return TownPoint(
+                **parse_one_line_coma(TownPoint.get_attr_names(), parse_coma_equal_field(second))
+            )
         value = super().parser_function(
             first, second, attr_pbs_categories, obj_class, argument_translator
         )
-        if not value:
-            if first in ["Point"]:
-                value = TownPoint(
-                    **parse_one_line_coma(
-                        TownPoint.get_attr_names(), parse_coma_equal_field(second)
-                    )
-                )
         return value
 
     def value_handler(self, kwargs, argument_translator, first, value):
-        if "Point" == first:
-            if "points" not in kwargs:
-                kwargs["points"] = []
-            kwargs["points"].append(value)
-        else:
-            kwargs[argument_translator[first]] = value
+        return value_handler_append(kwargs, argument_translator, first, value, "Point")
+
+
+class ParsingSchemaMetadata(ParsingSchemaEqual):
+    def parser_function(self, first, second, attr_pbs_categories, obj_class, argument_translator):
+        if first.startswith("Player"):
+            return PlayerMetaData(
+                **parse_one_line_coma(
+                    PlayerMetaData.get_attr_names(), parse_coma_equal_field(second)
+                )
+            )
+        value = super().parser_function(
+            first, second, attr_pbs_categories, obj_class, argument_translator
+        )
+        return value
+
+    def value_handler(self, kwargs, argument_translator, first, value):
+        return value_handler_append(kwargs, argument_translator, first, value, "Player")
 
 
 class ParsingSchemaPokemon(ParsingSchemaEqual):
@@ -253,26 +276,3 @@ class ParsingSchemaPokemon(ParsingSchemaEqual):
                 move = moves_and_level[i + 1]
                 level_moves.append((level, move))
         return level_moves
-
-
-class ParsingSchemaMetadata(ParsingSchemaEqual):
-    def parser_function(self, first, second, attr_pbs_categories, obj_class, argument_translator):
-        value = super().parser_function(
-            first, second, attr_pbs_categories, obj_class, argument_translator
-        )
-        if not value:
-            if first.startswith("Player"):
-                value = PlayerMetaData(
-                    **parse_one_line_coma(
-                        PlayerMetaData.get_attr_names(), parse_coma_equal_field(second)
-                    )
-                )
-        return value
-
-    def value_handler(self, kwargs, argument_translator, first, value):
-        if first.startswith("Player"):
-            if "players" not in kwargs:
-                kwargs["players"] = []
-            kwargs["players"].append(value)
-        else:
-            kwargs[argument_translator[first]] = value

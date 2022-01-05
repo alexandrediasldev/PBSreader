@@ -77,6 +77,7 @@ class BaseData:
                     attr_string.append(n)
             else:
                 attr_list.append(n)
+
         return attr_string, attr_list, attr_basedata
 
 
