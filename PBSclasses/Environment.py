@@ -70,18 +70,24 @@ class Environment:
     def load_encounter_list(
         self, csv_encounter, encounter_method_list=get_default_encounter_method_list()
     ):
+        self.encounter_list = pr.parse_encounter(csv_encounter, encounter_method_list, self)
+        return
         if self.species_list:
             self.encounter_list = pr.parse_encounter(csv_encounter, encounter_method_list, self)
         else:
             raise ex.EnvironmentLoadingException("Need to load species list before encounter list")
 
     def load_shadow_list(self, equal_pokemon_shadow):
+        self.shadow_list = pr.parse_shadow_pokemon(equal_pokemon_shadow, self)
+        return
         if self.species_list:
             self.shadow_list = pr.parse_shadow_pokemon(equal_pokemon_shadow, self)
         else:
             raise ex.EnvironmentLoadingException("Need to load species list before shadow list")
 
     def load_trainer_list(self, csv_trainer):
+        self.trainer_list = pr.parse_trainer_list(csv_trainer, self)
+        return
         if not self.trainer_type_list:
             raise ex.EnvironmentLoadingException(
                 "Need to load trainer type list before trainer list"

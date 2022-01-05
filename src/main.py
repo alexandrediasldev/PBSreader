@@ -4,7 +4,21 @@ from src.Finder import get_species_from_name, get_trainer_type_from_name, get_it
 from PBSclasses.Environment import Environment
 
 from src import FileLoader
-from src.Exporter import deserialize_encounter
+from src.Exporter import (
+    deserialize_encounter,
+    deserialize_ability,
+    deserialize_trainer_types,
+    deserialize_move,
+    deserialize_item,
+    deserialize_metadata,
+    deserialize_species,
+    deserialize_phone,
+    deserialize_type,
+    deserialize_townmap,
+    deserialize_shadow,
+    deserialize_trainer,
+    deserialize_connection,
+)
 
 if __name__ == "__main__":
     pbs_location = "./PBS/"
@@ -53,19 +67,19 @@ if __name__ == "__main__":
     town = env.townmap_list[0]
     met = env.metadata_list[0]
 
-    # print(deserialize_species(spe))
-    # print(deserialize_trainer_types(tr_type))
-    # print(deserialize_move(mov))
-    # print(deserialize_item(firestone, 15))
-    # print(deserialize_trainer(tra))
-    # print(deserialize_ability(abi))
+    print(deserialize_species(spe))
+    print(deserialize_trainer_types(tr_type))
+    print(deserialize_move(mov))
+    print(deserialize_item(firestone, 15))
+    print(deserialize_trainer(tra))
+    print(deserialize_ability(abi))
     print(deserialize_encounter(encou))
-    # print(deserialize_connection(conn))
-    # print(deserialize_shadow(shadow))
-    # print(deserialize_phone(pho))
-    # print(deserialize_type(ty))
-    # print(deserialize_townmap(town))
-    # print(deserialize_metadata(met))
+    print(deserialize_connection(conn))
+    print(deserialize_shadow(shadow))
+    print(deserialize_phone(pho))
+    print(deserialize_type(ty))
+    print(deserialize_townmap(town))
+    print(deserialize_metadata(met))
 
     # print(deserialize_trainer(tra))
     # print(deserialize_encounters(env.encounter_list))

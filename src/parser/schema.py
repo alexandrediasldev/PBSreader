@@ -8,19 +8,10 @@ from src.Finder import get_encounter_method_from_name, get_species_from_name
 from src.parser.parse_utils import parse_coma_equal_field, parse_bracket_header, parse_one_line_coma
 
 
-class ParsingSchema:
-    object_definition: List[str]
-    object_function: List[Callable]
-    attr_names: Dict
-    object_class: str
-    lines: List[str]
-    parsing_index: int
-
-    def __init__(self, lines, object_class, attr_names, environment=None):
+class FileSpliter:
+    def __init__(self, lines, object_definition):
         self.lines = lines
-        self.attr_names = attr_names
-        self.object_class = object_class
-        self.environment = environment
+        self.object_definition = object_definition
         self.parsing_index = 0
 
     def parse_object(self):
@@ -59,10 +50,20 @@ class ParsingSchema:
                         break
                     self.parsing_index += 1
 
-        return self.apply_function_one_object(start_index, self.parsing_index)
+        return self.lines[start_index : self.parsing_index]
 
-    def apply_function_one_object(self, start_index, end_index):
-        lines = self.lines[start_index:end_index]
+
+class ParsingSchema:
+    object_function: Callable
+    attr_names: Dict
+    object_class: str
+
+    def __init__(self, object_class, attr_names, environment=None):
+        self.attr_names = attr_names
+        self.object_class = object_class
+        self.environment = environment
+
+    def apply_function_one_object(self, lines):
         parsed_dict = {}
         kwargs = self.object_function(self.attr_names, lines)
         parsed_dict.update(kwargs)
@@ -71,26 +72,13 @@ class ParsingSchema:
 
 
 class ParsingSchemaPhone(ParsingSchema):
-    def __init__(self, lines, object_class, attr_names, environment=None):
-        super().__init__(lines, object_class, attr_names, environment)
-        self.object_definition = ["[]"]
-
-    def parse_object(self):
-        kwargs_objects = {}
-        obj = self.parse_one_object()
-        while obj:
-            kwargs_objects.update(obj)
-            obj = self.parse_one_object()
-
-        return self.object_class(**kwargs_objects)
-
-    def apply_function_one_object(self, start_index, end_index):
-        lines = self.lines[start_index:end_index]
+    def apply_function_one_object(self, lines):
         parsed_dict = {}
-        kwargs = self.object_function(self.attr_names, lines)
-        parsed_dict.update(kwargs)
+        for line in lines:
+            kwargs = self.object_function(self.attr_names, line)
+            parsed_dict.update(kwargs)
 
-        return parsed_dict
+        return self.object_class(**parsed_dict)
 
     def object_function(self, attr_names, lines):
 
@@ -106,10 +94,6 @@ class ParsingSchemaPhone(ParsingSchema):
 
 
 class ParsingSchemaCsv(ParsingSchema):
-    def __init__(self, lines, object_class, attr_names, environment=None):
-        super().__init__(lines, object_class, attr_names, environment)
-        self.object_definition = ["\n"]
-
     def object_function(self, attr_names, lines):
         line = lines[0]
         kwargs = dict()
@@ -119,10 +103,9 @@ class ParsingSchemaCsv(ParsingSchema):
 
 
 class ParsingSchemaEncounter(ParsingSchema):
-    def __init__(self, lines, object_class, attr_names, environment=None, encounter_methods=None):
-        super().__init__(lines, object_class, attr_names, environment)
+    def __init__(self, object_class, attr_names, environment=None, encounter_methods=None):
+        super().__init__(object_class, attr_names, environment)
         self.encounter_methods = encounter_methods
-        self.object_definition = ["int"]
 
     def object_function(self, attr_names, lines):
         comma_line = []
@@ -162,10 +145,6 @@ class ParsingSchemaEncounter(ParsingSchema):
 
 
 class ParsingSchemaTrainer(ParsingSchema):
-    def __init__(self, lines, object_class, attr_names, environment=None):
-        super().__init__(lines, object_class, attr_names, environment)
-        self.object_definition = ["\n", "\n", "val"]
-
     def _parse_trainer_pokemon(self, pokemon_attributes) -> pk.Pokemon:
         attr_names = pk.Pokemon.get_attr_names()
         moves = pokemon_attributes[3:7]
@@ -191,15 +170,11 @@ class ParsingSchemaTrainer(ParsingSchema):
 
 
 class ParsingSchemaShadow(ParsingSchema):
-    def __init__(self, lines, object_class, attr_names, environment):
-        super().__init__(lines, object_class, attr_names, environment)
-        self.object_definition = ["\n"]
-
     def object_function(self, attr_names, lines):
         kwargs = dict()
         line = lines[0]
         first, second = line[0], line[1]
-        kwargs[attr_names[0]] = get_species_from_name(first, self.environment.species_list)
+        kwargs[attr_names[0]] = first
         kwargs[attr_names[1]] = parse_coma_equal_field(second)
         return kwargs
 
@@ -220,10 +195,6 @@ class ParsingSchemaEqual(ParsingSchema):
                 **parse_one_line_coma(sub_class.get_attr_names(), parse_coma_equal_field(second))
             )
         return None
-
-    def __init__(self, lines, object_class, attr_names, environment=None):
-        super().__init__(lines, object_class, attr_names, environment)
-        self.object_definition = ["[]"]
 
     def object_function(self, attr_names, lines):
         attr_pbs_categories = self.object_class.get_attr_pbs_by_types()

@@ -92,7 +92,7 @@ def deserialize_connection(connection: Connection):
 
 
 def deserialize_shadow(shadow_pokemon: ShadowPokemon):
-    csv = shadow_pokemon.species.internal_name + "=" + ",".join(shadow_pokemon.move_list)
+    csv = shadow_pokemon.species + "=" + ",".join(shadow_pokemon.move_list)
     return csv
 
 
