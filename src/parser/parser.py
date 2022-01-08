@@ -51,8 +51,11 @@ def parser_move(csv_output) -> list[mv.Move]:
     return parse_schema(csv_output, mv.Move, ParsingSchemaCsv, ["\n"])
 
 
-def parse_trainer_types(csv_output) -> list[tr.TrainerType]:
-    return parse_schema(csv_output, tr.TrainerType, ParsingSchemaCsv, ["\n"])
+def parse_trainer_types(csv_output, version) -> list[tr.TrainerType]:
+    attr_names = tr.TrainerType.get_attr_names()
+    if version < 16:
+        attr_names.remove("skill_codes")
+    return parse_schema(csv_output, tr.TrainerType, ParsingSchemaCsv, ["\n"], attr_names)
 
 
 def parse_connection(csv_output) -> list[Connection]:

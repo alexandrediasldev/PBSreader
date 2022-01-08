@@ -54,8 +54,8 @@ class Environment:
     def load_ability_list(self, csv_ability):
         self.ability_list = pr.parse_ability(csv_ability)
 
-    def load_trainer_type_list(self, csv_trainer_type):
-        self.trainer_type_list = pr.parse_trainer_types(csv_trainer_type)
+    def load_trainer_type_list(self, csv_trainer_type, version):
+        self.trainer_type_list = pr.parse_trainer_types(csv_trainer_type, version)
 
     def load_species_list(self, equal_pokemon_species):
         self.species_list = pr.parse_pokemon(equal_pokemon_species)
@@ -63,8 +63,8 @@ class Environment:
     def load_move_list(self, csv_move):
         self.move_list = pr.parser_move(csv_move)
 
-    def load_item_list(self, csv_item):
-        self.item_list = pr.parse_item(csv_item, 15)
+    def load_item_list(self, csv_item, version):
+        self.item_list = pr.parse_item(csv_item, version)
 
     def load_connection_list(self, csv_connection):
         self.connection_list = pr.parse_connection(csv_connection)
@@ -99,13 +99,14 @@ class Environment:
         equal_type,
         equal_townmap,
         equal_metadata,
+        version,
         encounter_method_list=get_default_encounter_method_list(),
     ):
         self.load_ability_list(csv_ability)
-        self.load_trainer_type_list(csv_trainer_type)
+        self.load_trainer_type_list(csv_trainer_type, version)
         self.load_species_list(equal_pokemon_species)
         self.load_move_list(csv_move)
-        self.load_item_list(csv_item)
+        self.load_item_list(csv_item, version)
         self.load_trainer_list(csv_trainer)
         self.load_encounter_list(csv_encounter, encounter_method_list)
         self.load_connection_list(csv_connection)

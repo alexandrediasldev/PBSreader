@@ -84,7 +84,10 @@ def deserialize_move(move: Move):
     return deserialize_simple_csv(move)
 
 
-def deserialize_trainer_types(trainer_types: TrainerTypes):
+def deserialize_trainer_types(trainer_types: TrainerTypes, version):
+    attr_dict = trainer_types.get_attr_dict()
+    if version < 16:
+        attr_dict.pop("SkillCodes")
     return deserialize_simple_csv(trainer_types)
 
 
