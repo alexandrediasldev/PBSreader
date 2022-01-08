@@ -1,5 +1,6 @@
 from typing import List
 from PBSclasses.Ability import Ability
+from PBSclasses.BerryPlant import BerryPlant
 
 from src import Exception as ex
 from src.parser import parser as pr
@@ -29,6 +30,7 @@ class Environment:
     ability_list: List[Ability] = []
     connection_list: List[Connection] = []
     shadow_list: List[ShadowPokemon] = []
+    berry_plant_list: List[BerryPlant] = []
     type_list: List[Type] = []
     townmap_list: List[TownMap] = []
     metadata_list: List[MetaData] = []
@@ -71,35 +73,15 @@ class Environment:
         self, csv_encounter, encounter_method_list=get_default_encounter_method_list()
     ):
         self.encounter_list = pr.parse_encounter(csv_encounter, encounter_method_list, self)
-        return
-        if self.species_list:
-            self.encounter_list = pr.parse_encounter(csv_encounter, encounter_method_list, self)
-        else:
-            raise ex.EnvironmentLoadingException("Need to load species list before encounter list")
 
     def load_shadow_list(self, equal_pokemon_shadow):
         self.shadow_list = pr.parse_shadow_pokemon(equal_pokemon_shadow, self)
-        return
-        if self.species_list:
-            self.shadow_list = pr.parse_shadow_pokemon(equal_pokemon_shadow, self)
-        else:
-            raise ex.EnvironmentLoadingException("Need to load species list before shadow list")
+
+    def load_berry_plant_list(self, equal_berry_plant):
+        self.berry_plant_list = pr.parse_berry_plant(equal_berry_plant)
 
     def load_trainer_list(self, csv_trainer):
         self.trainer_list = pr.parse_trainer_list(csv_trainer, self)
-        return
-        if not self.trainer_type_list:
-            raise ex.EnvironmentLoadingException(
-                "Need to load trainer type list before trainer list"
-            )
-        elif not self.species_list:
-            raise ex.EnvironmentLoadingException("Need to load species list before trainer list")
-        elif not self.move_list:
-            raise ex.EnvironmentLoadingException("Need to load move list before trainer list")
-        elif not self.item_list:
-            raise ex.EnvironmentLoadingException("Need to load item list before trainer list")
-        else:
-            self.trainer_list = pr.parse_trainer_list(csv_trainer, self)
 
     def load_environment(
         self,
@@ -112,6 +94,7 @@ class Environment:
         csv_ability,
         csv_connection,
         equal_pokemon_shadow,
+        equal_berry_plant,
         csv_phone,
         equal_type,
         equal_townmap,
@@ -127,6 +110,7 @@ class Environment:
         self.load_encounter_list(csv_encounter, encounter_method_list)
         self.load_connection_list(csv_connection)
         self.load_shadow_list(equal_pokemon_shadow)
+        self.load_berry_plant_list(equal_berry_plant)
         self.load_phone(csv_phone)
         self.load_type(equal_type)
         self.load_townmap(equal_townmap)

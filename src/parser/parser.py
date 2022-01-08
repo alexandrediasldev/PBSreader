@@ -5,6 +5,7 @@ import PBSclasses.Item as it
 import PBSclasses.Encounter as en
 import PBSclasses.EncounterMethod as enm
 import PBSclasses.Ability as ab
+from PBSclasses.BerryPlant import BerryPlant
 from PBSclasses.Connection import Connection
 from PBSclasses.MetaData import MetaData
 from PBSclasses.Phone import Phone
@@ -69,6 +70,10 @@ def parse_shadow_pokemon(csv_output, environment) -> list[ShadowPokemon]:
     return parse_schema(
         csv_output, ShadowPokemon, ParsingSchemaShadow, ["\n"], environement=environment
     )
+
+
+def parse_berry_plant(csv_output) -> list[BerryPlant]:
+    return parse_schema(csv_output, BerryPlant, ParsingSchemaCsv, ["\n"])
 
 
 def parse_phone(csv_output):

@@ -3555,7 +3555,7 @@ WildBattleBGM=Battle- Wild2.mp3
 BattleBack=Factory
 MapPosition=0,4,11
 [638]
-# Teknite Cave 
+# Teknite Cave
 BattleBack=Desert
 Bicycle=true
 TrainerBattleBGM=Battle- Trainer3.mp3
