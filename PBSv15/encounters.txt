@@ -7852,7 +7852,7 @@ KLINK,14,17
 KLINK,12,18
 KLINK,14,18
 #########################
-638 # Teknite Cave 
+638 # Teknite Cave
 15,5,1
 Cave
 BOLDORE,65,80

@@ -3,6 +3,7 @@ from typing import List
 from PBSclasses import TrainerTypes
 from PBSclasses.Ability import Ability
 from PBSclasses.BaseData import BaseData
+from PBSclasses.BerryPlant import BerryPlant
 from PBSclasses.Connection import Connection
 from PBSclasses.Encounter import Encounter, MapEncounter
 from PBSclasses.Item import Item
@@ -93,6 +94,13 @@ def deserialize_connection(connection: Connection):
 
 def deserialize_shadow(shadow_pokemon: ShadowPokemon):
     csv = shadow_pokemon.species + "=" + ",".join(shadow_pokemon.move_list)
+    return csv
+
+
+def deserialize_berry_plant(berry_plant: BerryPlant):
+    attr_dict = berry_plant.get_attr_dict()
+    attr_dict.pop("Name")
+    csv = berry_plant.name + "=" + deserialize_simple_csv(berry_plant, attr_dict)
     return csv
 
 

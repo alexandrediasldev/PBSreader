@@ -33,7 +33,7 @@ Paul
 1
 BELLSPROUT,4
 #-------------------
-StreetRat	
+StreetRat
 Mack
 1
 MUDBRAY,6
@@ -1268,7 +1268,7 @@ SPRITZEE,16
 TEDDIURSA,16
 #-------------------
 COOLTRAINER_Male # I think he was removed #####
-Robin 
+Robin
 2
 LOMBRE,18
 CHARMELEON,29
@@ -3406,7 +3406,7 @@ SWINUB,19
 DRILBUR,19
 #-------------------
 MAGMA1
-Bunson  
+Bunson
 3
 NINETALES,37
 HOUNDOOM,37

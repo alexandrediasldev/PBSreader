@@ -625,7 +625,7 @@
 626,HIDDENPOWERFAI,Hidden Power,000,60,FAIRY,Special,100,15,0,00,0,bef,"A unique attack that varies in type depending on the Pokémon using it."
 627,ORIGINPULSE,Origin Pulse,000,110,WATER,Special,85,10,0,04,0,bef,"The user attacks opposing Pokémon with countless beams of light that glow a deep and brilliant blue."
 628,PRECIPICEBLADES,Precipice Blades,000,120,GROUND,Physical,85,10,0,04,0,bef,"The user attacks by manifesting the power of the land in fearsome blades of stone."
-629,DRAGONASCENT,Dragon Ascent,03C,120,FLYING,Physical,100,5,0,00,0,abef,"The user soars, then drops from the sky at high speed. It lowers the user's Defense and Sp. Def stats." 
+629,DRAGONASCENT,Dragon Ascent,03C,120,FLYING,Physical,100,5,0,00,0,abef,"The user soars, then drops from the sky at high speed. It lowers the user's Defense and Sp. Def stats."
 630,THOUSANDARROWS,ThousandArrows,11C,90,GROUND,Physical,100,10,0,00,0,bef,"This move also hits opposing Pokémon in the air. Those Pokémon are knocked down to the ground."
 631,THOUSANDWAVES,Thousand Waves,155,90,GROUND,Physical,100,10,0,00,0,bef,"The user attacks with a wave that crawls along the ground. Those hit can't flee from battle."
 632,DIAMONDSTORM,Diamond Storm,02F,100,ROCK,Physical,95,5,50,04,0,befm,"The user whips up a storm of diamonds to attack. It may sharply raise the user's Defense stat."
