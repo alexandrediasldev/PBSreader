@@ -21,4 +21,4 @@ class TownMap(BaseData):
     id: str = ""
     name: str = ""
     filename: str = ""
-    points: List[TownPoint] = field(default_factory=TownPoint)
+    point: List[TownPoint] = field(default_factory=TownPoint)

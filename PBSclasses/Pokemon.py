@@ -8,10 +8,10 @@ from PBSclasses.Species import Species
 
 @dataclass
 class Pokemon(BaseData):
-    species: Species
-    level: str
-    held_item: Item = None
-    move_list: list[Move] = field(default_factory=list)
+    species: str = ""
+    level: str = ""
+    held_item: str = ""
+    move_list: list[str] = field(default_factory=list)
     ability: str = ""
     form: str = ""
     gender: str = ""
@@ -25,22 +25,22 @@ class Pokemon(BaseData):
 
     def to_trainer_entry_bulbapedia(self) -> str:
         species_id = ""
-        if int(self.species.id) < 100:
+        if int(self.species) < 100:
             species_id = "0"
-        species_id += str(self.species.id)
-        trainer_entry = species_id + "|" + self.species.name + "|"
+        species_id += str(self.species)
+        trainer_entry = species_id + "|" + self.species + "|"
         if self.gender == "":
             trainer_entry += "Both"
 
         trainer_entry += self.gender + "|" + self.level + "||"
 
         if self.held_item != "":
-            trainer_entry += self.held_item.name
+            trainer_entry += self.held_item
 
         trainer_entry += "|" + self.ability + "|"
         if self.move_list:
             for i in range(len(self.move_list)):
-                trainer_entry += self.move_list[i].name + "|"
+                trainer_entry += self.move_list[i] + "|"
         else:
             trainer_entry += "||||"
 

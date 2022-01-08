@@ -26,7 +26,7 @@ class HomeMetaData(BaseData):
 @dataclass
 class MetaData(BaseData):
     id: str = ""
-    players: list[PlayerMetaData] = field(default_factory=list)
+    player: list[PlayerMetaData] = field(default_factory=list)
     home: HomeMetaData = field(default_factory=HomeMetaData)
     bycycle_BGM: str = ""
     surf_BGM: str = ""

@@ -7,9 +7,15 @@ from PBSclasses.Species import Species
 
 @dataclass
 class Encounter(BaseData):
-    map_id_number: str
-    encounter_densities: list[str]
-    encounter_method: EncounterMethod
-    pokemon_species: Species
+    encounter_chance: str
+    encounter_method: str
+    pokemon_species: str
     level_low: str
     level_high: str
+
+
+@dataclass
+class MapEncounter(BaseData):
+    map_id_number: str
+    encounter_densities: list[str]
+    encounters: list[Encounter]

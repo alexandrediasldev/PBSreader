@@ -2,18 +2,10 @@ from typing import List
 
 from PBSclasses.Ability import Ability
 from PBSclasses.BaseData import BaseData
-from PBSclasses.SpeciesStats import SpeciesStats
 from PBSclasses.TrainerTypes import TrainerType
 from PBSclasses.Item import Item
 from PBSclasses.Move import Move
-from Parser import (
-    parse_ability,
-    parse_item,
-    parser_move,
-    parse_trainer_types,
-    parse_pokemon_move,
-    parse_pokemon_base_stats,
-)
+from src.parser.Parser import parse_ability, parse_item, parser_move, parse_trainer_types
 from hypothesis import given, strategies as st
 
 
@@ -68,39 +60,6 @@ def test_parse_ability(input):
     version = 15
     list_obj = parse_ability(csv_output)
     parse_item_func(list_obj, input, attr_names, version)
-
-
-@given(
-    st.lists(
-        st.tuples(
-            st.text(st.characters(blacklist_characters=",")),
-            st.text(st.characters(blacklist_characters=",")),
-        )
-    )
-)
-def test_parse_pokemon_move(moves_input):
-    csv_input = ""
-    for level, mov in moves_input:
-        csv_input += level + "," + mov + ","
-    csv_input = csv_input[:-1]
-
-    mv = parse_pokemon_move(csv_input)
-    for t1, t2 in zip(mv, moves_input):
-        assert t1 == t2
-
-
-@given(st.lists(st.text(st.characters(blacklist_characters=",")), min_size=6))
-def test_parse_pokemon_stats(stats_input):
-    csv_input = ""
-    for s in stats_input:
-        csv_input += s + ","
-    csv_input = csv_input[:-1]
-
-    mv = parse_pokemon_base_stats(csv_input)
-
-    move_list = [mv]
-    list_dict = SpeciesStats.get_attr_names()
-    parse_item_func(move_list, stats_input, list_dict, 0)
 
 
 """

@@ -4,7 +4,7 @@ from PBSclasses import TrainerTypes
 from PBSclasses.Ability import Ability
 from PBSclasses.BaseData import BaseData
 from PBSclasses.Connection import Connection
-from PBSclasses.Encounter import Encounter
+from PBSclasses.Encounter import Encounter, MapEncounter
 from PBSclasses.Item import Item
 from PBSclasses.Move import Move
 from PBSclasses.Phone import Phone
@@ -92,7 +92,7 @@ def deserialize_connection(connection: Connection):
 
 
 def deserialize_shadow(shadow_pokemon: ShadowPokemon):
-    csv = shadow_pokemon.species.internal_name + "=" + ",".join(shadow_pokemon.move_list)
+    csv = shadow_pokemon.species + "=" + ",".join(shadow_pokemon.move_list)
     return csv
 
 
@@ -138,12 +138,12 @@ def deserialize_species(spe: Species):
 
 def deserialize_metadata(metadata):
     attr_dict = metadata.get_attr_dict()
-    attr_dict.pop("Players")
+    attr_dict.pop("Player")
     meta_data_lines = deserialize_equal_data(metadata, attr_dict)
-    if metadata.players:
+    if metadata.player:
         lines = []
         letter = "A"
-        for player in metadata.players:
+        for player in metadata.player:
             lines.append("Player" + letter + "=" + deserialize_simple_csv(player))
             letter = str(chr((ord(letter) + 1)))
         meta_data_lines = meta_data_lines[:1] + lines + meta_data_lines[1:]
@@ -153,11 +153,11 @@ def deserialize_metadata(metadata):
 
 def deserialize_townmap(townmap):
     attr_dict = townmap.get_attr_dict()
-    attr_dict.pop("Points")
+    attr_dict.pop("Point")
     point_lines = deserialize_equal_data(townmap, attr_dict)
-    if townmap.points:
+    if townmap.point:
         lines = []
-        for point in townmap.points:
+        for point in townmap.point:
             lines.append("Point=" + deserialize_simple_csv(point))
         point_lines = point_lines + lines
 
@@ -184,10 +184,20 @@ def deserialize_encounters(encounters: List[Encounter]):
     return lines
 
 
-def deserialize_encounter(encounter: Encounter):
-    line = encounter.pokemon_species.internal_name + "," + encounter.level_low
-    if encounter.level_high:
-        line += "," + encounter.level_high
+def deserialize_encounter(encounter: MapEncounter):
+    line = []
+    line.append(encounter.map_id_number)
+    line.append(",".join(encounter.encounter_densities))
+    last_method_name = ""
+    for encou in encounter.encounters:
+        if encou.encounter_method != last_method_name:
+            line.append(encou.encounter_method)
+        if encou.level_high:
+            line.append(encou.pokemon_species + "," + encou.level_low + "," + encou.level_high)
+        else:
+            line.append(encou.pokemon_species + "," + encou.level_low)
+        last_method_name = encou.encounter_method
+
     return line
 
 
@@ -202,7 +212,7 @@ def deserialize_trainer(trainer: Trainer):
         return ",".join(tmp_val)
 
     lines = []
-    lines.append(trainer.type.name)
+    lines.append(trainer.type)
     second_line = trainer.name
     if trainer.version_number:
         second_line += "," + trainer.version_number
@@ -219,12 +229,7 @@ def deserialize_trainer(trainer: Trainer):
     )
 
     for pk in trainer.pokemon_list:
-        attr_dict = pk.get_attr_dict()
-        attr_dict.pop("Species")
-        pk_line = (
-            pk.species.internal_name
-            + ","
-            + deserialize_simple_csv(pk, attr_dict, type_deserializer)
-        )
+
+        pk_line = deserialize_simple_csv(pk, type_deserializer=type_deserializer)
         lines.append(pk_line)
     return lines
