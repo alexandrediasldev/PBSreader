@@ -55,6 +55,7 @@ if __name__ == "__main__":
         equal_type,
         equal_townmap,
         equal_metadata,
+        15,
     )
 
     spe = get_species_from_name("RIOLU", env.species_list)
@@ -73,7 +74,7 @@ if __name__ == "__main__":
     berry = env.berry_plant_list[7]
 
     # print(deserialize_species(spe))
-    # print(deserialize_trainer_types(tr_type))
+    print(deserialize_trainer_types(tr_type, 15))
     # print(deserialize_move(mov))
     # print(deserialize_item(firestone, 15))
     # print(deserialize_trainer(tra))
@@ -85,7 +86,7 @@ if __name__ == "__main__":
     # print(deserialize_type(ty))
     # print(deserialize_townmap(town))
     # print(deserialize_metadata(met))
-    print(deserialize_berry_plant(berry))
+    # print(deserialize_berry_plant(berry))
 
     # print(deserialize_trainer(tra))
     # print(deserialize_encounters(env.encounter_list))
