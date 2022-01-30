@@ -54,6 +54,13 @@ class FileSpliter:
                 if self.parsing_index > max_index or ((len(line) == 1 and num.isnumeric())):
                     break
                 self.parsing_index += 1
+        if move_type == "single":
+            self.parsing_index += 1
+            for line in self.lines[self.parsing_index :]:
+                if self.parsing_index > max_index or (len(line) == 1):
+                    break
+                self.parsing_index += 1
+
         return start_index, end_index
 
 
@@ -112,38 +119,26 @@ class ParsingSchemaEncounter(ParsingSchema):
         self.encounter_methods = encounter_methods
 
     def object_function(self, attr_names, lines):
-        comma_line = []
+        encounter_density = ["25", "10", "10"] if len(lines[1]) == 1 else lines[1]
+        starting_index = 1 if len(lines[1]) == 1 else 2
+
+        f = FileSpliter(lines[starting_index:], ["single"])
+        sc = ParsingSchemaCsv(en.Encounter, en.Encounter.get_attr_names())
+
         encounter_list = []
-
-        comma_line.append(lines[0][0])
-
-        index = 1
-        if len(lines[index]) == 1:
-            encounter_density = ["25", "10", "10"]
-        else:
-            encounter_density = lines[1]
-            index += 1
-        encounter_method = None
-        comma_line.append(encounter_density)
-        index_map = 0
-        for line in lines[index:]:
-            if len(line) == 1:
-                index_map = 0
-                encounter_method = get_encounter_method_from_name(line[0], self.encounter_methods)
-            else:
-                proba = encounter_method.probability_of_encounter[index_map]
-                species, level_low = line[0], line[1]
-                level_high = line[2] if len(line) > 2 else ""
-                encounter_list.append(
-                    en.Encounter(
-                        proba, encounter_method.method_name, species, level_low, level_high
-                    )
+        for encounter_zone in f.parse_object():
+            encou_method = encounter_zone[0][0]
+            probability_index = 0
+            for encounter_line in encounter_zone[1:]:
+                encounter_method = get_encounter_method_from_name(
+                    encou_method, self.encounter_methods
                 )
-                index_map += 1
+                encounter_probability = encounter_method.probability_of_encounter[probability_index]
+                csv_encounter_line = [[str(encounter_probability), encou_method] + encounter_line]
+                encounter_list.append(sc.apply_function_one_object(csv_encounter_line))
+                probability_index += 1
 
-        comma_line.append(encounter_list)
-
-        kwargs = parse_one_line_coma(attr_names, comma_line)
+        kwargs = parse_one_line_coma(attr_names, [lines[0][0], encounter_density, encounter_list])
 
         return kwargs
 
@@ -187,6 +182,9 @@ class ParsingSchemaEqual(ParsingSchema):
     def value_handler(self, kwargs, argument_translator, first, value):
         kwargs[argument_translator[first]] = value
 
+    def value_inside_bracket(self, kwargs, argument_translator, value):
+        self.value_handler(kwargs, argument_translator, "Id", value)
+
     def parser_function(self, first, second, attr_pbs_categories, obj_class, argument_translator):
         attr_pbs_string, attr_pbs_list, attr_pbs_basedata = attr_pbs_categories
         if first in attr_pbs_string:
@@ -205,7 +203,7 @@ class ParsingSchemaEqual(ParsingSchema):
         argument_translator = self.object_class.get_attr_dict()
         kwargs = dict()
 
-        kwargs["id"] = parse_bracket_header(lines[0][0])
+        self.value_inside_bracket(kwargs, argument_translator, parse_bracket_header(lines[0][0]))
         for line in lines[1:]:
             first, second = line[0], line[1]
             value = self.parser_function(

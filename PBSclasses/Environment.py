@@ -75,13 +75,13 @@ class Environment:
         self.encounter_list = pr.parse_encounter(csv_encounter, encounter_method_list, self)
 
     def load_shadow_list(self, equal_pokemon_shadow):
-        self.shadow_list = pr.parse_shadow_pokemon(equal_pokemon_shadow, self)
+        self.shadow_list = pr.parse_shadow_pokemon(equal_pokemon_shadow)
 
     def load_berry_plant_list(self, equal_berry_plant):
         self.berry_plant_list = pr.parse_berry_plant(equal_berry_plant)
 
-    def load_trainer_list(self, csv_trainer):
-        self.trainer_list = pr.parse_trainer_list(csv_trainer, self)
+    def load_trainer_list(self, csv_trainer, version):
+        self.trainer_list = pr.parse_trainer_list(csv_trainer, version)
 
     def load_environment(
         self,
@@ -107,7 +107,7 @@ class Environment:
         self.load_species_list(equal_pokemon_species)
         self.load_move_list(csv_move)
         self.load_item_list(csv_item, version)
-        self.load_trainer_list(csv_trainer)
+        self.load_trainer_list(csv_trainer, version)
         self.load_encounter_list(csv_encounter, encounter_method_list)
         self.load_connection_list(csv_connection)
         self.load_shadow_list(equal_pokemon_shadow)

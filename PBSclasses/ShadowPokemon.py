@@ -6,5 +6,5 @@ from PBSclasses.Species import Species
 
 @dataclass
 class ShadowPokemon(BaseData):
-    species: Species
+    species: str
     move_list: list[str] = field(default_factory=list)
