@@ -13,6 +13,7 @@ from PBSclasses.ShadowPokemon import ShadowPokemon
 
 from PBSclasses.TownMap import TownMap
 from PBSclasses.Type import Type
+from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma
 from src.parser.schema import (
     ParsingSchemaPhone,
     ParsingSchemaCsv,
@@ -69,10 +70,8 @@ def parse_item(csv_output, version) -> list[it.Item]:
     return parse_schema(csv_output, it.Item, ParsingSchemaCsv, ["\n"], attr_names)
 
 
-def parse_shadow_pokemon(csv_output, environment) -> list[ShadowPokemon]:
-    return parse_schema(
-        csv_output, ShadowPokemon, ParsingSchemaShadow, ["\n"], environement=environment
-    )
+def parse_shadow_pokemon(csv_output) -> list[ShadowPokemon]:
+    return parse_schema(csv_output, ShadowPokemon, ParsingSchemaShadow, ["\n"])
 
 
 def parse_berry_plant(csv_output) -> list[BerryPlant]:
@@ -104,10 +103,8 @@ def parse_pokemon(equal_output) -> list[pk.Species]:
     return parse_schema(equal_output, pk.Species, ParsingSchemaPokemon, ["[]"])
 
 
-def parse_trainer_list(csv_output, environment) -> list[tr.Trainer]:
-    return parse_schema(
-        csv_output, tr.Trainer, ParsingSchemaTrainer, ["\n", "\n", "val"], environement=environment
-    )
+def parse_trainer_list(csv_output, version) -> list[tr.Trainer]:
+    return parse_schema(csv_output, tr.Trainer, ParsingSchemaTrainer, ["\n", "\n", "val"])
 
 
 def parse_encounter(

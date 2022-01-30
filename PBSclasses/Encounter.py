@@ -7,11 +7,11 @@ from PBSclasses.Species import Species
 
 @dataclass
 class Encounter(BaseData):
-    encounter_chance: str
-    encounter_method: str
-    pokemon_species: str
-    level_low: str
-    level_high: str
+    encounter_chance: str = ""
+    encounter_method: str = ""
+    pokemon_species: str = ""
+    level_low: str = ""
+    level_high: str = ""
 
 
 @dataclass
