@@ -3,6 +3,7 @@ from typing import List, Callable, Dict
 from PBSclasses import Encounter as en, Pokemon as pk
 from PBSclasses.MetaData import PlayerMetaData
 from PBSclasses.Phone import Phone
+from PBSclasses.Pokemon import Pokemon
 from PBSclasses.TownMap import TownPoint
 from src.Finder import get_encounter_method_from_name, get_species_from_name
 from src.parser.parse_utils import parse_coma_equal_field, parse_bracket_header, parse_one_line_coma
@@ -60,6 +61,11 @@ class FileSpliter:
                 if self.parsing_index > max_index or (len(line) == 1):
                     break
                 self.parsing_index += 1
+        if move_type == "pkm":
+            end_index += 1
+            while end_index < max_index and not self.lines[end_index][0] == "Pokemon":
+                end_index += 1
+            self.parsing_index = end_index
 
         return start_index, end_index
 
@@ -148,9 +154,9 @@ class ParsingSchemaTrainer(ParsingSchema):
         attr_names = pk.Pokemon.get_attr_names()
         moves = pokemon_attributes[3:7]
         pokemon_attributes = pokemon_attributes[:3] + pokemon_attributes[7:]
-        attr_names.remove("move_list")
+        attr_names.remove("moves")
         kwargs = parse_one_line_coma(attr_names, pokemon_attributes)
-        kwargs["move_list"] = moves
+        kwargs["moves"] = moves
 
         return pk.Pokemon(**kwargs)
 
@@ -178,12 +184,9 @@ class ParsingSchemaShadow(ParsingSchema):
         return kwargs
 
 
-class ParsingSchemaEqual(ParsingSchema):
+class ParsingSchemaSimpleEqual(ParsingSchema):
     def value_handler(self, kwargs, argument_translator, first, value):
         kwargs[argument_translator[first]] = value
-
-    def value_inside_bracket(self, kwargs, argument_translator, value):
-        self.value_handler(kwargs, argument_translator, "Id", value)
 
     def parser_function(self, first, second, attr_pbs_categories, obj_class, argument_translator):
         attr_pbs_string, attr_pbs_list, attr_pbs_basedata = attr_pbs_categories
@@ -197,6 +200,25 @@ class ParsingSchemaEqual(ParsingSchema):
                 **parse_one_line_coma(sub_class.get_attr_names(), parse_coma_equal_field(second))
             )
         return None
+
+    def object_function(self, attr_names, lines):
+        attr_pbs_categories = self.object_class.get_attr_pbs_by_types()
+        argument_translator = self.object_class.get_attr_dict()
+        kwargs = dict()
+
+        for line in lines:
+            first, second = line[0], line[1]
+            value = self.parser_function(
+                first, second, attr_pbs_categories, self.object_class, argument_translator
+            )
+            if value:
+                self.value_handler(kwargs, argument_translator, first, value)
+        return kwargs
+
+
+class ParsingSchemaEqual(ParsingSchemaSimpleEqual):
+    def value_inside_bracket(self, kwargs, argument_translator, value):
+        self.value_handler(kwargs, argument_translator, "Id", value)
 
     def object_function(self, attr_names, lines):
         attr_pbs_categories = self.object_class.get_attr_pbs_by_types()
@@ -274,3 +296,39 @@ class ParsingSchemaPokemon(ParsingSchemaEqual):
                 move = moves_and_level[i + 1]
                 level_moves.append((level, move))
         return level_moves
+
+
+class ParsingSchemaTrainerEqual(ParsingSchemaEqual):
+    def value_inside_bracket(self, kwargs, argument_translator, value):
+        splitted = value.split(",")
+        self.value_handler(kwargs, argument_translator, "Type", splitted[0])
+        self.value_handler(kwargs, argument_translator, "Name", splitted[1])
+        if len(splitted) > 2:
+            self.value_handler(kwargs, argument_translator, "VersionNumber", splitted[2])
+
+    def object_function(self, attr_names, lines):
+        attr_pbs_categories = self.object_class.get_attr_pbs_by_types()
+        argument_translator = self.object_class.get_attr_dict()
+        kwargs = dict()
+
+        f = FileSpliter(lines, ["pkm"])
+        sc = ParsingSchemaSimpleEqual(Pokemon, Pokemon.get_attr_names())
+        pokemon_list = []
+        self.value_inside_bracket(kwargs, argument_translator, parse_bracket_header(lines[0][0]))
+        for line in lines[1:]:
+            first, second = line[0], line[1]
+            value = self.parser_function(
+                first, second, attr_pbs_categories, self.object_class, argument_translator
+            )
+            if value:
+                self.value_handler(kwargs, argument_translator, first, value)
+
+        for pokemon in f.parse_object()[1:]:
+            splitted_parts = pokemon[0][1].split(",")
+            pokemon_expanded = [["Pokemon", splitted_parts[0]]]
+            pokemon_expanded.append(["Level", splitted_parts[1]])
+            pokemon_expanded = pokemon_expanded + pokemon[1:]
+            pokemon_list.append(sc.apply_function_one_object(pokemon_expanded))
+        self.value_handler(kwargs, argument_translator, "PokemonList", pokemon_list)
+
+        return kwargs

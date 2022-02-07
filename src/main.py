@@ -26,7 +26,7 @@ if __name__ == "__main__":
     pbsv16_location = "./PBSv16/"
     pbsv18_location = "./PBSv18/"
     csv_trainer = FileLoader.file_csv_tolist(pbsv15_location + "trainers.txt")
-    csv_trainer = FileLoader.file_csv_tolist(pbsv15_location + "trainers.txt")
+    # csv_trainer = FileLoader.file_equal_to_list(pbsv18_location + "trainers.txt")
     csv_trainer_type = FileLoader.file_csv_tolist(pbsv15_location + "trainertypes.txt")
     csv_move = FileLoader.file_csv_tolist(pbsv15_location + "moves.txt")
     csv_item = FileLoader.file_csv_tolist(pbsv15_location + "items.txt")
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     tr_type = get_trainer_type_from_name("EclipseDame", env.trainer_type_list)
     mov = env.move_list[5]
     firestone = get_item_from_name("FIRESTONE", env.item_list)
-    tra = env.trainer_list[2]
+    tra = env.trainer_list[1]
     abi = env.ability_list[8]
     encou = env.encounter_list[3]
     conn = env.connection_list[3]
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     # print(deserialize_trainer_types(tr_type, 15))
     # print(deserialize_move(mov))
     # print(deserialize_item(firestone, 15))
-    print(deserialize_trainer(tra))
+    print(deserialize_trainer(tra, 15))
     # print(deserialize_ability(abi))
     # print(deserialize_encounter(encou))
     # print(deserialize_connection(conn))

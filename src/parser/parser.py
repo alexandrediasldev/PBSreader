@@ -25,6 +25,7 @@ from src.parser.schema import (
     ParsingSchemaPokemon,
     ParsingSchemaMetadata,
     FileSpliter,
+    ParsingSchemaTrainerEqual,
 )
 
 
@@ -104,6 +105,8 @@ def parse_pokemon(equal_output) -> list[pk.Species]:
 
 
 def parse_trainer_list(csv_output, version) -> list[tr.Trainer]:
+    if version >= 18:
+        return parse_schema(csv_output, tr.Trainer, ParsingSchemaTrainerEqual, ["[]"])
     return parse_schema(csv_output, tr.Trainer, ParsingSchemaTrainer, ["\n", "\n", "val"])
 
 

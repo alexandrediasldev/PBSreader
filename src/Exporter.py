@@ -9,6 +9,7 @@ from PBSclasses.Encounter import Encounter, MapEncounter
 from PBSclasses.Item import Item
 from PBSclasses.Move import Move
 from PBSclasses.Phone import Phone
+from PBSclasses.Pokemon import Pokemon
 from PBSclasses.ShadowPokemon import ShadowPokemon
 from PBSclasses.Species import Species
 from PBSclasses.Trainers import Trainer
@@ -48,10 +49,13 @@ class TypeDeserializer:
     def deserialize_value(self, value):
         if not isinstance(value, str):
             if isinstance(value, list):
-                if not isinstance(value[0], str):
-                    value = self.deserialize_list_basedata_method(value)
+                if len(value) > 0:
+                    if not isinstance(value[0], str):
+                        value = self.deserialize_list_basedata_method(value)
+                    else:
+                        value = self.deserialize_list_string_method(value)
                 else:
-                    value = self.deserialize_list_string_method(value)
+                    value = ""
             else:
                 value = self.deserialize_basedata_method(value)
 
@@ -212,7 +216,7 @@ def deserialize_encounter(encounter: MapEncounter):
     return line
 
 
-def deserialize_trainer(trainer: Trainer):
+def deserialize_trainer(trainer: Trainer, version):
     def deserialize_basedata_id(value):
         return value.id
 
@@ -223,6 +227,25 @@ def deserialize_trainer(trainer: Trainer):
         return ",".join(tmp_val)
 
     lines = []
+    if version >= 18:
+        head = trainer.type + "," + trainer.name
+        if trainer.version_number:
+            head += "," + trainer.version_number
+        lines.append("[" + head + "]")
+        attr_dict = Trainer.get_attr_dict()
+        attr_dict.pop("Type")
+        attr_dict.pop("VersionNumber")
+        attr_dict.pop("Name")
+        attr_dict.pop("PokemonList")
+        lines += deserialize_equal_data(trainer, attr_dict)
+        attr_dict_pk = Pokemon.get_attr_dict()
+        attr_dict_pk.pop("Level")
+        attr_dict_pk.pop("Pokemon")
+        for pk in trainer.pokemon_list:
+            lines.append("Pokemon=" + pk.pokemon + "," + pk.level)
+            lines += deserialize_equal_data(pk, attr_dict_pk)
+        return lines
+
     lines.append(trainer.type)
     second_line = trainer.name
     if trainer.version_number:

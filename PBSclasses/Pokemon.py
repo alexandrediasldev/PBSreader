@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from typing import List
 
 from PBSclasses.BaseData import BaseData
 from PBSclasses.Item import Item
@@ -8,17 +9,17 @@ from PBSclasses.Species import Species
 
 @dataclass
 class Pokemon(BaseData):
-    species: str = ""
+    pokemon: str = ""
     level: str = ""
-    held_item: str = ""
-    move_list: list[str] = field(default_factory=list)
+    item: str = ""
+    moves: List[str] = field(default_factory=list)
     ability: str = ""
     form: str = ""
     gender: str = ""
-    shininess: str = ""
+    shiny: str = ""
     nature: str = ""
-    ivs: str = ""
+    IV: str = ""
     hapiness: str = ""
     nickname: str = ""
     shadow: str = ""
-    ball_type: str = ""
+    ball: str = ""
