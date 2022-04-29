@@ -12,6 +12,7 @@ from PBSclasses.Phone import Phone
 from PBSclasses.ShadowPokemon import ShadowPokemon
 
 from PBSclasses.TownMap import TownMap
+from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
 from PBSclasses.Type import Type
 from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma
 from src.parser.schema import (
@@ -26,18 +27,22 @@ from src.parser.schema import (
     ParsingSchemaMetadata,
     FileSpliter,
 )
+
+
 def get_kwargs_from_line_csv(attr_names, lines):
     kwargs = dict()
     for name, value in zip(attr_names, lines):
         kwargs[name] = value
     return kwargs
 
-def parse_csv(lines ,object_class):
+
+def parse_csv(lines, object_class):
     list_obj = []
     for line in lines:
-        list_obj.append(object_class(**get_kwargs_from_line_csv(object_class.get_attr_names(), line)))
+        list_obj.append(
+            object_class(**get_kwargs_from_line_csv(object_class.get_attr_names(), line))
+        )
     return list_obj
-
 
 
 def parse_schema(
@@ -65,10 +70,11 @@ def parser_move(csv_output) -> list[mv.Move]:
 
 
 def parse_trainer_types(csv_output, version) -> list[tr.TrainerType]:
-    attr_names = tr.TrainerType.get_attr_names()
-    if version < 16:
-        attr_names.remove("skill_codes")
-    return parse_schema(csv_output, tr.TrainerType, ParsingSchemaCsv, ["\n"], attr_names)
+    if version == 15:
+        type = TrainerTypeV15
+    else:
+        type = TrainerTypeV16
+    return parse_csv(csv_output, type)
 
 
 def parse_connection(csv_output) -> list[Connection]:
