@@ -8,6 +8,29 @@ from src.Finder import get_encounter_method_from_name, get_species_from_name
 from src.parser.parse_utils import parse_coma_equal_field, parse_bracket_header, parse_one_line_coma
 
 
+def find_next_index(lines, start_index):
+    max_index = len(lines)
+    index = start_index
+    while index < max_index and not parse_bracket_header(lines[index][0]):
+        index += 1
+    index += 1
+    while index < max_index and not parse_bracket_header(lines[index][0]):
+        index += 1
+    return index
+
+
+def separate_equal(lines):
+    lines_separated = []
+    start_index = 0
+    end_index = 0
+    max_index = len(lines)
+    while end_index < max_index:
+        end_index = find_next_index(lines, start_index)
+        lines_separated.append(lines[start_index:end_index])
+        start_index = end_index
+    return lines_separated
+
+
 class FileSpliter:
     def __init__(self, lines, object_definition):
         self.lines = lines

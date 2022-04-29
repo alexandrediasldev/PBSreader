@@ -14,7 +14,7 @@ from PBSclasses.ShadowPokemon import ShadowPokemon
 from PBSclasses.TownMap import TownMap
 from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
 from PBSclasses.Type import Type
-from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma
+from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma, parse_coma_equal_field
 from src.parser.schema import (
     ParsingSchemaPhone,
     ParsingSchemaCsv,
@@ -26,6 +26,7 @@ from src.parser.schema import (
     ParsingSchemaPokemon,
     ParsingSchemaMetadata,
     FileSpliter,
+    separate_equal,
 )
 
 
@@ -42,6 +43,38 @@ def parse_csv(lines, object_class):
         list_obj.append(
             object_class(**get_kwargs_from_line_csv(object_class.get_attr_names(), line))
         )
+    return list_obj
+
+
+def parse_equal_name_value(first, second, object_class):
+    attr_pbs_string, attr_pbs_list, attr_pbs_basedata = object_class.get_attr_pbs_by_types()
+    if first in attr_pbs_string:
+        return second
+    elif first in attr_pbs_list:
+        return parse_coma_equal_field(second)
+    # elif first in attr_pbs_basedata:
+    #    sub_class = object_class.get_attr_class(argument_translator[first])
+    # return sub_class(
+    #    **parse_one_line_coma(sub_class.get_attr_names(), parse_coma_equal_field(second))
+    # )
+
+
+def parse_equal_line(lines, object_class):
+    argument_translator = object_class.get_attr_dict()
+    kwargs = {}
+    kwargs["id"] = parse_bracket_header(lines[0][0])
+    for line in lines[1:]:
+        value = parse_equal_name_value(line[0], line[1], object_class)
+        kwargs[argument_translator[line[0]]] = value
+    return object_class(**kwargs)
+
+
+def parse_equal(lines, object_class):
+    list_obj = []
+    lines_separated = separate_equal(lines)
+    for line in lines_separated:
+        obj = parse_equal_line(line, object_class)
+        list_obj.append(obj)
     return list_obj
 
 
@@ -98,7 +131,15 @@ def parse_item(csv_output, version) -> list[it.Item]:
     return parse_csv(csv_output, itemType)
 
 
-# ------
+# ------ Equal
+
+
+def parse_type(equal_output):
+    type = Type
+    return parse_equal(equal_output, type)
+
+
+# -----
 
 
 def parse_shadow_pokemon(csv_output) -> list[ShadowPokemon]:
@@ -112,10 +153,6 @@ def parse_phone(csv_output):
     phone = sc.apply_function_one_object(obj)
 
     return phone
-
-
-def parse_type(equal_output):
-    return parse_schema(equal_output, Type, ParsingSchemaEqual, ["[]"])
 
 
 def parse_townmap(equal_output):
