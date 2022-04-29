@@ -61,12 +61,25 @@ def parse_schema(
     return obj_list
 
 
+# ---- CSV
 def parse_ability(csv_output) -> list[ab.Ability]:
-    return parse_schema(csv_output, ab.Ability, ParsingSchemaCsv, ["\n"])
+    type = ab.Ability
+    return parse_csv(csv_output, type)
 
 
 def parser_move(csv_output) -> list[mv.Move]:
-    return parse_schema(csv_output, mv.Move, ParsingSchemaCsv, ["\n"])
+    type = mv.Move
+    return parse_csv(csv_output, type)
+
+
+def parse_berry_plant(csv_output) -> list[BerryPlant]:
+    type = BerryPlant
+    return parse_csv(csv_output, type)
+
+
+def parse_connection(csv_output) -> list[Connection]:
+    type = Connection
+    return parse_csv(csv_output, type)
 
 
 def parse_trainer_types(csv_output, version) -> list[tr.TrainerType]:
@@ -77,10 +90,6 @@ def parse_trainer_types(csv_output, version) -> list[tr.TrainerType]:
     return parse_csv(csv_output, type)
 
 
-def parse_connection(csv_output) -> list[Connection]:
-    return parse_schema(csv_output, Connection, ParsingSchemaCsv, ["\n"])
-
-
 def parse_item(csv_output, version) -> list[it.Item]:
     if version == 15:
         itemType = it.ItemV15
@@ -89,12 +98,11 @@ def parse_item(csv_output, version) -> list[it.Item]:
     return parse_csv(csv_output, itemType)
 
 
+# ------
+
+
 def parse_shadow_pokemon(csv_output) -> list[ShadowPokemon]:
     return parse_schema(csv_output, ShadowPokemon, ParsingSchemaShadow, ["\n"])
-
-
-def parse_berry_plant(csv_output) -> list[BerryPlant]:
-    return parse_schema(csv_output, BerryPlant, ParsingSchemaCsv, ["\n"])
 
 
 def parse_phone(csv_output):
