@@ -74,10 +74,7 @@ def deserialize_ability(ability: Ability):
 
 
 def deserialize_item(item: Item, version):
-    attr_dict = item.get_attr_dict()
-    if version < 16:
-        attr_dict.pop("NamePlural")
-    return deserialize_simple_csv(item, attr_dict)
+    return deserialize_simple_csv(item)
 
 
 def deserialize_move(move: Move):

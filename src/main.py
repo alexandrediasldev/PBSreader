@@ -3,6 +3,7 @@ from pathlib import Path
 from src.Finder import get_species_from_name, get_trainer_type_from_name, get_item_from_name
 from PBSclasses.Environment import Environment
 
+from src.parser import parser as pr
 from src import FileLoader
 from src.Exporter import (
     deserialize_encounter,
@@ -78,8 +79,18 @@ if __name__ == "__main__":
     # print(deserialize_species(spe))
     # print(deserialize_trainer_types(tr_type, 15))
     # print(deserialize_move(mov))
-    # print(deserialize_item(firestone, 15))
-    print(deserialize_trainer(tra))
+
+
+
+    csv_item16 = FileLoader.file_csv_tolist(pbsv16_location + "items.txt")
+    item16 = pr.parse_item(csv_item16, 16)
+
+
+    firestone16 = get_item_from_name("FIRESTONE", item16)
+
+    print(deserialize_item(firestone, 15))
+    print(deserialize_item(firestone16, 16))
+    #print(deserialize_trainer(tra))
     # print(deserialize_ability(abi))
     # print(deserialize_encounter(encou))
     # print(deserialize_connection(conn))

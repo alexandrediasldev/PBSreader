@@ -26,6 +26,18 @@ from src.parser.schema import (
     ParsingSchemaMetadata,
     FileSpliter,
 )
+def get_kwargs_from_line_csv(attr_names, lines):
+    kwargs = dict()
+    for name, value in zip(attr_names, lines):
+        kwargs[name] = value
+    return kwargs
+
+def parse_csv(lines ,object_class):
+    list_obj = []
+    for line in lines:
+        list_obj.append(object_class(**get_kwargs_from_line_csv(object_class.get_attr_names(), line)))
+    return list_obj
+
 
 
 def parse_schema(
@@ -64,10 +76,11 @@ def parse_connection(csv_output) -> list[Connection]:
 
 
 def parse_item(csv_output, version) -> list[it.Item]:
-    attr_names = it.Item.get_attr_names()
-    if version < 16:
-        attr_names.remove("name_plural")
-    return parse_schema(csv_output, it.Item, ParsingSchemaCsv, ["\n"], attr_names)
+    if version == 15:
+        itemType = it.ItemV15
+    else:
+        itemType = it.ItemV16
+    return parse_csv(csv_output, itemType)
 
 
 def parse_shadow_pokemon(csv_output) -> list[ShadowPokemon]:
