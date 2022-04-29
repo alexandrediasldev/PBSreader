@@ -16,7 +16,6 @@ from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
 from PBSclasses.Type import Type
 from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma, parse_coma_equal_field
 from src.parser.schema import (
-    ParsingSchemaPhone,
     ParsingSchemaCsv,
     ParsingSchemaEncounter,
     ParsingSchemaTrainer,
@@ -158,11 +157,15 @@ def parse_shadow_pokemon(csv_output) -> list[ShadowPokemon]:
 
 
 def parse_phone(csv_output):
-    sc = ParsingSchemaPhone(Phone, Phone.get_attr_names())
-    f = FileSpliter(csv_output, ["[]"])
-    obj = f.parse_object()
-    phone = sc.apply_function_one_object(obj)
-
+    argument_translator = Phone.get_attr_dict()
+    kwargs = dict()
+    lines_separated = separate_equal(csv_output)
+    for line in lines_separated:
+        section_name = parse_bracket_header(line[0][0])
+        section_name = section_name.removesuffix(">")
+        section_name = section_name.removeprefix("<")
+        kwargs[argument_translator[section_name]] = [line[1:]]
+    phone = Phone(**kwargs)
     return phone
 
 

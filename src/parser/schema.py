@@ -105,28 +105,6 @@ class ParsingSchema:
         return self.object_class(**parsed_dict)
 
 
-class ParsingSchemaPhone(ParsingSchema):
-    def apply_function_one_object(self, lines):
-        parsed_dict = {}
-        for line in lines:
-            kwargs = self.object_function(self.attr_names, line)
-            parsed_dict.update(kwargs)
-
-        return self.object_class(**parsed_dict)
-
-    def object_function(self, attr_names, lines):
-
-        kwargs = dict()
-        section_name = parse_bracket_header(lines[0][0])
-        section_name = section_name.removesuffix(">")
-        section_name = section_name.removeprefix("<")
-
-        argument_translator = Phone.get_attr_dict()
-
-        kwargs[argument_translator[section_name]] = lines[1:]
-        return kwargs
-
-
 class ParsingSchemaCsv(ParsingSchema):
     def object_function(self, attr_names, lines):
         line = lines[0]
