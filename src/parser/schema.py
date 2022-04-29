@@ -191,16 +191,6 @@ class ParsingSchemaTrainer(ParsingSchema):
         return kwargs
 
 
-class ParsingSchemaShadow(ParsingSchema):
-    def object_function(self, attr_names, lines):
-        kwargs = dict()
-        line = lines[0]
-        first, second = line[0], line[1]
-        kwargs[attr_names[0]] = first
-        kwargs[attr_names[1]] = parse_coma_equal_field(second)
-        return kwargs
-
-
 class ParsingSchemaEqual(ParsingSchema):
     def value_handler(self, kwargs, argument_translator, first, value):
         kwargs[argument_translator[first]] = value

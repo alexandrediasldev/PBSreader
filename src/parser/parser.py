@@ -20,7 +20,6 @@ from src.parser.schema import (
     ParsingSchemaCsv,
     ParsingSchemaEncounter,
     ParsingSchemaTrainer,
-    ParsingSchemaShadow,
     ParsingSchemaEqual,
     ParsingSchemaTownmap,
     ParsingSchemaPokemon,
@@ -42,6 +41,17 @@ def parse_csv(lines, object_class):
     for line in lines:
         list_obj.append(
             object_class(**get_kwargs_from_line_csv(object_class.get_attr_names(), line))
+        )
+    return list_obj
+
+
+def parse_csv_after_equal(lines, object_class):
+    list_obj = []
+    for line in lines:
+        after_equal_expanded = parse_coma_equal_field(line[1])
+        line_fused = [line[0]] + [after_equal_expanded]
+        list_obj.append(
+            object_class(**get_kwargs_from_line_csv(object_class.get_attr_names(), line_fused))
         )
     return list_obj
 
@@ -143,7 +153,8 @@ def parse_type(equal_output):
 
 
 def parse_shadow_pokemon(csv_output) -> list[ShadowPokemon]:
-    return parse_schema(csv_output, ShadowPokemon, ParsingSchemaShadow, ["\n"])
+    type = ShadowPokemon
+    return parse_csv_after_equal(csv_output, type)
 
 
 def parse_phone(csv_output):
