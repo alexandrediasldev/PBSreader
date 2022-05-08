@@ -1,0 +1,7 @@
+[id]
+Name=name
+Filename=filename
+Point=position_x,position_y,name,point_of_interest,fly_destination_id,fly_destination_x,fly_destination_y,switch
+Point=position_x,position_y,name,point_of_interest,fly_destination_id,fly_destination_x,fly_destination_y,switch
+Point=position_x,position_y,name,point_of_interest,fly_destination_id,fly_destination_x,fly_destination_y,switch
+Point=position_x,position_y,name,point_of_interest,fly_destination_id,fly_destination_x,fly_destination_y,switch

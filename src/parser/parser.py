@@ -11,7 +11,7 @@ from PBSclasses.MetaData import MetaData, PlayerMetaData, HomeMetaData
 from PBSclasses.Phone import Phone
 from PBSclasses.ShadowPokemon import ShadowPokemon
 
-from PBSclasses.TownMap import TownMap
+from PBSclasses.TownMap import TownMap, TownPoint
 from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
 from PBSclasses.Type import Type
 from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma, parse_coma_equal_field
@@ -117,6 +117,32 @@ def parse_equal_metadata(lines, object_class):
     return list_obj
 
 
+def parse_equal_line_townmap(lines, object_class):
+    argument_translator = object_class.get_attr_dict()
+    kwargs = {}
+    kwargs["id"] = parse_bracket_header(lines[0][0])
+    for line in lines[1:]:
+        if line[0] == "Point":
+            value = TownPoint(
+                **get_kwargs_from_line_csv(TownPoint.get_attr_names(), line[1].split(","))
+            )
+
+            append_value_kwargs(kwargs, line[0], value, "Point", argument_translator)
+        else:
+            value = parse_equal_name_value(line[0], line[1], object_class)
+            kwargs[argument_translator[line[0]]] = value
+    return object_class(**kwargs)
+
+
+def parse_equal_townmap(lines, object_class):
+    list_obj = []
+    lines_separated = separate_equal(lines)
+    for line in lines_separated:
+        obj = parse_equal_line_townmap(line, object_class)
+        list_obj.append(obj)
+    return list_obj
+
+
 def parse_equal(lines, object_class):
     list_obj = []
     lines_separated = separate_equal(lines)
@@ -210,14 +236,13 @@ def parse_phone(csv_output):
 
 
 def parse_townmap(equal_output):
-    return parse_schema(equal_output, TownMap, ParsingSchemaTownmap, ["[]"])
+    type = TownMap
+    return parse_equal_townmap(equal_output, type)
 
 
 def parse_metadata(equal_output):
     type = MetaData
     return parse_equal_metadata(equal_output, type)
-
-    return parse_schema(equal_output, MetaData, ParsingSchemaMetadata, ["[]"])
 
 
 def parse_pokemon(equal_output) -> list[pk.Species]:

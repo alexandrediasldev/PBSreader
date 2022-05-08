@@ -10,6 +10,7 @@ from src.parser.parser import (
     parse_type,
     parse_phone,
     parse_metadata,
+    parse_townmap,
 )
 
 
@@ -100,6 +101,10 @@ def test_type():
 
 def test_metadata():
     equal_check("metadata.txt", parse_metadata)
+
+
+def test_townmap():
+    equal_check("townmap.txt", parse_townmap)
 
 
 def test_phone():

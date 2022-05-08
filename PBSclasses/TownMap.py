@@ -11,8 +11,8 @@ class TownPoint(BaseData):
     name: str = ""
     point_of_interest: str = ""
     fly_destination_id: str = ""
-    fly_destiation_x: str = ""
-    fly_destiation_y: str = ""
+    fly_destination_x: str = ""
+    fly_destination_y: str = ""
     switch: str = ""
 
 
