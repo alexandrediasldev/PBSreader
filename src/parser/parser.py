@@ -5,11 +5,13 @@ import PBSclasses.Item as it
 import PBSclasses.Encounter as en
 import PBSclasses.EncounterMethod as enm
 import PBSclasses.Ability as ab
+from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.BerryPlant import BerryPlant
 from PBSclasses.Connection import Connection
 from PBSclasses.MetaData import MetaData, PlayerMetaData, HomeMetaData
 from PBSclasses.Phone import Phone
 from PBSclasses.ShadowPokemon import ShadowPokemon
+from PBSclasses.SpeciesStats import SpeciesStats
 
 from PBSclasses.TownMap import TownMap, TownPoint
 from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
@@ -113,6 +115,44 @@ def parse_equal_metadata(lines, object_class):
     lines_separated = separate_equal(lines)
     for line in lines_separated:
         obj = parse_equal_line_metadata(line, object_class)
+        list_obj.append(obj)
+    return list_obj
+
+
+def parse_equal_line_pokemon(lines, object_class):
+    argument_translator = object_class.get_attr_dict()
+    kwargs = {}
+    kwargs["id"] = parse_bracket_header(lines[0][0])
+    for line in lines[1:]:
+        if line[0] == "Moves":
+            moves_and_level = line[1].split(",")
+            value = []
+            for i in range(0, len(moves_and_level), 2):
+                level = moves_and_level[i]
+                if i + 1 < len(moves_and_level):
+                    move = moves_and_level[i + 1]
+                    value.append((level, move))
+            kwargs[argument_translator[line[0]]] = value
+        elif line[0] in ["BaseStats", "EffortPoints", "Evolutions"]:
+            if line[0] == "BaseStats" or line[0] == "EffortPoints":
+                sub_class = SpeciesStats
+            else:
+                sub_class = SpeciesEvolution
+            value = sub_class(
+                **get_kwargs_from_line_csv(sub_class.get_attr_names(), line[1].split(","))
+            )
+            kwargs[argument_translator[line[0]]] = value
+        else:
+            value = parse_equal_name_value(line[0], line[1], object_class)
+            kwargs[argument_translator[line[0]]] = value
+    return object_class(**kwargs)
+
+
+def parse_equal_pokemon(lines, object_class):
+    list_obj = []
+    lines_separated = separate_equal(lines)
+    for line in lines_separated:
+        obj = parse_equal_line_pokemon(line, object_class)
         list_obj.append(obj)
     return list_obj
 
@@ -245,8 +285,9 @@ def parse_metadata(equal_output):
     return parse_equal_metadata(equal_output, type)
 
 
-def parse_pokemon(equal_output) -> list[pk.Species]:
-    return parse_schema(equal_output, pk.Species, ParsingSchemaPokemon, ["[]"])
+def parse_pokemon(equal_output):
+    type = pk.Species
+    return parse_equal_pokemon(equal_output, type)
 
 
 def parse_trainer_list(csv_output, version) -> list[tr.Trainer]:

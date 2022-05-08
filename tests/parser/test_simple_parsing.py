@@ -11,21 +11,26 @@ from src.parser.parser import (
     parse_phone,
     parse_metadata,
     parse_townmap,
+    parse_pokemon,
 )
 
 
 def check_attributes(obj):
     for name in obj.__dict__:
-        if isinstance(obj.__dict__[name], list):
-            if isinstance(obj.__dict__[name][0], str):
+        if isinstance(obj.__dict__[name], list):  # List
+            if isinstance(obj.__dict__[name][0], str):  # List[str]
                 for i in range(len(obj.__dict__[name])):
                     assert name + str(i) == obj.__dict__[name][i]
-            else:
+            elif isinstance(obj.__dict__[name][0], tuple):  # List[tuple]
+                for i in range(len(obj.__dict__[name])):
+                    assert name + str(i) + "left" == obj.__dict__[name][i][0]
+                    assert name + str(i) + "right" == obj.__dict__[name][i][1]
+            else:  # List[Object]
                 for i in range(len(obj.__dict__[name])):
                     check_attributes(obj.__dict__[name][i])
-        elif isinstance(obj.__dict__[name], str):
+        elif isinstance(obj.__dict__[name], str):  # str
             assert name == obj.__dict__[name]
-        else:
+        else:  # Object
             check_attributes(obj.__dict__[name])
 
 
@@ -105,6 +110,10 @@ def test_metadata():
 
 def test_townmap():
     equal_check("townmap.txt", parse_townmap)
+
+
+def test_pokemon():
+    equal_check("pokemon.txt", parse_pokemon)
 
 
 def test_phone():
