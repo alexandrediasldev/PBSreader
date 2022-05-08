@@ -1,0 +1,26 @@
+﻿[id]
+PlayerA=trainer_type,walking_charset,cycling_charset,surfing_charset,running_charset,diving_charset,fishing_while_standing_charset,fishing_while_surfing_charset
+PlayerB=trainer_type,walking_charset,cycling_charset,surfing_charset,running_charset,diving_charset,fishing_while_standing_charset,fishing_while_surfing_charset
+PlayerC=trainer_type,walking_charset,cycling_charset,surfing_charset,running_charset,diving_charset,fishing_while_standing_charset,fishing_while_surfing_charset
+Home=map_id,position_x,position_y,direction
+BicycleBGM=bicycle_BGM
+SurfBGM=surf_BGM
+WildBattleBGM=wild_battle_BGM
+TrainerBattleBGM=trainer_battle_BGM
+WildVictoryME=wild_victory_ME
+TrainerVictoryME=trainer_victory_ME
+# Map specific metadata
+Outdoor=outdoor
+Bicycle=bicycle
+BicycleAlways=bicycle_always
+HealingSpot=healing_spot
+MapPosition=map_position
+MapSize=map_size
+ShowArea=show_area
+Weather=weather
+DarkMap=dark_map
+DiveMap=dive_map
+SafariMap=safari_map
+SnapEdges=snap_edges
+Dungeon=dungeon
+BattleBack=battle_back

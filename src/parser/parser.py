@@ -7,7 +7,7 @@ import PBSclasses.EncounterMethod as enm
 import PBSclasses.Ability as ab
 from PBSclasses.BerryPlant import BerryPlant
 from PBSclasses.Connection import Connection
-from PBSclasses.MetaData import MetaData, PlayerMetaData
+from PBSclasses.MetaData import MetaData, PlayerMetaData, HomeMetaData
 from PBSclasses.Phone import Phone
 from PBSclasses.ShadowPokemon import ShadowPokemon
 
@@ -93,19 +93,15 @@ def parse_equal_line_metadata(lines, object_class):
     kwargs = {}
     kwargs["id"] = parse_bracket_header(lines[0][0])
     for line in lines[1:]:
-        if line[0].startswith("Player"):
+        if line[0] == "Home":
+            value = HomeMetaData(
+                **get_kwargs_from_line_csv(HomeMetaData.get_attr_names(), line[1].split(","))
+            )
+            kwargs[argument_translator[line[0]]] = value
+        elif line[0].startswith("Player"):
             pmd = PlayerMetaData.get_attr_names()
             p = PlayerMetaData(**get_kwargs_from_line_csv(pmd, line[1].split(",")))
             append_value_kwargs(kwargs, line[0], p, "Player", argument_translator)
-
-            # value = parse_equal_name_value("Player", line[1], object_class)
-            # p = PlayerMetaData(
-            #    **parse_one_line_coma(
-            #        PlayerMetaData.get_attr_names(), parse_coma_equal_field(line[1])
-            #    )
-            # )
-
-            # kwargs["player"] = PlayerMetaData(**value)
         else:
             value = parse_equal_name_value(line[0], line[1], object_class)
             kwargs[argument_translator[line[0]]] = value

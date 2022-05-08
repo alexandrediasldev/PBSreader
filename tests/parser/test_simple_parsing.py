@@ -9,16 +9,23 @@ from src.parser.parser import (
     parse_shadow_pokemon,
     parse_type,
     parse_phone,
+    parse_metadata,
 )
 
 
 def check_attributes(obj):
     for name in obj.__dict__:
         if isinstance(obj.__dict__[name], list):
-            for i in range(len(obj.__dict__[name])):
-                assert name + str(i) == obj.__dict__[name][i]
-        else:
+            if isinstance(obj.__dict__[name][0], str):
+                for i in range(len(obj.__dict__[name])):
+                    assert name + str(i) == obj.__dict__[name][i]
+            else:
+                for i in range(len(obj.__dict__[name])):
+                    check_attributes(obj.__dict__[name][i])
+        elif isinstance(obj.__dict__[name], str):
             assert name == obj.__dict__[name]
+        else:
+            check_attributes(obj.__dict__[name])
 
 
 def file_check(file, parse_function, version):
@@ -89,6 +96,10 @@ def test_shadow():
 
 def test_type():
     equal_check("types.txt", parse_type)
+
+
+def test_metadata():
+    equal_check("metadata.txt", parse_metadata)
 
 
 def test_phone():
