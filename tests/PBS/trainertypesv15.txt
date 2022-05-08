@@ -1,0 +1,1 @@
+id_number,id,name,base_money,battle_bgm,victory_me,intro_me,gender,skill_level

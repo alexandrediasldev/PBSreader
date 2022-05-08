@@ -23,10 +23,9 @@ from src.Exporter import (
 )
 
 if __name__ == "__main__":
-    pbsv15_location = "./PBSv15/"
-    pbsv16_location = "./PBSv16/"
-    pbsv18_location = "./PBSv18/"
-    csv_trainer = FileLoader.file_csv_tolist(pbsv15_location + "trainers.txt")
+    pbsv15_location = "../PBSv15/"
+    pbsv16_location = "../PBSv16/"
+    pbsv18_location = "../PBSv18/"
     csv_trainer = FileLoader.file_csv_tolist(pbsv15_location + "trainers.txt")
     csv_trainer_type = FileLoader.file_csv_tolist(pbsv15_location + "trainertypes.txt")
     csv_move = FileLoader.file_csv_tolist(pbsv15_location + "moves.txt")
@@ -92,11 +91,11 @@ if __name__ == "__main__":
     # print(deserialize_ability(abi))
     # print(deserialize_encounter(encou))
     # print(deserialize_connection(conn))
-    # cprint(deserialize_shadow(shadow))
-    print(deserialize_phone(pho))
+    print(deserialize_shadow(shadow))
+    # print(deserialize_phone(pho))
     # print(deserialize_type(ty))
     # print(deserialize_townmap(town))
-    # print(deserialize_metadata(met))
+    print(deserialize_metadata(met))
     # print(deserialize_berry_plant(berry))
 
     # print(deserialize_trainer(tra))
@@ -104,3 +103,5 @@ if __name__ == "__main__":
 
     # f, ax = Visualization.plot_all_encounter_map_types(env.encounter_list)
     # f.show()
+    pass
+    # NEED TO CONTINUE WORKING ON METADATA TO FIX IT

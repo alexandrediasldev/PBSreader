@@ -61,7 +61,7 @@ class Environment:
         self.species_list = pr.parse_pokemon(equal_pokemon_species)
 
     def load_move_list(self, csv_move):
-        self.move_list = pr.parser_move(csv_move)
+        self.move_list = pr.parse_move(csv_move)
 
     def load_item_list(self, csv_item, version):
         self.item_list = pr.parse_item(csv_item, version)

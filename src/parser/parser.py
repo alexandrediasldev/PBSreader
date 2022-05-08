@@ -7,7 +7,7 @@ import PBSclasses.EncounterMethod as enm
 import PBSclasses.Ability as ab
 from PBSclasses.BerryPlant import BerryPlant
 from PBSclasses.Connection import Connection
-from PBSclasses.MetaData import MetaData
+from PBSclasses.MetaData import MetaData, PlayerMetaData
 from PBSclasses.Phone import Phone
 from PBSclasses.ShadowPokemon import ShadowPokemon
 
@@ -78,6 +78,49 @@ def parse_equal_line(lines, object_class):
     return object_class(**kwargs)
 
 
+def append_value_kwargs(kwargs, first, value, attr_name, argument_translator):
+    if first.startswith(attr_name):
+        first = attr_name
+        if argument_translator[first] not in kwargs:
+            kwargs[argument_translator[first]] = []
+        kwargs[argument_translator[first]].append(value)
+    else:
+        kwargs[argument_translator[first]] = value
+
+
+def parse_equal_line_metadata(lines, object_class):
+    argument_translator = object_class.get_attr_dict()
+    kwargs = {}
+    kwargs["id"] = parse_bracket_header(lines[0][0])
+    for line in lines[1:]:
+        if line[0].startswith("Player"):
+            pmd = PlayerMetaData.get_attr_names()
+            p = PlayerMetaData(**get_kwargs_from_line_csv(pmd, line[1].split(",")))
+            append_value_kwargs(kwargs, line[0], p, "Player", argument_translator)
+
+            # value = parse_equal_name_value("Player", line[1], object_class)
+            # p = PlayerMetaData(
+            #    **parse_one_line_coma(
+            #        PlayerMetaData.get_attr_names(), parse_coma_equal_field(line[1])
+            #    )
+            # )
+
+            # kwargs["player"] = PlayerMetaData(**value)
+        else:
+            value = parse_equal_name_value(line[0], line[1], object_class)
+            kwargs[argument_translator[line[0]]] = value
+    return object_class(**kwargs)
+
+
+def parse_equal_metadata(lines, object_class):
+    list_obj = []
+    lines_separated = separate_equal(lines)
+    for line in lines_separated:
+        obj = parse_equal_line_metadata(line, object_class)
+        list_obj.append(obj)
+    return list_obj
+
+
 def parse_equal(lines, object_class):
     list_obj = []
     lines_separated = separate_equal(lines)
@@ -109,7 +152,7 @@ def parse_ability(csv_output) -> list[ab.Ability]:
     return parse_csv(csv_output, type)
 
 
-def parser_move(csv_output) -> list[mv.Move]:
+def parse_move(csv_output) -> list[mv.Move]:
     type = mv.Move
     return parse_csv(csv_output, type)
 
@@ -140,6 +183,11 @@ def parse_item(csv_output, version) -> list[it.Item]:
     return parse_csv(csv_output, itemType)
 
 
+def parse_shadow_pokemon(csv_output) -> list[ShadowPokemon]:
+    type = ShadowPokemon
+    return parse_csv_after_equal(csv_output, type)
+
+
 # ------ Equal
 
 
@@ -148,14 +196,7 @@ def parse_type(equal_output):
     return parse_equal(equal_output, type)
 
 
-# -----
-
-
-def parse_shadow_pokemon(csv_output) -> list[ShadowPokemon]:
-    type = ShadowPokemon
-    return parse_csv_after_equal(csv_output, type)
-
-
+# ----- Phone
 def parse_phone(csv_output):
     argument_translator = Phone.get_attr_dict()
     kwargs = dict()
@@ -174,6 +215,9 @@ def parse_townmap(equal_output):
 
 
 def parse_metadata(equal_output):
+    type = MetaData
+    return parse_equal_metadata(equal_output, type)
+
     return parse_schema(equal_output, MetaData, ParsingSchemaMetadata, ["[]"])
 
 
