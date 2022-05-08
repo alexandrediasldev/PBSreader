@@ -7,6 +7,8 @@ from src.parser.parser import (
     parse_connection,
     parse_trainer_types,
     parse_shadow_pokemon,
+    parse_type,
+    parse_phone,
 )
 
 
@@ -24,9 +26,11 @@ def file_check(file, parse_function, version):
         list_obj = parse_function(file, version)
     else:
         list_obj = parse_function(file)
-
-    assert len(list_obj) == 1
-    check_attributes(list_obj[0])
+    if isinstance(list_obj, list):
+        assert len(list_obj) == 1
+        check_attributes(list_obj[0])
+    else:
+        check_attributes(list_obj)
 
 
 def csv_check(filename, parse_function, version=None):
@@ -78,3 +82,14 @@ def test_berryplant():
 
 def test_shadow():
     equal_check("shadowmoves.txt", parse_shadow_pokemon)
+
+
+# ---- Equal
+
+
+def test_type():
+    equal_check("types.txt", parse_type)
+
+
+def test_phone():
+    equal_check("phone.txt", parse_phone)

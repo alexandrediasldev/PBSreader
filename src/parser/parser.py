@@ -205,7 +205,10 @@ def parse_phone(csv_output):
         section_name = parse_bracket_header(line[0][0])
         section_name = section_name.removesuffix(">")
         section_name = section_name.removeprefix("<")
-        kwargs[argument_translator[section_name]] = [line[1:]]
+        line_content = []
+        for rest_of_the_line in line[1:]:
+            line_content.append(rest_of_the_line[0])
+        kwargs[argument_translator[section_name]] = line_content
     phone = Phone(**kwargs)
     return phone
 
