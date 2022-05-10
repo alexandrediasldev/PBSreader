@@ -31,6 +31,23 @@ def separate_equal(lines):
     return lines_separated
 
 
+def find_next_trainer(lines, start_index):
+    nb_pkm = int(lines[start_index + 2][0])
+    return start_index + 3 + nb_pkm
+
+
+def separate_trainers(lines):
+    lines_separated = []
+    start_index = 0
+    end_index = 0
+    max_index = len(lines)
+    while end_index < max_index:
+        end_index = find_next_trainer(lines, start_index)
+        lines_separated.append(lines[start_index:end_index])
+        start_index = end_index
+    return lines_separated
+
+
 class FileSpliter:
     def __init__(self, lines, object_definition):
         self.lines = lines

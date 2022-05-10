@@ -27,6 +27,7 @@ from src.parser.schema import (
     ParsingSchemaMetadata,
     FileSpliter,
     separate_equal,
+    separate_trainers,
 )
 
 
@@ -291,7 +292,34 @@ def parse_pokemon(equal_output):
 
 
 def parse_trainer_list(csv_output, version) -> list[tr.Trainer]:
-    return parse_schema(csv_output, tr.Trainer, ParsingSchemaTrainer, ["\n", "\n", "val"])
+    def _parse_trainer_pokemon(pokemon_attributes) -> pk.Pokemon:
+        attr_names = pk.Pokemon.get_attr_names()
+        moves = pokemon_attributes[3:7]
+        pokemon_attributes = pokemon_attributes[:3] + pokemon_attributes[7:]
+        attr_names.remove("move_list")
+        kwargs = parse_one_line_coma(attr_names, pokemon_attributes)
+        kwargs["move_list"] = moves
+
+        return pk.Pokemon(**kwargs)
+
+    def parse_one_trainer(lines):
+        coma_line = []
+        coma_line.append(lines[0][0])
+        coma_line.append(lines[1][0])
+        coma_line.append(lines[1][1] if len(lines[1]) > 1 else "")
+        coma_line.append(lines[2][1:])
+        coma_line.append(lines[2][0])
+        coma_line.append([_parse_trainer_pokemon(line) for line in lines[3:]])
+
+        kwargs = parse_one_line_coma(tr.Trainer.get_attr_names(), coma_line)
+
+        return kwargs
+
+    lines = separate_trainers(csv_output)
+    obj_list = []
+    for line in lines:
+        obj_list.append(tr.Trainer(**parse_one_trainer(line)))
+    return obj_list
 
 
 def parse_encounter(
