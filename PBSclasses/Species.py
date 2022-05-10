@@ -21,6 +21,8 @@ class Species(BaseData):
     rareness: str = ""
     happiness: str = ""
     abilities: List[str] = field(default_factory=list)
+    hidden_ability: List[str] = field(default_factory=list)
+    form_names: List[str] = field(default_factory=list)
     moves: List[Tuple[str, str]] = field(default_factory=list)
     egg_moves: List[str] = field(default_factory=list)
     compatibility: List[str] = field(default_factory=list)
@@ -31,6 +33,9 @@ class Species(BaseData):
     habitat: str = ""
     kind: str = ""
     pokedex: str = ""
+    wild_item_common: str = ""
+    wild_item_uncommon: str = ""
+    wild_item_rare: str = ""
     battler_player_y: str = ""
     battler_enemy_y: str = ""
     battler_altitude: str = ""

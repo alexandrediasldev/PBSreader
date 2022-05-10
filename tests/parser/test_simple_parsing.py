@@ -12,6 +12,7 @@ from src.parser.parser import (
     parse_metadata,
     parse_townmap,
     parse_pokemon,
+    parse_trainer_list,
 )
 
 
@@ -29,7 +30,8 @@ def check_attributes(obj):
                 for i in range(len(obj.__dict__[name])):
                     check_attributes(obj.__dict__[name][i])
         elif isinstance(obj.__dict__[name], str):  # str
-            assert name == obj.__dict__[name]
+            if name != "nb_pokemon":
+                assert name == obj.__dict__[name]
         else:  # Object
             check_attributes(obj.__dict__[name])
 
@@ -114,6 +116,10 @@ def test_townmap():
 
 def test_pokemon():
     equal_check("pokemon.txt", parse_pokemon)
+
+
+def test_trainers():
+    csv_check("trainers.txt", parse_trainer_list, 15)
 
 
 def test_phone():

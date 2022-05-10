@@ -13,8 +13,8 @@ class Pokemon(BaseData):
     held_item: str = ""
     move_list: list[str] = field(default_factory=list)
     ability: str = ""
-    form: str = ""
     gender: str = ""
+    form: str = ""
     shininess: str = ""
     nature: str = ""
     ivs: str = ""
