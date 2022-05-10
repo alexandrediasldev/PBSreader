@@ -1,3 +1,4 @@
+from PBSclasses.EncounterMethod import get_default_encounter_method_list
 from src import FileLoader
 from src.parser.parser import (
     parse_ability,
@@ -13,6 +14,7 @@ from src.parser.parser import (
     parse_townmap,
     parse_pokemon,
     parse_trainer_list,
+    parse_encounter,
 )
 
 
@@ -30,7 +32,7 @@ def check_attributes(obj):
                 for i in range(len(obj.__dict__[name])):
                     check_attributes(obj.__dict__[name][i])
         elif isinstance(obj.__dict__[name], str):  # str
-            if name != "nb_pokemon":
+            if name != "nb_pokemon" and name != "map_id_number":
                 assert name == obj.__dict__[name]
         else:  # Object
             check_attributes(obj.__dict__[name])
@@ -124,3 +126,7 @@ def test_trainers():
 
 def test_phone():
     equal_check("phone.txt", parse_phone)
+
+
+def test_encounters():
+    csv_check("encounters.txt", parse_encounter, get_default_encounter_method_list())

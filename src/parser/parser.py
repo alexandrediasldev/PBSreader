@@ -16,19 +16,9 @@ from PBSclasses.SpeciesStats import SpeciesStats
 from PBSclasses.TownMap import TownMap, TownPoint
 from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
 from PBSclasses.Type import Type
+from src.Finder import get_encounter_method_from_name
 from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma, parse_coma_equal_field
-from src.parser.schema import (
-    ParsingSchemaCsv,
-    ParsingSchemaEncounter,
-    ParsingSchemaTrainer,
-    ParsingSchemaEqual,
-    ParsingSchemaTownmap,
-    ParsingSchemaPokemon,
-    ParsingSchemaMetadata,
-    FileSpliter,
-    separate_equal,
-    separate_trainers,
-)
+from src.parser.schema import separate_equal, separate_trainers, separate_encounters
 
 
 def get_kwargs_from_line_csv(attr_names, lines):
@@ -193,22 +183,6 @@ def parse_equal(lines, object_class):
     return list_obj
 
 
-def parse_schema(
-    lines, object_class, schema_class, obj_definition, attr_names=None, environement=None, **kwargs
-):
-    if not attr_names:
-        attr_names = object_class.get_attr_names()
-
-    f = FileSpliter(lines, obj_definition)
-    obj = f.parse_object()
-    sc = schema_class(object_class, attr_names)
-    obj_list = []
-    for o in obj:
-        obj_list.append(sc.apply_function_one_object(o))
-
-    return obj_list
-
-
 # ---- CSV
 def parse_ability(csv_output) -> list[ab.Ability]:
     type = ab.Ability
@@ -322,16 +296,33 @@ def parse_trainer_list(csv_output, version) -> list[tr.Trainer]:
     return obj_list
 
 
-def parse_encounter(
-    csv_output, encounter_methods: list[enm.EncounterMethod], environment
-) -> list[en.Encounter]:
-    f = FileSpliter(csv_output, ["int"])
-    obj = f.parse_object()
-    object_class = en.MapEncounter
-    attr_names = object_class.get_attr_names()
-    sc = ParsingSchemaEncounter(object_class, attr_names, encounter_methods=encounter_methods)
-    obj_list = []
-    for o in obj:
-        obj_list.append(sc.apply_function_one_object(o))
+def parse_encounter(csv_output, version: int) -> list[en.EncounterByMap]:
+    def parse_one_encounter(encounter_by_map_lines):
+        coma_line = []
+        coma_line.append(encounter_by_map_lines[0][0][0])
+        coma_line.append(encounter_by_map_lines[0][1])
+        encounter_method_list = []
+        for encounter_by_method_lines in encounter_by_map_lines[1:]:
+            encounter_method_name = encounter_by_method_lines[0][0]
+            pokemon_list = []
+            for encounter_pokemon_lines in encounter_by_method_lines[1:]:
+                pokemon_list.append(
+                    en.EncounterPokemon(
+                        **parse_one_line_coma(
+                            en.EncounterPokemon.get_attr_names(), encounter_pokemon_lines
+                        )
+                    )
+                )
+            encounter_method_list.append(en.EncounterByMethod(encounter_method_name, pokemon_list))
+        coma_line.append(encounter_method_list)
 
-    return obj_list
+        return en.EncounterByMap(
+            **parse_one_line_coma(en.EncounterByMap.get_attr_names(), coma_line)
+        )
+
+    separated_encounter_lines = separate_encounters(csv_output)
+    encounter_list = []
+    for encounter in separated_encounter_lines:
+        encounter_list.append(parse_one_encounter(encounter))
+
+    return encounter_list

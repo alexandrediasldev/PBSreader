@@ -20,6 +20,7 @@ from src.Exporter import (
     deserialize_trainer,
     deserialize_connection,
     deserialize_berry_plant,
+    deserialize_encounters,
 )
 
 if __name__ == "__main__":
@@ -91,11 +92,11 @@ if __name__ == "__main__":
     # print(deserialize_ability(abi))
     # print(deserialize_encounter(encou))
     # print(deserialize_connection(conn))
-    print(deserialize_shadow(shadow))
+    # print(deserialize_shadow(shadow))
     # print(deserialize_phone(pho))
     # print(deserialize_type(ty))
     # print(deserialize_townmap(town))
-    print(deserialize_metadata(met))
+    # print(deserialize_metadata(met))
     # print(deserialize_berry_plant(berry))
 
     # print(deserialize_trainer(tra))
