@@ -5,7 +5,7 @@ from PBSclasses.BaseData import BaseData
 
 
 @dataclass
-class Pokemon(BaseData):
+class TrainerPokemonV15(BaseData):
     species: str = ""
     level: str = ""
     held_item: str = ""

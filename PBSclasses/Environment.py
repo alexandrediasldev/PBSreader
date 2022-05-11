@@ -1,40 +1,40 @@
 from typing import List
-from PBSclasses.Ability import Ability
-from PBSclasses.BerryPlant import BerryPlant
+from PBSclasses.Ability import AbilityV15
+from PBSclasses.BerryPlant import BerryPlantV16
 
 from src import Exception as ex
 from src.parser import parser as pr
-from PBSclasses.Connection import Connection
+from PBSclasses.Connection import ConnectionV15
 
-from PBSclasses.Encounter import EncounterByMap
+from PBSclasses.Encounter import EncounterV15
 from PBSclasses.EncounterMethod import get_default_encounter_method_list
 from PBSclasses.Item import Item
-from PBSclasses.MetaData import MetaData
-from PBSclasses.Move import Move
-from PBSclasses.Phone import Phone
-from PBSclasses.ShadowPokemon import ShadowPokemon
-from PBSclasses.Species import Species
+from PBSclasses.MetaData import MetaDataV15
+from PBSclasses.Move import MoveV15
+from PBSclasses.Phone import PhoneV15
+from PBSclasses.ShadowPokemon import ShadowPokemonV15
+from PBSclasses.Species import SpeciesV15
 from PBSclasses.TownMap import TownMap
 from PBSclasses.TrainerTypes import TrainerType
-from PBSclasses.Trainers import Trainer
-from PBSclasses.Type import Type
+from PBSclasses.Trainers import TrainerV15
+from PBSclasses.Type import TypeV15
 
 
 class Environment:
     trainer_type_list: List[TrainerType] = []
-    species_list: List[Species] = []
-    move_list: List[Move] = []
+    species_list: List[SpeciesV15] = []
+    move_list: List[MoveV15] = []
     item_list: List[Item] = []
-    trainer_list: List[Trainer] = []
-    encounter_list: List[EncounterByMap] = []
-    ability_list: List[Ability] = []
-    connection_list: List[Connection] = []
-    shadow_list: List[ShadowPokemon] = []
-    berry_plant_list: List[BerryPlant] = []
-    type_list: List[Type] = []
+    trainer_list: List[TrainerV15] = []
+    encounter_list: List[EncounterV15] = []
+    ability_list: List[AbilityV15] = []
+    connection_list: List[ConnectionV15] = []
+    shadow_list: List[ShadowPokemonV15] = []
+    berry_plant_list: List[BerryPlantV16] = []
+    type_list: List[TypeV15] = []
     townmap_list: List[TownMap] = []
-    metadata_list: List[MetaData] = []
-    phone: Phone = None
+    metadata_list: List[MetaDataV15] = []
+    phone: PhoneV15 = None
 
     def __init__(self):
         pass

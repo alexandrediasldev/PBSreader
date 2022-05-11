@@ -4,7 +4,7 @@ from PBSclasses.BaseData import BaseData
 
 
 @dataclass
-class Ability(BaseData):
+class AbilityV15(BaseData):
     id_number: str
     id: str
     name: str

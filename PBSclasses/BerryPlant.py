@@ -4,7 +4,7 @@ from PBSclasses.BaseData import BaseData
 
 
 @dataclass
-class BerryPlant(BaseData):
+class BerryPlantV16(BaseData):
     name: str
     growth_rate: str
     moisture: str

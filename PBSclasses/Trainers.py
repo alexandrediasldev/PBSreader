@@ -1,18 +1,18 @@
 from dataclasses import dataclass, field
 
 from PBSclasses.BaseData import BaseData
-from PBSclasses.Pokemon import Pokemon
+from PBSclasses.TrainerPokemon import TrainerPokemonV15
 from src.Finder import get_trainer_type_from_name
 
 
 @dataclass
-class Trainer(BaseData):
+class TrainerV15(BaseData):
     type: str
     name: str
     version_number: str = ""
     item_list: list[str] = field(default_factory=list)
     nb_pokemon: str = ""
-    pokemon_list: list[Pokemon] = field(default_factory=list)
+    pokemon_list: list[TrainerPokemonV15] = field(default_factory=list)
 
     def get_win_money(self, trainer_types_list) -> int:
         """

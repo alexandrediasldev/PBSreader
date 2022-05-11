@@ -1,18 +1,18 @@
 from typing import List
 
 from PBSclasses import TrainerTypes
-from PBSclasses.Ability import Ability
+from PBSclasses.Ability import AbilityV15
 from PBSclasses.BaseData import BaseData
-from PBSclasses.BerryPlant import BerryPlant
-from PBSclasses.Connection import Connection
-from PBSclasses.Encounter import EncounterByMap
+from PBSclasses.BerryPlant import BerryPlantV16
+from PBSclasses.Connection import ConnectionV15
+from PBSclasses.Encounter import EncounterV15
 from PBSclasses.Item import Item
-from PBSclasses.Move import Move
-from PBSclasses.Phone import Phone
-from PBSclasses.ShadowPokemon import ShadowPokemon
-from PBSclasses.Species import Species
-from PBSclasses.Trainers import Trainer
-from PBSclasses.Type import Type
+from PBSclasses.Move import MoveV15
+from PBSclasses.Phone import PhoneV15
+from PBSclasses.ShadowPokemon import ShadowPokemonV15
+from PBSclasses.Species import SpeciesV15
+from PBSclasses.Trainers import TrainerV15
+from PBSclasses.Type import TypeV15
 
 
 def deserialize_list_string(value):
@@ -69,7 +69,7 @@ def deserialize_simple_csv(obj: BaseData, attr_dict=None, type_deserializer=Type
     return csv[:-1]
 
 
-def deserialize_ability(ability: Ability):
+def deserialize_ability(ability: AbilityV15):
     return deserialize_simple_csv(ability)
 
 
@@ -77,7 +77,7 @@ def deserialize_item(item: Item, version):
     return deserialize_simple_csv(item)
 
 
-def deserialize_move(move: Move):
+def deserialize_move(move: MoveV15):
     return deserialize_simple_csv(move)
 
 
@@ -85,23 +85,23 @@ def deserialize_trainer_types(trainer_types: TrainerTypes, version):
     return deserialize_simple_csv(trainer_types)
 
 
-def deserialize_connection(connection: Connection):
+def deserialize_connection(connection: ConnectionV15):
     return deserialize_simple_csv(connection)
 
 
-def deserialize_shadow(shadow_pokemon: ShadowPokemon):
+def deserialize_shadow(shadow_pokemon: ShadowPokemonV15):
     csv = shadow_pokemon.species + "=" + ",".join(shadow_pokemon.move_list)
     return csv
 
 
-def deserialize_berry_plant(berry_plant: BerryPlant):
+def deserialize_berry_plant(berry_plant: BerryPlantV16):
     attr_dict = berry_plant.get_attr_dict()
     attr_dict.pop("Name")
     csv = berry_plant.name + "=" + deserialize_simple_csv(berry_plant, attr_dict)
     return csv
 
 
-def deserialize_phone(phone: Phone):
+def deserialize_phone(phone: PhoneV15):
     lines = []
     attr_dict = phone.get_attr_dict()
     for data in attr_dict:
@@ -137,7 +137,7 @@ def deserialize_equal_data(obj: BaseData, attr_dict=None):
     return lines
 
 
-def deserialize_species(spe: Species):
+def deserialize_species(spe: SpeciesV15):
     return deserialize_equal_data(spe)
 
 
@@ -169,18 +169,18 @@ def deserialize_townmap(townmap):
     return point_lines
 
 
-def deserialize_type(type: Type):
+def deserialize_type(type: TypeV15):
     return deserialize_equal_data(type)
 
 
-def deserialize_encounters(encounters: List[EncounterByMap]):
+def deserialize_encounters(encounters: List[EncounterV15]):
     lines = []
     for en in encounters:
         lines.extend(deserialize_encounter(en))
     return lines
 
 
-def deserialize_encounter(encounter: EncounterByMap):
+def deserialize_encounter(encounter: EncounterV15):
     line = []
     line.append([encounter.map_id_number])
     line.append([",".join(encounter.encounter_densities)])
@@ -197,7 +197,7 @@ def deserialize_encounter(encounter: EncounterByMap):
     return line
 
 
-def deserialize_trainer(trainer: Trainer):
+def deserialize_trainer(trainer: TrainerV15):
     def deserialize_basedata_id(value):
         return value.id
 

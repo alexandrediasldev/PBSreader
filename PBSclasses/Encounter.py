@@ -3,7 +3,7 @@ from typing import List
 
 from PBSclasses.BaseData import BaseData
 from PBSclasses.EncounterMethod import EncounterMethod
-from PBSclasses.Species import Species
+from PBSclasses.Species import SpeciesV15
 
 
 @dataclass
@@ -20,7 +20,7 @@ class EncounterByMethod(BaseData):
 
 
 @dataclass
-class EncounterByMap(BaseData):
+class EncounterV15(BaseData):
     map_id_number: str
     encounter_densities: List[str]
     encounters: List[EncounterByMethod]

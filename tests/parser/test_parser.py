@@ -1,10 +1,10 @@
 from typing import List
 
-from PBSclasses.Ability import Ability
+from PBSclasses.Ability import AbilityV15
 from PBSclasses.BaseData import BaseData
 from PBSclasses.TrainerTypes import TrainerType
 from PBSclasses.Item import Item
-from PBSclasses.Move import Move
+from PBSclasses.Move import MoveV15
 from src.parser.Parser import parse_ability, parse_item, parser_move, parse_trainer_types
 from hypothesis import given, strategies as st
 
@@ -40,7 +40,7 @@ def test_parse_item15(input):
 
 @given(st.lists(st.text(), min_size=14))
 def test_parse_move(input):
-    csv_output, attr_names = csv_parse_helper(input, Move)
+    csv_output, attr_names = csv_parse_helper(input, MoveV15)
     version = 15
     list_obj = parser_move(csv_output)
     parse_item_func(list_obj, input, attr_names, version)
@@ -56,7 +56,7 @@ def test_parse_trainer_types(input):
 
 @given(st.lists(st.text(), min_size=9))
 def test_parse_ability(input):
-    csv_output, attr_names = csv_parse_helper(input, Ability)
+    csv_output, attr_names = csv_parse_helper(input, AbilityV15)
     version = 15
     list_obj = parse_ability(csv_output)
     parse_item_func(list_obj, input, attr_names, version)

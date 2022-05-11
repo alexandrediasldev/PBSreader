@@ -7,7 +7,7 @@ from PBSclasses.SpeciesStats import SpeciesStats
 
 
 @dataclass
-class Species(BaseData):
+class SpeciesV15(BaseData):
     id: str = ""
     name: str = ""
     internal_name: str = ""

@@ -25,7 +25,7 @@ class HomeMetaData(BaseData):
 
 
 @dataclass
-class MetaData(BaseData):
+class MetaDataV15(BaseData):
     id: str = ""
     player: List[PlayerMetaData] = field(default_factory=list)
     home: HomeMetaData = field(default_factory=HomeMetaData)

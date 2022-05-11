@@ -5,7 +5,7 @@ from PBSclasses.BaseData import BaseData
 
 
 @dataclass
-class Type(BaseData):
+class TypeV15(BaseData):
     id: str = ""
     name: str = ""
     internal_name: str = ""

@@ -1,21 +1,21 @@
 import PBSclasses.Trainers as tr
-import PBSclasses.Pokemon as pk
+import PBSclasses.TrainerPokemon as pk
 import PBSclasses.Move as mv
 import PBSclasses.Item as it
 import PBSclasses.Encounter as en
 import PBSclasses.Ability as ab
-from PBSclasses.Species import Species
+from PBSclasses.Species import SpeciesV15
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
-from PBSclasses.BerryPlant import BerryPlant
-from PBSclasses.Connection import Connection
-from PBSclasses.MetaData import MetaData, PlayerMetaData, HomeMetaData
-from PBSclasses.Phone import Phone
-from PBSclasses.ShadowPokemon import ShadowPokemon
+from PBSclasses.BerryPlant import BerryPlantV16
+from PBSclasses.Connection import ConnectionV15
+from PBSclasses.MetaData import MetaDataV15, PlayerMetaData, HomeMetaData
+from PBSclasses.Phone import PhoneV15
+from PBSclasses.ShadowPokemon import ShadowPokemonV15
 from PBSclasses.SpeciesStats import SpeciesStats
 
 from PBSclasses.TownMap import TownMap, TownPoint
 from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
-from PBSclasses.Type import Type
+from PBSclasses.Type import TypeV15
 from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma, parse_coma_equal_field
 from src.parser.schema import separate_equal, separate_trainers, separate_encounters
 
@@ -183,23 +183,23 @@ def parse_equal(lines, object_class):
 
 
 # ---- CSV
-def parse_ability(csv_output) -> list[ab.Ability]:
-    type = ab.Ability
+def parse_ability(csv_output) -> list[ab.AbilityV15]:
+    type = ab.AbilityV15
     return parse_csv(csv_output, type)
 
 
-def parse_move(csv_output) -> list[mv.Move]:
-    type = mv.Move
+def parse_move(csv_output) -> list[mv.MoveV15]:
+    type = mv.MoveV15
     return parse_csv(csv_output, type)
 
 
-def parse_berry_plant(csv_output) -> list[BerryPlant]:
-    type = BerryPlant
+def parse_berry_plant(csv_output) -> list[BerryPlantV16]:
+    type = BerryPlantV16
     return parse_csv(csv_output, type)
 
 
-def parse_connection(csv_output) -> list[Connection]:
-    type = Connection
+def parse_connection(csv_output) -> list[ConnectionV15]:
+    type = ConnectionV15
     return parse_csv(csv_output, type)
 
 
@@ -219,8 +219,8 @@ def parse_item(csv_output, version) -> list[it.ItemV15]:
     return parse_csv(csv_output, itemType)
 
 
-def parse_shadow_pokemon(csv_output) -> list[ShadowPokemon]:
-    type = ShadowPokemon
+def parse_shadow_pokemon(csv_output) -> list[ShadowPokemonV15]:
+    type = ShadowPokemonV15
     return parse_csv_after_equal(csv_output, type)
 
 
@@ -228,13 +228,13 @@ def parse_shadow_pokemon(csv_output) -> list[ShadowPokemon]:
 
 
 def parse_type(equal_output):
-    type = Type
+    type = TypeV15
     return parse_equal(equal_output, type)
 
 
 # ----- Phone
 def parse_phone(csv_output):
-    argument_translator = Phone.get_attr_dict()
+    argument_translator = PhoneV15.get_attr_dict()
     kwargs = dict()
     lines_separated = separate_equal(csv_output)
     for line in lines_separated:
@@ -245,7 +245,7 @@ def parse_phone(csv_output):
         for rest_of_the_line in line[1:]:
             line_content.append(rest_of_the_line[0])
         kwargs[argument_translator[section_name]] = line_content
-    phone = Phone(**kwargs)
+    phone = PhoneV15(**kwargs)
     return phone
 
 
@@ -255,25 +255,25 @@ def parse_townmap(equal_output):
 
 
 def parse_metadata(equal_output):
-    type = MetaData
+    type = MetaDataV15
     return parse_equal_metadata(equal_output, type)
 
 
 def parse_pokemon(equal_output):
-    type = Species
+    type = SpeciesV15
     return parse_equal_pokemon(equal_output, type)
 
 
-def parse_trainer_list(csv_output, version) -> list[tr.Trainer]:
-    def _parse_trainer_pokemon(pokemon_attributes) -> pk.Pokemon:
-        attr_names = pk.Pokemon.get_attr_names()
+def parse_trainer_list(csv_output, version) -> list[tr.TrainerV15]:
+    def _parse_trainer_pokemon(pokemon_attributes) -> pk.TrainerPokemonV15:
+        attr_names = pk.TrainerPokemonV15.get_attr_names()
         moves = pokemon_attributes[3:7]
         pokemon_attributes = pokemon_attributes[:3] + pokemon_attributes[7:]
         attr_names.remove("move_list")
         kwargs = parse_one_line_coma(attr_names, pokemon_attributes)
         kwargs["move_list"] = moves
 
-        return pk.Pokemon(**kwargs)
+        return pk.TrainerPokemonV15(**kwargs)
 
     def parse_one_trainer(lines):
         coma_line = []
@@ -284,18 +284,18 @@ def parse_trainer_list(csv_output, version) -> list[tr.Trainer]:
         coma_line.append(lines[2][0])
         coma_line.append([_parse_trainer_pokemon(line) for line in lines[3:]])
 
-        kwargs = parse_one_line_coma(tr.Trainer.get_attr_names(), coma_line)
+        kwargs = parse_one_line_coma(tr.TrainerV15.get_attr_names(), coma_line)
 
         return kwargs
 
     lines = separate_trainers(csv_output)
     obj_list = []
     for line in lines:
-        obj_list.append(tr.Trainer(**parse_one_trainer(line)))
+        obj_list.append(tr.TrainerV15(**parse_one_trainer(line)))
     return obj_list
 
 
-def parse_encounter(csv_output, version: int) -> list[en.EncounterByMap]:
+def parse_encounter(csv_output, version: int) -> list[en.EncounterV15]:
     def parse_one_encounter(encounter_by_map_lines):
         coma_line = []
         coma_line.append(encounter_by_map_lines[0][0][0])
@@ -315,9 +315,7 @@ def parse_encounter(csv_output, version: int) -> list[en.EncounterByMap]:
             encounter_method_list.append(en.EncounterByMethod(encounter_method_name, pokemon_list))
         coma_line.append(encounter_method_list)
 
-        return en.EncounterByMap(
-            **parse_one_line_coma(en.EncounterByMap.get_attr_names(), coma_line)
-        )
+        return en.EncounterV15(**parse_one_line_coma(en.EncounterV15.get_attr_names(), coma_line))
 
     separated_encounter_lines = separate_encounters(csv_output)
     encounter_list = []
