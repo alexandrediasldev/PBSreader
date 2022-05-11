@@ -50,3 +50,32 @@ class MetaDataV15(BaseData):
     snap_edges: str = ""
     dungeon: str = ""
     battle_back: str = ""
+
+
+@dataclass
+class MetaDataV18(BaseData):
+    id: str = ""
+    player: List[PlayerMetaData] = field(default_factory=list)
+    home: HomeMetaData = field(default_factory=HomeMetaData)
+    bicycle_BGM: str = ""
+    surf_BGM: str = ""
+    wild_battle_BGM: str = ""
+    trainer_battle_BGM: str = ""
+    wild_victory_ME: str = ""
+    trainer_victory_ME: str = ""
+    # Map specific metadata
+    outdoor: str = ""
+    bicycle: str = ""
+    bicycle_always: str = ""
+    healing_spot: str = ""
+    map_position: str = ""
+    map_size: str = ""
+    show_area: str = ""
+    weather: str = ""
+    dark_map: str = ""
+    dive_map: str = ""
+    safari_map: str = ""
+    snap_edges: str = ""
+    dungeon: str = ""
+    battle_back: str = ""
+    environment: str = ""

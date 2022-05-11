@@ -8,7 +8,7 @@ from PBSclasses.Species import SpeciesV15, SpeciesV17, SpeciesV16
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.BerryPlant import BerryPlantV16
 from PBSclasses.Connection import ConnectionV15
-from PBSclasses.MetaData import MetaDataV15, PlayerMetaData, HomeMetaData
+from PBSclasses.MetaData import MetaDataV15, PlayerMetaData, HomeMetaData, MetaDataV18
 from PBSclasses.Phone import PhoneV15
 from PBSclasses.ShadowPokemon import ShadowPokemonV15
 from PBSclasses.SpeciesStats import SpeciesStats
@@ -254,8 +254,11 @@ def parse_townmap(equal_output):
     return parse_equal_townmap(equal_output, type)
 
 
-def parse_metadata(equal_output):
-    type = MetaDataV15
+def parse_metadata(equal_output, version):
+    if version <= 17:
+        type = MetaDataV15
+    else:
+        type = MetaDataV18
     return parse_equal_metadata(equal_output, type)
 
 

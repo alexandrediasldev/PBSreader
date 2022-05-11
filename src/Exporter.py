@@ -6,7 +6,7 @@ from PBSclasses.BaseData import BaseData
 from PBSclasses.BerryPlant import BerryPlantV16
 from PBSclasses.Connection import ConnectionV15
 from PBSclasses.Encounter import EncounterV15
-from PBSclasses.Item import Item
+from PBSclasses.Item import ItemV15
 from PBSclasses.Move import MoveV15
 from PBSclasses.Phone import PhoneV15
 from PBSclasses.ShadowPokemon import ShadowPokemonV15
@@ -73,7 +73,7 @@ def deserialize_ability(ability: AbilityV15):
     return deserialize_simple_csv(ability)
 
 
-def deserialize_item(item: Item, version):
+def deserialize_item(item: ItemV15, version):
     return deserialize_simple_csv(item)
 
 

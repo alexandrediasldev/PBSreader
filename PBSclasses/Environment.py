@@ -8,23 +8,23 @@ from PBSclasses.Connection import ConnectionV15
 
 from PBSclasses.Encounter import EncounterV15
 from PBSclasses.EncounterMethod import get_default_encounter_method_list
-from PBSclasses.Item import Item
+from PBSclasses.Item import ItemV15
 from PBSclasses.MetaData import MetaDataV15
 from PBSclasses.Move import MoveV15
 from PBSclasses.Phone import PhoneV15
 from PBSclasses.ShadowPokemon import ShadowPokemonV15
 from PBSclasses.Species import SpeciesV15
 from PBSclasses.TownMap import TownMap
-from PBSclasses.TrainerTypes import TrainerType
+from PBSclasses.TrainerTypes import TrainerTypeV15
 from PBSclasses.Trainers import TrainerV15
 from PBSclasses.Type import TypeV15
 
 
 class Environment:
-    trainer_type_list: List[TrainerType] = []
+    trainer_type_list: List[TrainerTypeV15] = []
     species_list: List[SpeciesV15] = []
     move_list: List[MoveV15] = []
-    item_list: List[Item] = []
+    item_list: List[ItemV15] = []
     trainer_list: List[TrainerV15] = []
     encounter_list: List[EncounterV15] = []
     ability_list: List[AbilityV15] = []
@@ -39,8 +39,8 @@ class Environment:
     def __init__(self):
         pass
 
-    def load_metadata(self, equal_metadata):
-        self.metadata_list = pr.parse_metadata(equal_metadata)
+    def load_metadata(self, equal_metadata, version):
+        self.metadata_list = pr.parse_metadata(equal_metadata, version)
 
     def load_townmap(self, equal_townmap):
         self.townmap_list = pr.parse_townmap(equal_townmap)
@@ -115,4 +115,4 @@ class Environment:
         self.load_phone(csv_phone)
         self.load_type(equal_type)
         self.load_townmap(equal_townmap)
-        self.load_metadata(equal_metadata)
+        self.load_metadata(equal_metadata, version)

@@ -108,8 +108,12 @@ def test_type():
     equal_check("types.txt", parse_type)
 
 
-def test_metadata():
-    equal_check("metadata.txt", parse_metadata)
+def test_metadatav15():
+    equal_check("metadatav15.txt", parse_metadata, version=15)
+
+
+def test_metadatav18():
+    equal_check("metadatav18.txt", parse_metadata, version=18)
 
 
 def test_townmap():
