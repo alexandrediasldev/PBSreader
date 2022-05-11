@@ -1,0 +1,1 @@
+﻿id_number,id,name,function_code,base_power,type,damage_category,accuracy,total_pp,additional_effect_chance,target,priority,flags,description

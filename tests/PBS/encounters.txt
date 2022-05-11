@@ -1,0 +1,21 @@
+001 # Random name
+encounter_densities0,encounter_densities1,encounter_densities2
+encounter_method
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high
+encounter_method
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high
+encounter_method
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high
+pokemon_species,level_low,level_high

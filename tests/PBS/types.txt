@@ -1,0 +1,8 @@
+[id]
+Name=name
+InternalName=internal_name
+Weaknesses=weaknesses0,weaknesses1
+Immunities=immunities0,immunities1
+IsPseudoType=is_pseudo_type
+IsSpecialType=is_special_type
+Resistances=resistances0,resistances1

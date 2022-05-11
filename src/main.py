@@ -3,6 +3,7 @@ from pathlib import Path
 from src.Finder import get_species_from_name, get_trainer_type_from_name, get_item_from_name
 from PBSclasses.Environment import Environment
 
+from src.parser import parser as pr
 from src import FileLoader
 from src.Exporter import (
     deserialize_encounter,
@@ -19,13 +20,13 @@ from src.Exporter import (
     deserialize_trainer,
     deserialize_connection,
     deserialize_berry_plant,
+    deserialize_encounters,
 )
 
 if __name__ == "__main__":
-    pbsv15_location = "./PBSv15/"
-    pbsv16_location = "./PBSv16/"
-    pbsv18_location = "./PBSv18/"
-    csv_trainer = FileLoader.file_csv_tolist(pbsv15_location + "trainers.txt")
+    pbsv15_location = "../PBSv15/"
+    pbsv16_location = "../PBSv16/"
+    pbsv18_location = "../PBSv18/"
     csv_trainer = FileLoader.file_csv_tolist(pbsv15_location + "trainers.txt")
     csv_trainer_type = FileLoader.file_csv_tolist(pbsv15_location + "trainertypes.txt")
     csv_move = FileLoader.file_csv_tolist(pbsv15_location + "moves.txt")
@@ -78,8 +79,16 @@ if __name__ == "__main__":
     # print(deserialize_species(spe))
     # print(deserialize_trainer_types(tr_type, 15))
     # print(deserialize_move(mov))
+
+    # csv_item16 = FileLoader.file_csv_tolist(pbsv16_location + "trainertypes.txt")
+    # list_v16 = pr.parse_trainer_types(csv_item16, 16)
+
+    # obj_v16 = list_v16[70]
+    # print(deserialize_trainer_types(obj_v16, 16))
+    # print(deserialize_trainer_types(tr_type, 15))
+
     # print(deserialize_item(firestone, 15))
-    print(deserialize_trainer(tra))
+    # print(deserialize_trainer(tra))
     # print(deserialize_ability(abi))
     # print(deserialize_encounter(encou))
     # print(deserialize_connection(conn))
@@ -95,3 +104,5 @@ if __name__ == "__main__":
 
     # f, ax = Visualization.plot_all_encounter_map_types(env.encounter_list)
     # f.show()
+    pass
+    # NEED TO CONTINUE WORKING ON METADATA TO FIX IT

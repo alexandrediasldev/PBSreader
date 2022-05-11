@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field
 
 from PBSclasses.BaseData import BaseData
-from PBSclasses.TrainerTypes import TrainerType
 from PBSclasses.Pokemon import Pokemon
 from src.Finder import get_trainer_type_from_name
 

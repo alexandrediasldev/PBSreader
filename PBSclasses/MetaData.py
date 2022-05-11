@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from typing import List
 
 from PBSclasses.BaseData import BaseData
 
@@ -26,9 +27,9 @@ class HomeMetaData(BaseData):
 @dataclass
 class MetaData(BaseData):
     id: str = ""
-    player: list[PlayerMetaData] = field(default_factory=list)
+    player: List[PlayerMetaData] = field(default_factory=list)
     home: HomeMetaData = field(default_factory=HomeMetaData)
-    bycycle_BGM: str = ""
+    bicycle_BGM: str = ""
     surf_BGM: str = ""
     wild_battle_BGM: str = ""
     trainer_battle_BGM: str = ""

@@ -10,6 +10,7 @@ class Type(BaseData):
     name: str = ""
     internal_name: str = ""
     is_special_type: str = ""
+    is_pseudo_type: str = ""
     weaknesses: List[str] = field(default_factory=list)
     resistances: List[str] = field(default_factory=list)
     immunities: List[str] = field(default_factory=list)

@@ -5,7 +5,7 @@ from PBSclasses.Ability import Ability
 from PBSclasses.BaseData import BaseData
 from PBSclasses.BerryPlant import BerryPlant
 from PBSclasses.Connection import Connection
-from PBSclasses.Encounter import Encounter, MapEncounter
+from PBSclasses.Encounter import EncounterByMap
 from PBSclasses.Item import Item
 from PBSclasses.Move import Move
 from PBSclasses.Phone import Phone
@@ -74,10 +74,7 @@ def deserialize_ability(ability: Ability):
 
 
 def deserialize_item(item: Item, version):
-    attr_dict = item.get_attr_dict()
-    if version < 16:
-        attr_dict.pop("NamePlural")
-    return deserialize_simple_csv(item, attr_dict)
+    return deserialize_simple_csv(item)
 
 
 def deserialize_move(move: Move):
@@ -85,9 +82,6 @@ def deserialize_move(move: Move):
 
 
 def deserialize_trainer_types(trainer_types: TrainerTypes, version):
-    attr_dict = trainer_types.get_attr_dict()
-    if version < 16:
-        attr_dict.pop("SkillCodes")
     return deserialize_simple_csv(trainer_types)
 
 
@@ -179,35 +173,26 @@ def deserialize_type(type: Type):
     return deserialize_equal_data(type)
 
 
-def deserialize_encounters(encounters: List[Encounter]):
-    last_method_name = ""
-    last_map_id_number = ""
+def deserialize_encounters(encounters: List[EncounterByMap]):
     lines = []
-    for encounter in encounters:
-        if encounter.map_id_number != last_map_id_number:
-            lines.append(encounter.map_id_number)
-            lines.append(",".join(encounter.encounter_densities))
-            last_map_id_number = encounter.map_id_number
-        if encounter.encounter_method.method_name != last_method_name:
-            lines.append(encounter.encounter_method.method_name)
-            last_method_name = encounter.encounter_method.method_name
-        lines.append(deserialize_encounter(encounter))
+    for en in encounters:
+        lines.extend(deserialize_encounter(en))
     return lines
 
 
-def deserialize_encounter(encounter: MapEncounter):
+def deserialize_encounter(encounter: EncounterByMap):
     line = []
-    line.append(encounter.map_id_number)
-    line.append(",".join(encounter.encounter_densities))
-    last_method_name = ""
-    for encou in encounter.encounters:
-        if encou.encounter_method != last_method_name:
-            line.append(encou.encounter_method)
-        if encou.level_high:
-            line.append(encou.pokemon_species + "," + encou.level_low + "," + encou.level_high)
-        else:
-            line.append(encou.pokemon_species + "," + encou.level_low)
-        last_method_name = encou.encounter_method
+    line.append([encounter.map_id_number])
+    line.append([",".join(encounter.encounter_densities)])
+    for enc_meth in encounter.encounters:
+        line.append([enc_meth.encounter_method])
+        for enc_pkm in enc_meth.pokemon_list:
+            if enc_pkm.level_high:
+                line.append(
+                    [enc_pkm.pokemon_species + "," + enc_pkm.level_low + "," + enc_pkm.level_high]
+                )
+            else:
+                line.append([enc_pkm.pokemon_species + "," + enc_pkm.level_low])
 
     return line
 

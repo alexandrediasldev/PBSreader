@@ -6,7 +6,7 @@ from src import Exception as ex
 from src.parser import parser as pr
 from PBSclasses.Connection import Connection
 
-from PBSclasses.Encounter import Encounter
+from PBSclasses.Encounter import EncounterByMap
 from PBSclasses.EncounterMethod import get_default_encounter_method_list
 from PBSclasses.Item import Item
 from PBSclasses.MetaData import MetaData
@@ -26,7 +26,7 @@ class Environment:
     move_list: List[Move] = []
     item_list: List[Item] = []
     trainer_list: List[Trainer] = []
-    encounter_list: List[Encounter] = []
+    encounter_list: List[EncounterByMap] = []
     ability_list: List[Ability] = []
     connection_list: List[Connection] = []
     shadow_list: List[ShadowPokemon] = []
@@ -61,7 +61,7 @@ class Environment:
         self.species_list = pr.parse_pokemon(equal_pokemon_species)
 
     def load_move_list(self, csv_move):
-        self.move_list = pr.parser_move(csv_move)
+        self.move_list = pr.parse_move(csv_move)
 
     def load_item_list(self, csv_item, version):
         self.item_list = pr.parse_item(csv_item, version)
@@ -72,7 +72,7 @@ class Environment:
     def load_encounter_list(
         self, csv_encounter, encounter_method_list=get_default_encounter_method_list()
     ):
-        self.encounter_list = pr.parse_encounter(csv_encounter, encounter_method_list, self)
+        self.encounter_list = pr.parse_encounter(csv_encounter, encounter_method_list)
 
     def load_shadow_list(self, equal_pokemon_shadow):
         self.shadow_list = pr.parse_shadow_pokemon(equal_pokemon_shadow)
