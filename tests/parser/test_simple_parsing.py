@@ -120,12 +120,12 @@ def test_pokemonv15():
     equal_check("pokemonv15.txt", parse_pokemon, version=15)
 
 
+def test_pokemonv16():
+    equal_check("pokemonv16.txt", parse_pokemon, version=16)
+
+
 def test_pokemonv17():
     equal_check("pokemonv17.txt", parse_pokemon, version=17)
-
-
-def test_pokemonv18():
-    equal_check("pokemonv18.txt", parse_pokemon, version=18)
 
 
 def test_trainers():

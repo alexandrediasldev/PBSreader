@@ -31,4 +31,5 @@ BattlerPlayerY=battler_player_y
 BattlerEnemyY=battler_enemy_y
 BattlerAltitude=battler_altitude
 Evolutions=name,method,evolution_parameter
+Incense=incense
 Shape=shape
