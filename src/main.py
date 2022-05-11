@@ -115,4 +115,4 @@ if __name__ == "__main__":
     # V16 DONE
     # V17 pokemonforms
     # V18 pokemonforms trainers
-    # V19 pokemonforms encounter ribbons
+    # V19 pokemonforms encounter

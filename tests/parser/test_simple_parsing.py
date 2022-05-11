@@ -18,6 +18,7 @@ from src.parser.parser import (
     parse_tm,
     parse_regional_dex,
     parse_ribbon,
+    parse_pokemon_form,
 )
 
 
@@ -141,6 +142,18 @@ def test_pokemonv18():
 
 def test_pokemonv19():
     equal_check("pokemonv19.txt", parse_pokemon, version=19)
+
+
+def test_pokemonformv17():
+    equal_check("pokemonformsv17.txt", parse_pokemon_form, version=17)
+
+
+def test_pokemonformv18():
+    equal_check("pokemonformsv18.txt", parse_pokemon_form, version=18)
+
+
+def test_pokemonformv19():
+    equal_check("pokemonformsv19.txt", parse_pokemon_form, version=19)
 
 
 def test_trainers():

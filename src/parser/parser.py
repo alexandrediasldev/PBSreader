@@ -4,6 +4,7 @@ import PBSclasses.Move as mv
 import PBSclasses.Item as it
 import PBSclasses.Encounter as en
 import PBSclasses.Ability as ab
+from PBSclasses.PokemonForm import PokemonFormV17, PokemonFormV18, PokemonFormV19
 from PBSclasses.RegionalDexes import RegionalDexV19
 from PBSclasses.Ribbon import RibbonV19
 from PBSclasses.Species import SpeciesV15, SpeciesV17, SpeciesV16, SpeciesV18, SpeciesV19
@@ -150,10 +151,28 @@ def parse_equal_metadata(lines, object_class):
     return list_obj
 
 
-def parse_equal_line_pokemon(lines, object_class):
-    argument_translator = object_class.get_attr_dict()
+def parse_section_header_pokemon(lines):
     kwargs = {}
     kwargs["id"] = parse_bracket_header(lines[0][0])
+    return kwargs
+
+
+def parse_section_header_pokemon_form(lines):
+    kwargs = {}
+    header = parse_bracket_header(lines[0][0])
+    if "-" in header:
+        header = header.split("-")
+    elif "," in header:
+        header = header.split(",")
+    else:
+        header = header.split(" ")
+    kwargs["id"] = header[0]
+    kwargs["id_number"] = header[1]
+    return kwargs
+
+
+def parse_section_pokemon(lines, object_class, kwargs):
+    argument_translator = object_class.get_attr_dict()
     for line in lines[1:]:
         if line[0] == "Moves":
             moves_and_level = line[1].split(",")
@@ -177,6 +196,25 @@ def parse_equal_line_pokemon(lines, object_class):
             value = parse_equal_name_value(line[0], line[1], object_class)
             kwargs[argument_translator[line[0]]] = value
     return object_class(**kwargs)
+
+
+def parse_equal_line_pokemon(lines, object_class):
+    kwargs = parse_section_header_pokemon(lines)
+    return parse_section_pokemon(lines, object_class, kwargs)
+
+
+def parse_equal_line_pokemon_form(lines, object_class):
+    kwargs = parse_section_header_pokemon_form(lines)
+    return parse_section_pokemon(lines, object_class, kwargs)
+
+
+def parse_equal_pokemon_form(lines, object_class):
+    list_obj = []
+    lines_separated = separate_equal(lines)
+    for line in lines_separated:
+        obj = parse_equal_line_pokemon_form(line, object_class)
+        list_obj.append(obj)
+    return list_obj
 
 
 def parse_equal_pokemon(lines, object_class):
@@ -330,6 +368,16 @@ def parse_pokemon(equal_output, version):
     else:
         type = SpeciesV19
     return parse_equal_pokemon(equal_output, type)
+
+
+def parse_pokemon_form(equal_output, version):
+    if version == 17:
+        type = PokemonFormV17
+    elif version == 18:
+        type = PokemonFormV18
+    else:
+        type = PokemonFormV19
+    return parse_equal_pokemon_form(equal_output, type)
 
 
 def parse_trainer_list(csv_output, version) -> list[tr.TrainerV15]:
