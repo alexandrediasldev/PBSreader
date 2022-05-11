@@ -16,6 +16,7 @@ from src.parser.parser import (
     parse_trainer_list,
     parse_encounter,
     parse_tm,
+    parse_regional_dex,
 )
 
 
@@ -151,6 +152,10 @@ def test_phone():
 
 def test_tm():
     equal_check("tm.txt", parse_tm, version=15)
+
+
+def test_regional_dexes():
+    equal_check("regionaldexes.txt", parse_regional_dex, version=19)
 
 
 def test_encounters():

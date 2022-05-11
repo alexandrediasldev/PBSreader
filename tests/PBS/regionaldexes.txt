@@ -1,0 +1,4 @@
+[regional_dex_number]
+pokemon_list0,pokemon_list1,pokemon_list2
+pokemon_list3,pokemon_list4,pokemon_list5
+pokemon_list6,pokemon_list7,pokemon_list8

@@ -111,8 +111,8 @@ if __name__ == "__main__":
     # f.show()
     pass
 
-    # V15 DONE except tm
+    # V15 DONE
     # V16 DONE
     # V17 pokemonforms
     # V18 pokemonforms trainers
-    # V19 pokemonforms encounter regionaldexes ribbons
+    # V19 pokemonforms encounter ribbons
