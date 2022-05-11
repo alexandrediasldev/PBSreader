@@ -5,6 +5,7 @@ import PBSclasses.Item as it
 import PBSclasses.Encounter as en
 import PBSclasses.Ability as ab
 from PBSclasses.RegionalDexes import RegionalDexV19
+from PBSclasses.Ribbon import RibbonV19
 from PBSclasses.Species import SpeciesV15, SpeciesV17, SpeciesV16, SpeciesV18, SpeciesV19
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.BerryPlant import BerryPlantV16
@@ -257,6 +258,11 @@ def parse_item(csv_output, version) -> list[it.ItemV15]:
     else:
         itemType = it.ItemV16
     return parse_csv(csv_output, itemType)
+
+
+def parse_ribbon(csv_output, version) -> list[RibbonV19]:
+    type = RibbonV19
+    return parse_csv(csv_output, type)
 
 
 def parse_shadow_pokemon(csv_output) -> list[ShadowPokemonV15]:

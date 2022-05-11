@@ -17,6 +17,7 @@ from src.parser.parser import (
     parse_encounter,
     parse_tm,
     parse_regional_dex,
+    parse_ribbon,
 )
 
 
@@ -156,6 +157,10 @@ def test_tm():
 
 def test_regional_dexes():
     equal_check("regionaldexes.txt", parse_regional_dex, version=19)
+
+
+def test_ribbon():
+    csv_check("ribbons.txt", parse_ribbon, version=19)
 
 
 def test_encounters():

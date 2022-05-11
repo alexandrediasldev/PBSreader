@@ -9,6 +9,8 @@ from PBSclasses.Encounter import EncounterV15
 from PBSclasses.Item import ItemV15
 from PBSclasses.Move import MoveV15
 from PBSclasses.Phone import PhoneV15
+from PBSclasses.RegionalDexes import RegionalDexV19
+from PBSclasses.Ribbon import RibbonV19
 from PBSclasses.ShadowPokemon import ShadowPokemonV15
 from PBSclasses.Species import SpeciesV15
 from PBSclasses.Tm import TmV15
@@ -186,6 +188,17 @@ def deserialize_tm(tm: TmV15):
     lines.append("[" + tm.move_name + "]")
     lines.append(",".join(tm.pokemon_list))
     return lines
+
+
+def deserialize_regional_dex(regional_dex: RegionalDexV19):
+    lines = []
+    lines.append("[" + regional_dex.regional_dex_number + "]")
+    lines.append(",".join(regional_dex.pokemon_list))
+    return lines
+
+
+def deserialize_ribbon(ribbon: RibbonV19):
+    return deserialize_simple_csv(ribbon)
 
 
 def deserialize_encounter(encounter: EncounterV15):
