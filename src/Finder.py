@@ -1,6 +1,6 @@
+from PBSclasses.TrainerTypes import TrainerTypeV15
 from src import Exception as ex
 from PBSclasses import EncounterMethod, Move, Item, Species
-from PBSclasses.TrainerTypes import TrainerType
 
 
 def get_species_from_name(name: str, species_list: list[Species]) -> Species:
@@ -56,7 +56,9 @@ def get_encounter_method_from_name(
     return ""
 
 
-def get_trainer_type_from_name(name: str, trainer_type_list: list[TrainerType]) -> TrainerType:
+def get_trainer_type_from_name(
+    name: str, trainer_type_list: list[TrainerTypeV15]
+) -> TrainerTypeV15:
     if name == "":
         return ""
     for t in trainer_type_list:

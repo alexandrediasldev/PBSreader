@@ -3,8 +3,8 @@ import PBSclasses.Pokemon as pk
 import PBSclasses.Move as mv
 import PBSclasses.Item as it
 import PBSclasses.Encounter as en
-import PBSclasses.EncounterMethod as enm
 import PBSclasses.Ability as ab
+from PBSclasses.Species import Species
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.BerryPlant import BerryPlant
 from PBSclasses.Connection import Connection
@@ -16,7 +16,6 @@ from PBSclasses.SpeciesStats import SpeciesStats
 from PBSclasses.TownMap import TownMap, TownPoint
 from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
 from PBSclasses.Type import Type
-from src.Finder import get_encounter_method_from_name
 from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma, parse_coma_equal_field
 from src.parser.schema import separate_equal, separate_trainers, separate_encounters
 
@@ -204,7 +203,7 @@ def parse_connection(csv_output) -> list[Connection]:
     return parse_csv(csv_output, type)
 
 
-def parse_trainer_types(csv_output, version) -> list[tr.TrainerType]:
+def parse_trainer_types(csv_output, version) -> list[TrainerTypeV15]:
     if version == 15:
         type = TrainerTypeV15
     else:
@@ -212,7 +211,7 @@ def parse_trainer_types(csv_output, version) -> list[tr.TrainerType]:
     return parse_csv(csv_output, type)
 
 
-def parse_item(csv_output, version) -> list[it.Item]:
+def parse_item(csv_output, version) -> list[it.ItemV15]:
     if version == 15:
         itemType = it.ItemV15
     else:
@@ -261,7 +260,7 @@ def parse_metadata(equal_output):
 
 
 def parse_pokemon(equal_output):
-    type = pk.Species
+    type = Species
     return parse_equal_pokemon(equal_output, type)
 
 

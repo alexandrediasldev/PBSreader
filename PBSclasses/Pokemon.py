@@ -2,9 +2,6 @@ from dataclasses import dataclass, field
 from typing import List
 
 from PBSclasses.BaseData import BaseData
-from PBSclasses.Item import Item
-from PBSclasses.Move import Move
-from PBSclasses.Species import Species
 
 
 @dataclass
