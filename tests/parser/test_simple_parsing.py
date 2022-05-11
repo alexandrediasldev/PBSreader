@@ -132,6 +132,14 @@ def test_pokemonv17():
     equal_check("pokemonv17.txt", parse_pokemon, version=17)
 
 
+def test_pokemonv18():
+    equal_check("pokemonv18.txt", parse_pokemon, version=18)
+
+
+def test_pokemonv19():
+    equal_check("pokemonv19.txt", parse_pokemon, version=19)
+
+
 def test_trainers():
     csv_check("trainers.txt", parse_trainer_list, 15)
 

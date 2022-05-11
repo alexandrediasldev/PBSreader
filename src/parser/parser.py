@@ -4,7 +4,7 @@ import PBSclasses.Move as mv
 import PBSclasses.Item as it
 import PBSclasses.Encounter as en
 import PBSclasses.Ability as ab
-from PBSclasses.Species import SpeciesV15, SpeciesV17, SpeciesV16
+from PBSclasses.Species import SpeciesV15, SpeciesV17, SpeciesV16, SpeciesV18, SpeciesV19
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.BerryPlant import BerryPlantV16
 from PBSclasses.Connection import ConnectionV15
@@ -267,8 +267,12 @@ def parse_pokemon(equal_output, version):
         type = SpeciesV15
     elif version == 16:
         type = SpeciesV16
-    else:
+    elif version == 17:
         type = SpeciesV17
+    elif version == 18:
+        type = SpeciesV18
+    else:
+        type = SpeciesV19
     return parse_equal_pokemon(equal_output, type)
 
 
