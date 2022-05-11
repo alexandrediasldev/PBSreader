@@ -116,8 +116,16 @@ def test_townmap():
     equal_check("townmap.txt", parse_townmap)
 
 
-def test_pokemon():
-    equal_check("pokemon.txt", parse_pokemon)
+def test_pokemonv15():
+    equal_check("pokemonv15.txt", parse_pokemon, version=15)
+
+
+def test_pokemonv17():
+    equal_check("pokemonv17.txt", parse_pokemon, version=17)
+
+
+def test_pokemonv18():
+    equal_check("pokemonv18.txt", parse_pokemon, version=18)
 
 
 def test_trainers():

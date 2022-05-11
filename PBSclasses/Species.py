@@ -33,6 +33,7 @@ class SpeciesV15(BaseData):
     habitat: str = ""
     kind: str = ""
     pokedex: str = ""
+    regional_numbers: List[str] = field(default_factory=list)
     wild_item_common: str = ""
     wild_item_uncommon: str = ""
     wild_item_rare: str = ""
@@ -40,4 +41,80 @@ class SpeciesV15(BaseData):
     battler_enemy_y: str = ""
     battler_altitude: str = ""
     evolutions: SpeciesEvolution = field(default_factory=SpeciesEvolution)
+
+
+@dataclass
+class SpeciesV17(BaseData):
+    id: str = ""
+    name: str = ""
+    internal_name: str = ""
+    type1: str = ""
+    type2: str = ""
+    base_stats: SpeciesStats = field(default_factory=SpeciesStats)
+    gender_rate: str = ""
+    growth_rate: str = ""
+    base_EXP: str = ""
+    effort_points: SpeciesStats = field(default_factory=SpeciesStats)
+    rareness: str = ""
+    happiness: str = ""
+    abilities: List[str] = field(default_factory=list)
+    hidden_ability: List[str] = field(default_factory=list)
+    form_names: List[str] = field(default_factory=list)
+    moves: List[Tuple[str, str]] = field(default_factory=list)
+    egg_moves: List[str] = field(default_factory=list)
+    compatibility: List[str] = field(default_factory=list)
+    steps_to_hatch: str = ""
+    height: str = ""
+    weight: str = ""
+    color: str = ""
+    habitat: str = ""
+    kind: str = ""
+    pokedex: str = ""
+    regional_numbers: List[str] = field(default_factory=list)
+    wild_item_common: str = ""
+    wild_item_uncommon: str = ""
+    wild_item_rare: str = ""
+    battler_player_y: str = ""
+    battler_enemy_y: str = ""
+    battler_altitude: str = ""
+    evolutions: SpeciesEvolution = field(default_factory=SpeciesEvolution)
+    shape: str = ""
+
+
+@dataclass
+class SpeciesV18(BaseData):
+    id: str = ""
+    name: str = ""
+    internal_name: str = ""
+    type1: str = ""
+    type2: str = ""
+    base_stats: SpeciesStats = field(default_factory=SpeciesStats)
+    gender_rate: str = ""
+    growth_rate: str = ""
+    base_EXP: str = ""
+    effort_points: SpeciesStats = field(default_factory=SpeciesStats)
+    rareness: str = ""
+    happiness: str = ""
+    abilities: List[str] = field(default_factory=list)
+    hidden_ability: List[str] = field(default_factory=list)
+    form_names: List[str] = field(default_factory=list)
+    moves: List[Tuple[str, str]] = field(default_factory=list)
+    egg_moves: List[str] = field(default_factory=list)
+    compatibility: List[str] = field(default_factory=list)
+    steps_to_hatch: str = ""
+    height: str = ""
+    weight: str = ""
+    color: str = ""
+    habitat: str = ""
+    kind: str = ""
+    pokedex: str = ""
+    regional_numbers: List[str] = field(default_factory=list)
+    wild_item_common: str = ""
+    wild_item_uncommon: str = ""
+    wild_item_rare: str = ""
+    battler_player_y: str = ""
+    battler_enemy_y: str = ""
+    battler_altitude: str = ""
+    evolutions: SpeciesEvolution = field(default_factory=SpeciesEvolution)
+    shape: str = ""
     incense: str = ""

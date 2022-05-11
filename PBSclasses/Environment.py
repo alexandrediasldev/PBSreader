@@ -57,8 +57,8 @@ class Environment:
     def load_trainer_type_list(self, csv_trainer_type, version):
         self.trainer_type_list = pr.parse_trainer_types(csv_trainer_type, version)
 
-    def load_species_list(self, equal_pokemon_species):
-        self.species_list = pr.parse_pokemon(equal_pokemon_species)
+    def load_species_list(self, equal_pokemon_species, version):
+        self.species_list = pr.parse_pokemon(equal_pokemon_species, version)
 
     def load_move_list(self, csv_move):
         self.move_list = pr.parse_move(csv_move)
@@ -104,7 +104,7 @@ class Environment:
     ):
         self.load_ability_list(csv_ability)
         self.load_trainer_type_list(csv_trainer_type, version)
-        self.load_species_list(equal_pokemon_species)
+        self.load_species_list(equal_pokemon_species, version)
         self.load_move_list(csv_move)
         self.load_item_list(csv_item, version)
         self.load_trainer_list(csv_trainer, version)
