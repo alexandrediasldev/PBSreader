@@ -1,6 +1,7 @@
 from typing import List
 from PBSclasses.Ability import AbilityV15
 from PBSclasses.BerryPlant import BerryPlantV16
+from PBSclasses.Tm import TmV15
 
 from src import Exception as ex
 from src.parser import parser as pr
@@ -18,6 +19,7 @@ from PBSclasses.TownMap import TownMap
 from PBSclasses.TrainerTypes import TrainerTypeV15
 from PBSclasses.Trainers import TrainerV15
 from PBSclasses.Type import TypeV15
+from src.parser.parser import parse_tm
 
 
 class Environment:
@@ -34,6 +36,7 @@ class Environment:
     type_list: List[TypeV15] = []
     townmap_list: List[TownMap] = []
     metadata_list: List[MetaDataV15] = []
+    tm_list: List[TmV15] = []
     phone: PhoneV15 = None
 
     def __init__(self):
@@ -83,6 +86,9 @@ class Environment:
     def load_trainer_list(self, csv_trainer, version):
         self.trainer_list = pr.parse_trainer_list(csv_trainer, version)
 
+    def load_tm_list(self, equal_tm, version):
+        self.tm_list = parse_tm(equal_tm, version)
+
     def load_environment(
         self,
         csv_trainer_type,
@@ -99,6 +105,7 @@ class Environment:
         equal_type,
         equal_townmap,
         equal_metadata,
+        equal_tm,
         version,
         encounter_method_list=get_default_encounter_method_list(),
     ):
@@ -116,3 +123,4 @@ class Environment:
         self.load_type(equal_type)
         self.load_townmap(equal_townmap)
         self.load_metadata(equal_metadata, version)
+        self.load_tm_list(equal_tm, version)

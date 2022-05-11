@@ -15,6 +15,7 @@ from src.parser.parser import (
     parse_pokemon,
     parse_trainer_list,
     parse_encounter,
+    parse_tm,
 )
 
 
@@ -146,6 +147,10 @@ def test_trainers():
 
 def test_phone():
     equal_check("phone.txt", parse_phone)
+
+
+def test_tm():
+    equal_check("tm.txt", parse_tm, version=15)
 
 
 def test_encounters():

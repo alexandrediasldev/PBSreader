@@ -12,6 +12,7 @@ from PBSclasses.MetaData import MetaDataV15, PlayerMetaData, HomeMetaData, MetaD
 from PBSclasses.Phone import PhoneV15
 from PBSclasses.ShadowPokemon import ShadowPokemonV15
 from PBSclasses.SpeciesStats import SpeciesStats
+from PBSclasses.Tm import TmV15
 
 from PBSclasses.TownMap import TownMap, TownPoint
 from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
@@ -68,6 +69,22 @@ def parse_equal_line(lines, object_class):
         value = parse_equal_name_value(line[0], line[1], object_class)
         kwargs[argument_translator[line[0]]] = value
     return object_class(**kwargs)
+
+
+def parse_tm_line(lines, object_class):
+    kwargs = {}
+    kwargs["move_name"] = parse_bracket_header(lines[0][0])
+    kwargs["pokemon_list"] = parse_coma_equal_field(lines[1][0])
+    return object_class(**kwargs)
+
+
+def parse_tm_full(lines, object_class):
+    list_obj = []
+    lines_separated = separate_equal(lines)
+    for line in lines_separated:
+        obj = parse_tm_line(line, object_class)
+        list_obj.append(obj)
+    return list_obj
 
 
 def append_value_kwargs(kwargs, first, value, attr_name, argument_translator):
@@ -222,6 +239,11 @@ def parse_item(csv_output, version) -> list[it.ItemV15]:
 def parse_shadow_pokemon(csv_output) -> list[ShadowPokemonV15]:
     type = ShadowPokemonV15
     return parse_csv_after_equal(csv_output, type)
+
+
+def parse_tm(csv_output, version):
+    type = TmV15
+    return parse_tm_full(csv_output, type)
 
 
 # ------ Equal

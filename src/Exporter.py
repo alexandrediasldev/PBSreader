@@ -11,6 +11,7 @@ from PBSclasses.Move import MoveV15
 from PBSclasses.Phone import PhoneV15
 from PBSclasses.ShadowPokemon import ShadowPokemonV15
 from PBSclasses.Species import SpeciesV15
+from PBSclasses.Tm import TmV15
 from PBSclasses.Trainers import TrainerV15
 from PBSclasses.Type import TypeV15
 
@@ -177,6 +178,13 @@ def deserialize_encounters(encounters: List[EncounterV15]):
     lines = []
     for en in encounters:
         lines.extend(deserialize_encounter(en))
+    return lines
+
+
+def deserialize_tm(tm: TmV15):
+    lines = []
+    lines.append("[" + tm.move_name + "]")
+    lines.append(",".join(tm.pokemon_list))
     return lines
 
 
