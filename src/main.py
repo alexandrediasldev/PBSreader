@@ -113,6 +113,6 @@ if __name__ == "__main__":
 
     # V15 DONE
     # V16 DONE
-    # V17 pokemonforms
-    # V18 pokemonforms trainers
-    # V19 pokemonforms encounter
+    # V17 DONE
+    # V18 trainers
+    # V19 encounter

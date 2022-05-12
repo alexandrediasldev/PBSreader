@@ -5,7 +5,7 @@ from PBSclasses.MetaData import PlayerMetaData
 from PBSclasses.Phone import PhoneV15
 from PBSclasses.TownMap import TownPoint
 from src.Finder import get_encounter_method_from_name, get_species_from_name
-from src.parser.parse_utils import parse_coma_equal_field, parse_bracket_header, parse_one_line_coma
+from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma
 
 
 def find_next_index(lines, start_index):
