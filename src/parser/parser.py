@@ -1,5 +1,10 @@
 from PBSclasses.Ability import AbilityV15
-from PBSclasses.Encounter import EncounterV15, EncounterPokemon, EncounterByMethod
+from PBSclasses.Encounter import (
+    EncounterV15,
+    EncounterPokemonV15,
+    EncounterByMethodV15,
+    EncounterV19,
+)
 from PBSclasses.Item import ItemV15, ItemV16
 from PBSclasses.Move import MoveV15
 from PBSclasses.PokemonForm import PokemonFormV17, PokemonFormV18, PokemonFormV19
@@ -21,7 +26,12 @@ from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
 from PBSclasses.Trainers import TrainerV15
 from PBSclasses.Type import TypeV15
 from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma, append_value_kwargs
-from src.parser.schema import separate_equal, separate_trainers, separate_encounters
+from src.parser.schema import (
+    separate_equal,
+    separate_trainers,
+    separate_encountersv15,
+    separate_encountersv19,
+)
 
 # single line parsing
 from src.parser.section import (
@@ -34,8 +44,11 @@ from src.parser.section import (
     parse_pokemon_section_body,
     parse_pokemon_form_section_header,
     parse_full_section_header,
-    parse_encounter_map_section_header,
-    parse_encounter_map_section_body,
+    parse_encounter_map_section_headerv15,
+    parse_encounter_map_section_bodyv15,
+    parse_encounter_map_section_bodyv19,
+    parse_bracket_coma_section_header,
+    parse_encounter_map_section_headerv19,
 )
 from src.parser.single_line_files import (
     attr_list_to_object,
@@ -209,13 +222,22 @@ def parse_trainer_list(csv_output, version) -> list[TrainerV15]:
 def parse_encounter(lines, version: int) -> list[EncounterV15]:
     if version == 15:
         type = EncounterV15
+        lines_separated = separate_encountersv15(lines)
+        return parse_all_section(
+            lines_separated,
+            type,
+            parse_encounter_map_section_headerv15,
+            parse_encounter_map_section_bodyv15,
+        )
     else:
-        type = EncounterV15
-
-    lines_separated = separate_encounters(lines)
-    return parse_all_section(
-        lines_separated, type, parse_encounter_map_section_header, parse_encounter_map_section_body
-    )
+        type = EncounterV19
+        lines_separated = separate_encountersv19(lines)
+        return parse_all_section(
+            lines_separated,
+            type,
+            parse_encounter_map_section_headerv19,
+            parse_encounter_map_section_bodyv19,
+        )
 
 
 # ----- Phone

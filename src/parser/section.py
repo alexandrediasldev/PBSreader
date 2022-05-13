@@ -1,5 +1,10 @@
 # convert line to format
-from PBSclasses.Encounter import EncounterPokemon, EncounterByMethod
+from PBSclasses.Encounter import (
+    EncounterPokemonV15,
+    EncounterByMethodV15,
+    EncounterPokemonV19,
+    EncounterByMethodV19,
+)
 from PBSclasses.MetaData import PlayerMetaData, HomeMetaData
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
@@ -10,7 +15,7 @@ from src.parser.parse_utils import (
     parse_equal_name_value,
     parse_one_line_coma,
 )
-from src.parser.single_line_files import get_kwargs_from_line_csv
+from src.parser.single_line_files import get_kwargs_from_line_csv, parse_csv
 
 
 def parse_all_section(
@@ -48,15 +53,39 @@ def parse_pokemon_form_section_header(lines, object_class):
         header = header.split(",")
     else:
         header = header.split(" ")
-    kwargs["id"] = header[0]
-    kwargs["id_number"] = header[1]
+    kwargs[object_class.get_attr_names()[0]] = header[0]
+    kwargs[object_class.get_attr_names()[1]] = header[1]
     return kwargs
 
 
-def parse_encounter_map_section_header(lines, object_class):
+def parse_bracket_coma_section_header(lines, object_class):
+    kwargs = {}
+    header = parse_bracket_header(lines[0][0])
+    if "," in header:
+        header = header.split(",")
+    kwargs[object_class.get_attr_names()[0]] = header[0]
+    kwargs[object_class.get_attr_names()[1]] = header[1]
+    return kwargs
+
+
+def parse_coma_section_header(lines, object_class):
+    kwargs = {}
+    kwargs[object_class.get_attr_names()[0]] = lines[0][0]
+    kwargs[object_class.get_attr_names()[1]] = lines[0][1]
+    return kwargs
+
+
+def parse_encounter_map_section_headerv15(lines, object_class):
     kwargs = {}
     kwargs[object_class.get_attr_names()[0]] = lines[0][0][0]
     kwargs[object_class.get_attr_names()[1]] = lines[0][1]
+    return kwargs
+
+
+def parse_encounter_map_section_headerv19(lines, object_class):
+    kwargs = {}
+    kwargs[object_class.get_attr_names()[0]] = lines[0][0][0][1:]
+    kwargs[object_class.get_attr_names()[1]] = lines[0][0][1][:-1]
     return kwargs
 
 
@@ -140,20 +169,31 @@ def parse_equal_section_body(lines, object_class, kwargs):
     return object_class(**kwargs)
 
 
-def parse_encounter_method_section_body(lines, object_class, kwargs):
-    encounter_method_name = lines[0][0]
-    pokemon_list = []
-    for encounter_pokemon_lines in lines[1:]:
-        pokemon_list.append(
-            EncounterPokemon(
-                **parse_one_line_coma(EncounterPokemon.get_attr_names(), encounter_pokemon_lines)
-            )
-        )
-    return object_class(encounter_method_name, pokemon_list)
+def parse_encounter_method_section_bodyv15(lines, object_class, kwargs):
+    kwargs[object_class.get_attr_names()[1]] = parse_csv(lines[1:], EncounterPokemonV15)
+    return object_class(**kwargs)
 
 
-def parse_encounter_map_section_body(lines, object_class, kwargs):
+def parse_encounter_map_section_bodyv15(lines, object_class, kwargs):
     kwargs[object_class.get_attr_names()[2]] = parse_all_section(
-        lines[1:], EncounterByMethod, parse_full_section_header, parse_encounter_method_section_body
+        lines[1:],
+        EncounterByMethodV15,
+        parse_full_section_header,
+        parse_encounter_method_section_bodyv15,
+    )
+    return object_class(**kwargs)
+
+
+def parse_encounter_method_section_bodyv19(lines, object_class, kwargs):
+    kwargs[object_class.get_attr_names()[2]] = parse_csv(lines[1:], EncounterPokemonV19)
+    return object_class(**kwargs)
+
+
+def parse_encounter_map_section_bodyv19(lines, object_class, kwargs):
+    kwargs[object_class.get_attr_names()[2]] = parse_all_section(
+        lines[1:],
+        EncounterByMethodV19,
+        parse_coma_section_header,
+        parse_encounter_method_section_bodyv19,
     )
     return object_class(**kwargs)

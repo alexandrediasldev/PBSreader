@@ -72,10 +72,8 @@ class Environment:
     def load_connection_list(self, csv_connection):
         self.connection_list = pr.parse_connection(csv_connection)
 
-    def load_encounter_list(
-        self, csv_encounter, encounter_method_list=get_default_encounter_method_list()
-    ):
-        self.encounter_list = pr.parse_encounter(csv_encounter, encounter_method_list)
+    def load_encounter_list(self, csv_encounter, version):
+        self.encounter_list = pr.parse_encounter(csv_encounter, version)
 
     def load_shadow_list(self, equal_pokemon_shadow):
         self.shadow_list = pr.parse_shadow_pokemon(equal_pokemon_shadow)
@@ -107,7 +105,6 @@ class Environment:
         equal_metadata,
         equal_tm,
         version,
-        encounter_method_list=get_default_encounter_method_list(),
     ):
         self.load_ability_list(csv_ability)
         self.load_trainer_type_list(csv_trainer_type, version)
@@ -115,7 +112,7 @@ class Environment:
         self.load_move_list(csv_move)
         self.load_item_list(csv_item, version)
         self.load_trainer_list(csv_trainer, version)
-        self.load_encounter_list(csv_encounter, encounter_method_list)
+        self.load_encounter_list(csv_encounter, version)
         self.load_connection_list(csv_connection)
         self.load_shadow_list(equal_pokemon_shadow)
         self.load_berry_plant_list(equal_berry_plant)

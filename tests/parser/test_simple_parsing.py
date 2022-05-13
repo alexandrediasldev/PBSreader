@@ -176,5 +176,9 @@ def test_ribbon():
     csv_check("ribbons.txt", parse_ribbon, version=19)
 
 
-def test_encounters():
-    csv_check("encountersv15.txt", parse_encounter, get_default_encounter_method_list())
+def test_encountersv15():
+    csv_check("encountersv15.txt", parse_encounter, version=15)
+
+
+def test_encountersv19():
+    csv_check("encountersv19.txt", parse_encounter, version=19)

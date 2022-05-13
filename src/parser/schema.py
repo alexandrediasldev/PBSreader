@@ -44,7 +44,7 @@ def separate_trainers(lines):
     return separate_file(lines, find_next_trainer)
 
 
-def find_next_encounter(lines, start_index):
+def find_next_encounterv15(lines, start_index):
     start_index += 1
     while start_index < len(lines):
         one = len(lines[start_index]) == 1
@@ -55,7 +55,7 @@ def find_next_encounter(lines, start_index):
     return start_index
 
 
-def find_next_encounter_by_method(lines, start_index):
+def find_next_encounter_by_methodv15(lines, start_index):
     start_index += 1
     while start_index < len(lines):
         one = len(lines[start_index]) == 1
@@ -65,13 +65,35 @@ def find_next_encounter_by_method(lines, start_index):
     return start_index
 
 
-def separate_encounters(lines):
-    separated_encounters = separate_file(lines, find_next_encounter)
+def separate_encounters_by_methodsv15(lines):
+    return separate_file(lines, find_next_encounter_by_methodv15)
+
+
+def separate_encountersv15(lines):
+    separated_encounters = separate_file(lines, find_next_encounterv15)
     new_line = []
     for encounters in separated_encounters:
-        new_line.append(separate_encounters_by_methods(encounters))
+        new_line.append(separate_encounters_by_methodsv15(encounters))
     return new_line
 
 
-def separate_encounters_by_methods(lines):
-    return separate_file(lines, find_next_encounter_by_method)
+def find_next_encounter_by_methodv19(lines, start_index):
+    start_index += 1
+    while start_index < len(lines):
+        lower_than_two = len(lines[start_index]) == 2 or len(lines[start_index]) == 1
+        if lower_than_two:
+            break
+        start_index += 1
+    return start_index
+
+
+def separate_encounters_by_methodsv19(lines):
+    return separate_file(lines, find_next_encounter_by_methodv19)
+
+
+def separate_encountersv19(lines):
+    separated_encounters = separate_file(lines, find_next_index)
+    new_line = []
+    for encounters in separated_encounters:
+        new_line.append(separate_encounters_by_methodsv19(encounters))
+    return new_line
