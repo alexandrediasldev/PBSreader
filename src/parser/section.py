@@ -1,9 +1,15 @@
 # convert line to format
+from PBSclasses.Encounter import EncounterPokemon, EncounterByMethod
 from PBSclasses.MetaData import PlayerMetaData, HomeMetaData
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
 from PBSclasses.TownMap import TownPoint
-from src.parser.parse_utils import parse_bracket_header, append_value_kwargs, parse_equal_name_value
+from src.parser.parse_utils import (
+    parse_bracket_header,
+    append_value_kwargs,
+    parse_equal_name_value,
+    parse_one_line_coma,
+)
 from src.parser.single_line_files import get_kwargs_from_line_csv
 
 
@@ -26,6 +32,13 @@ def parse_bracket_section_header(lines, object_class):
     return kwargs
 
 
+# value
+def parse_full_section_header(lines, object_class):
+    kwargs = {}
+    kwargs[object_class.get_attr_names()[0]] = lines[0][0]
+    return kwargs
+
+
 def parse_pokemon_form_section_header(lines, object_class):
     kwargs = {}
     header = parse_bracket_header(lines[0][0])
@@ -37,6 +50,13 @@ def parse_pokemon_form_section_header(lines, object_class):
         header = header.split(" ")
     kwargs["id"] = header[0]
     kwargs["id_number"] = header[1]
+    return kwargs
+
+
+def parse_encounter_map_section_header(lines, object_class):
+    kwargs = {}
+    kwargs[object_class.get_attr_names()[0]] = lines[0][0][0]
+    kwargs[object_class.get_attr_names()[1]] = lines[0][1]
     return kwargs
 
 
@@ -117,4 +137,23 @@ def parse_equal_section_body(lines, object_class, kwargs):
     for line in lines[1:]:
         value = parse_equal_name_value(line[0], line[1], object_class)
         kwargs[argument_translator[line[0]]] = value
+    return object_class(**kwargs)
+
+
+def parse_encounter_method_section_body(lines, object_class, kwargs):
+    encounter_method_name = lines[0][0]
+    pokemon_list = []
+    for encounter_pokemon_lines in lines[1:]:
+        pokemon_list.append(
+            EncounterPokemon(
+                **parse_one_line_coma(EncounterPokemon.get_attr_names(), encounter_pokemon_lines)
+            )
+        )
+    return object_class(encounter_method_name, pokemon_list)
+
+
+def parse_encounter_map_section_body(lines, object_class, kwargs):
+    kwargs[object_class.get_attr_names()[2]] = parse_all_section(
+        lines[1:], EncounterByMethod, parse_full_section_header, parse_encounter_method_section_body
+    )
     return object_class(**kwargs)

@@ -1,0 +1,11 @@
+[map_id_number,version_number]
+encounter_method,encounter_densities
+encounter_chance,pokemon_species,level_low,level_high
+encounter_chance,pokemon_species,level_low,level_high
+encounter_chance,pokemon_species,level_low,level_high
+encounter_chance,pokemon_species,level_low,level_high
+encounter_method,encounter_densities
+encounter_chance,pokemon_species,level_low,level_high
+encounter_chance,pokemon_species,level_low,level_high
+encounter_chance,pokemon_species,level_low,level_high
+encounter_chance,pokemon_species,level_low,level_high

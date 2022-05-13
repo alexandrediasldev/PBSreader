@@ -33,6 +33,9 @@ from src.parser.section import (
     parse_townmap_section_body,
     parse_pokemon_section_body,
     parse_pokemon_form_section_header,
+    parse_full_section_header,
+    parse_encounter_map_section_header,
+    parse_encounter_map_section_body,
 )
 from src.parser.single_line_files import (
     attr_list_to_object,
@@ -203,34 +206,16 @@ def parse_trainer_list(csv_output, version) -> list[TrainerV15]:
     return obj_list
 
 
-def parse_encounter(csv_output, version: int) -> list[EncounterV15]:
-    def parse_one_encounter(encounter_by_map_lines):
-        coma_line = []
-        coma_line.append(encounter_by_map_lines[0][0][0])
-        coma_line.append(encounter_by_map_lines[0][1])
-        encounter_method_list = []
-        for encounter_by_method_lines in encounter_by_map_lines[1:]:
-            encounter_method_name = encounter_by_method_lines[0][0]
-            pokemon_list = []
-            for encounter_pokemon_lines in encounter_by_method_lines[1:]:
-                pokemon_list.append(
-                    EncounterPokemon(
-                        **parse_one_line_coma(
-                            EncounterPokemon.get_attr_names(), encounter_pokemon_lines
-                        )
-                    )
-                )
-            encounter_method_list.append(EncounterByMethod(encounter_method_name, pokemon_list))
-        coma_line.append(encounter_method_list)
+def parse_encounter(lines, version: int) -> list[EncounterV15]:
+    if version == 15:
+        type = EncounterV15
+    else:
+        type = EncounterV15
 
-        return EncounterV15(**parse_one_line_coma(EncounterV15.get_attr_names(), coma_line))
-
-    separated_encounter_lines = separate_encounters(csv_output)
-    encounter_list = []
-    for encounter in separated_encounter_lines:
-        encounter_list.append(parse_one_encounter(encounter))
-
-    return encounter_list
+    lines_separated = separate_encounters(lines)
+    return parse_all_section(
+        lines_separated, type, parse_encounter_map_section_header, parse_encounter_map_section_body
+    )
 
 
 # ----- Phone

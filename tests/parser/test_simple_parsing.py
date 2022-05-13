@@ -177,4 +177,4 @@ def test_ribbon():
 
 
 def test_encounters():
-    csv_check("encounters.txt", parse_encounter, get_default_encounter_method_list())
+    csv_check("encountersv15.txt", parse_encounter, get_default_encounter_method_list())
