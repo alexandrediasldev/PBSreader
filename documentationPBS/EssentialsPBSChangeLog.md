@@ -1,9 +1,68 @@
-## List of all the changes to PBS files from v15 to v19.1
+## List of all the changes to PBS files from v15 to v20
 
+## v20
+
+### File structure
+
+- Renamed various PBS files.
+- Removed support for the PBS file tm.txt.
+- Added "Flags" properties to abilities, map metadata, ribbons, species, trainer types and types.
+- Abilities that hasten egg hatching now have a flag in abilities.txt for this effect.
+- Removed support for old encounters.txt format.
+- Added PBS file pokemon_metrics.txt, for all Pokémon sprite positionings. Can be distributed with sprite pack resources.
+- Added new section-based format for ribbons.txt, trainer_types.txt, moves.txt, items.txt, berry_plants.txt.
+- Added new section-based format for shadow_pokemon.txt, which can now also define heart gauge sizes and flags.
+
+#### items.txt:
+- Added separate "SellPrice" property for items.
+- Added "Consumable" property to items.txt.
+- An item can now have any number of flags, rather than just one.
+
+
+#### metadata.txt:
+- Split metadata.txt into metadata.txt and map_metadata.txt. Player character data is now in separate sections in metadata.txt, one per character, and you can now have as many characters as you like. NOTE: If you're using old PBS files, you will need to make these changes manually (move map metadata sections into map_metadata.txt without changing them, and move player character metadata into their own sections). Also, calls to pbChangePlayer will need to have their numbers increased by 1.
+- Added "Name" property to map_metadata.txt, which is the display name in-game.
+- Added map metadata flag "HideEncountersInPokedex" which will make the Pokédex ignore that map’s wild encounters when displaying a Pokémon’s area.
+
+
+#### pokemon.txt/pokemon_forms.txt:
+- Changed the names of some properties in pokemon.txt and pokemon_forms.txt.
+- Merged species "Type1"/"Type2" into "Types".
+- The "EVs" property's preferred format is now "ATTACK,2,SPEED,1" instead of "0,2,0,1,0,0".
+- Allowed the "WildItem" properties for species to contain multiple items each.
+- Added pokemon.txt/pokemon_forms.txt property "Offspring" for species that can be produced by breeding instead of itself (although this property can include itself anyway).
+
+
+
+### Property changed
+
+#### items.txt:
+- Repels now have a flag in items.txt which determines if they can be reused when one runs out.
+- Added flags for Fling power and Natural Gift type/power.
+
+#### metadata.txt:
+- When rewriting map_metadata.txt via the Debug function, map names will be added if possible and if the map doesn't already have a name in map_metadata.txt.
+
+#### pokemon.txt/pokemon_forms.txt:
+- Added species flags that govern form inheritance while breeding, and a flag that sets a particular form by default.
+- Renumbered Spiky-Eared Pichu to form 2, so it doesn't clash with Alolan Raichu's form 1.
+- The "Shape" property in pokemon.txt must now be a name and not a number.
+
+#### moves.txt:
+- Deprecated three move flags (can Magic Coat, can Snatch, affected by King's Rock) as they should depend on move effects instead.
+- Turned move flags into separate words rather than letters in a string.
+- Added move flag "TramplesMinimize" instead of having that effect be related to function codes.
+- Added move flag "CannotMetronome" instead of hardcoding the signature moves Metronome is forbidden to use.
+
+#### trainers.txt:
+Removed support for the old trainers.txt format.
+The "Ability" property in trainers.txt can now only be an ability ID.
+The "Ball" property in trainers.txt can now only be an item ID (specifically an item that is a Poké Ball).
+Added Gen 6 PBS files for completeness.
 
 ## v19.1/v19
 
-### File structure  
+### File structure
 #### "tm.txt"
 -   Merged into pokemon.txt/pokemonforms.txt as the property "TutorMoves".
 
@@ -111,8 +170,8 @@
 - Base version of the PBS files this program reads.
 
 -----
-Changes are signaled by color  
-red: removed 🔴  
-yellow: modified 🟡  
-green: added 🟢  
+Changes are signaled by color
+red: removed 🔴
+yellow: modified 🟡
+green: added 🟢
 
