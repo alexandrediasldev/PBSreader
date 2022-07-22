@@ -3,10 +3,12 @@
 Information created by me since the wiki did not have a page at the time.
 
 Tm, Hm and MoveTutors are defined in the same way
+
 **[Move Name]**
 Move name, comes first in a section
+
 **Pokemon list:**
-List of pokemon able to learn the move 
+List of pokemon able to learn the move
 
 ### Example
 

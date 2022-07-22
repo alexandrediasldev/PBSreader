@@ -10,7 +10,7 @@
 - Abilities that hasten egg hatching now have a flag in abilities.txt for this effect.
 - Removed support for old encounters.txt format.
 - Added PBS file pokemon_metrics.txt, for all Pokémon sprite positionings. Can be distributed with sprite pack resources.
-- Added new section-based format for ribbons.txt, trainer_types.txt, moves.txt, items.txt, berry_plants.txt.
+- Added new section-based format for ribbons.txt, trainer_types.txt, moves.txt, items.txt, berry_plants.txt, ability.txt.
 - Added new section-based format for shadow_pokemon.txt, which can now also define heart gauge sizes and flags.
 
 #### items.txt:
