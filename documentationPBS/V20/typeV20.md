@@ -1,4 +1,4 @@
-## types.txt
+## 🟡 types.txt
 
 Information pulled from the new wiki:
 2 July 2022 - https://essentialsdocs.fandom.com/wiki/Defining_a_type

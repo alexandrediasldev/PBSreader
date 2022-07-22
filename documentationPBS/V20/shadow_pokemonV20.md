@@ -1,21 +1,30 @@
-## shadowmoves.txt
-#TODO
-Information pulled from the old wiki on the way back machine:
-September 28th 2015 - http://pokemonessentials.wikia.com/wiki/Shadow_Pok%C3%A9mon
-https://web.archive.org/web/20150928235526/http://pokemonessentials.wikia.com/wiki/Shadow_Pok%C3%A9mon
+## 🟡 shadow_pokemons.txt
+Information pulled from the new wiki:
+11 June 2022 - https://essentialsdocs.fandom.com/wiki/Shadow_Pok%C3%A9mon
+https://essentialsdocs.fandom.com/wiki/Shadow_Pok%C3%A9mon?oldid=1325
+The PBS file "shadow_pokemon.txt" lists a number of Pokémon species, and each one has a defined Heart Gauge size and a set of moves it will know when it becomes a Shadow Pokémon (i.e. when it is created).
 
-To define which Shadow moves a Shadow Pokémon of each species can know, edit the PBS file "shadowmoves.txt" to include lines such as:
+**[Species]:**
+The shadow pokemon original species.
+
+**🟢 GaugeSize:**
+The default Heart Gauge size is 4000. Stronger Pokémon typically have larger Heart Gauges, which require more work to empty before they can be purified.
+
+**Moves:**
+A coma separated list of moves.
+If a species is not given one or more moves it will know as a Shadow Pokémon, then it will know the move Shadow Rush. If Shadow Rush is not defined, the Shadow Pokémon of that species will have the usual moves it would know if it was not a Shadow Pokémon.
 
 ### Example
 ```
-TEDDIURSA=SHADOWBLITZ,SHADOWMIST
-FARFETCHD=SHADOWBREAK,SHADOWSKY,SHADOWPANIC
-LUGIA=SHADOWBLAST,SHADOWSHED,SHADOWDOWN,SHADOWSTORM
+[BEEDRILL]
+GaugeSize = 4500
+Moves = SHADOWBLITZ,SHADOWHOLD
+#-------------------------------
+[EXEGGUTOR]
+GaugeSize = 9000
+Moves = SHADOWSTORM,SHADOWSHED,SHADOWHOLD,SHADOWEND
+#-------------------------------
+[SCIZOR]
+GaugeSize = 8000
+Moves = SHADOWRUSH
 ```
-
-If a species does not have any Shadow moves defined for it, then its only Shadow move will be Shadow Rush.
-When a Shadow Pokémon is generated, it will first be given its initial moveset as normal. Then, starting from the first move, some/all of the initial moves are replaced with the Shadow moves defined for that species. This is its Shadow moveset. All Shadow moves will be available immediately, while the other moves are unlocked while opening that Pokémon's door to the heart.
-
-It is recommended that you specifically define the initial movesets for all Shadow Pokémon (in the PBS file "trainers.txt"), to make sure that the appropriate moves are replaced by Shadow moves.
-
-You don't have to list just Shadow moves in the PBS file "shadowmoves.txt"; you can list any move that exists.
