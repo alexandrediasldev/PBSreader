@@ -35,15 +35,35 @@ def separate_equal(lines):
     return separate_file(lines, find_next_index)
 
 
-def find_next_trainer(lines, start_index):
+# Trainer
+def find_next_trainerv15(lines, start_index):
     nb_pkm = int(lines[start_index + 2][0])
     return start_index + 3 + nb_pkm
 
 
-def separate_trainers(lines):
-    return separate_file(lines, find_next_trainer)
+def separate_trainersv15(lines):
+    return separate_file(lines, find_next_trainerv15)
 
 
+def find_next_trainerv18(lines, start_index):
+    start_index += 1
+    while start_index < len(lines):
+        pkm = lines[start_index][0]
+        if pkm == "Pokemon":
+            break
+        start_index += 1
+    return start_index
+
+
+def separate_trainersv18(lines):
+    separated_trainers = separate_file(lines, find_next_index)
+    new_line = []
+    for trainers in separated_trainers:
+        new_line.append(separate_file(trainers, find_next_trainerv18))
+    return new_line
+
+
+# Encounter
 def find_next_encounterv15(lines, start_index):
     start_index += 1
     while start_index < len(lines):

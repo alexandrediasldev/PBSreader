@@ -156,8 +156,12 @@ def test_pokemonformv19():
     equal_check("pokemonformsv19.txt", parse_pokemon_form, version=19)
 
 
-def test_trainers():
-    csv_check("trainers.txt", parse_trainer_list, 15)
+def test_trainersv15():
+    csv_check("trainersv15.txt", parse_trainer_list, version=15)
+
+
+def test_trainersv18():
+    equal_check("trainersv18.txt", parse_trainer_list, version=18)
 
 
 def test_phone():

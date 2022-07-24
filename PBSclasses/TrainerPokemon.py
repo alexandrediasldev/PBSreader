@@ -20,3 +20,22 @@ class TrainerPokemonV15(BaseData):
     nickname: str = ""
     shadow: str = ""
     ball_type: str = ""
+
+
+@dataclass
+class TrainerPokemonV18(BaseData):
+    species: str = ""
+    level: str = ""
+    item: str = ""
+    moves: List[str] = field(default_factory=list)
+    ability: str = ""
+    gender: str = ""
+    form: str = ""
+    shininess: str = ""
+    nature: str = ""
+    IV: str = ""
+    EV: str = ""
+    hapiness: str = ""
+    name: str = ""
+    shadow: str = ""
+    ball: str = ""

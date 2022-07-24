@@ -23,14 +23,15 @@ from PBSclasses.Tm import TmV15
 from PBSclasses.TownMap import TownMap, TownPoint
 from PBSclasses.TrainerPokemon import TrainerPokemonV15
 from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
-from PBSclasses.Trainers import TrainerV15
+from PBSclasses.Trainers import TrainerV15, TrainerV18
 from PBSclasses.Type import TypeV15
 from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma, append_value_kwargs
 from src.parser.schema import (
     separate_equal,
-    separate_trainers,
+    separate_trainersv15,
     separate_encountersv15,
     separate_encountersv19,
+    separate_trainersv18,
 )
 
 # single line parsing
@@ -49,6 +50,8 @@ from src.parser.section import (
     parse_encounter_map_section_bodyv19,
     parse_bracket_coma_section_header,
     parse_encounter_map_section_headerv19,
+    parse_trainer_section_bodyv18,
+    parse_trainer_section_headerv18,
 )
 from src.parser.single_line_files import (
     attr_list_to_object,
@@ -212,10 +215,19 @@ def parse_trainer_list(csv_output, version) -> list[TrainerV15]:
 
         return kwargs
 
-    lines = separate_trainers(csv_output)
-    obj_list = []
-    for line in lines:
-        obj_list.append(TrainerV15(**parse_one_trainer(line)))
+    if version == 15:
+        lines = separate_trainersv15(csv_output)
+        obj_list = []
+        for line in lines:
+            obj_list.append(TrainerV15(**parse_one_trainer(line)))
+    else:
+        type = TrainerV18
+
+        lines_separated = separate_trainersv18(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_trainer_section_headerv18, parse_trainer_section_bodyv18
+        )
+
     return obj_list
 
 

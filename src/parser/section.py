@@ -9,6 +9,8 @@ from PBSclasses.MetaData import PlayerMetaData, HomeMetaData
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
 from PBSclasses.TownMap import TownPoint
+from PBSclasses.TrainerPokemon import TrainerPokemonV18
+from PBSclasses.Trainers import TrainerV18
 from src.parser.parse_utils import (
     parse_bracket_header,
     append_value_kwargs,
@@ -55,6 +57,30 @@ def parse_pokemon_form_section_header(lines, object_class):
         header = header.split(" ")
     kwargs[object_class.get_attr_names()[0]] = header[0]
     kwargs[object_class.get_attr_names()[1]] = header[1]
+    return kwargs
+
+
+def parse_trainer_pokemon_section_headerv18(lines, object_class):
+    kwargs = {}
+    header = lines[0][1].split(",")
+    kwargs[object_class.get_attr_names()[0]] = header[0]
+    kwargs[object_class.get_attr_names()[1]] = header[1]
+    return kwargs
+
+
+def parse_trainer_section_headerv18(lines, object_class):
+    kwargs = {}
+    header = parse_bracket_header(lines[0][0][0])
+    header = header.split(",")
+
+    kwargs[object_class.get_attr_names()[0]] = header[0]
+    kwargs[object_class.get_attr_names()[1]] = header[1]
+    kwargs[object_class.get_attr_names()[2]] = header[2]
+
+    argument_translator = object_class.get_attr_dict()
+    for line in lines[0][1:]:
+        value = parse_equal_name_value(line[0], line[1], object_class)
+        kwargs[argument_translator[line[0]]] = value
     return kwargs
 
 
@@ -196,4 +222,29 @@ def parse_encounter_map_section_bodyv19(lines, object_class, kwargs):
         parse_coma_section_header,
         parse_encounter_method_section_bodyv19,
     )
+    return object_class(**kwargs)
+
+
+def parse_trainer_section_bodyv18(lines, object_class, kwargs):
+    kwargs[object_class.get_attr_names()[5]] = parse_all_section(
+        lines[1:],
+        TrainerPokemonV18,
+        parse_trainer_pokemon_section_headerv18,
+        parse_trainer_pokemon_section_bodyv18,
+    )
+    return object_class(**kwargs)
+
+
+def parse_trainer_pokemon_section_bodyv18(lines, object_class, kwargs):
+    argument_translator = object_class.get_attr_dict()
+    for line in lines[1:]:
+        if line[0] in ["EV"]:
+            sub_class = SpeciesStats
+            value = sub_class(
+                **get_kwargs_from_line_csv(sub_class.get_attr_names(), line[1].split(","))
+            )
+            kwargs[argument_translator[line[0]]] = value
+        else:
+            value = parse_equal_name_value(line[0], line[1], object_class)
+            kwargs[argument_translator[line[0]]] = value
     return object_class(**kwargs)
