@@ -52,6 +52,8 @@ from src.parser.section import (
     parse_encounter_map_section_headerv19,
     parse_trainer_section_bodyv18,
     parse_trainer_section_headerv18,
+    parse_trainer_section_bodyv15,
+    parse_trainer_section_headerv15,
 )
 from src.parser.single_line_files import (
     attr_list_to_object,
@@ -192,34 +194,12 @@ def parse_pokemon_form(lines, version):
 
 
 def parse_trainer_list(csv_output, version) -> list[TrainerV15]:
-    def _parse_trainer_pokemon(pokemon_attributes) -> TrainerPokemonV15:
-        attr_names = TrainerPokemonV15.get_attr_names()
-        moves = pokemon_attributes[3:7]
-        pokemon_attributes = pokemon_attributes[:3] + pokemon_attributes[7:]
-        attr_names.remove("move_list")
-        kwargs = parse_one_line_coma(attr_names, pokemon_attributes)
-        kwargs["move_list"] = moves
-
-        return TrainerPokemonV15(**kwargs)
-
-    def parse_one_trainer(lines):
-        coma_line = []
-        coma_line.append(lines[0][0])
-        coma_line.append(lines[1][0])
-        coma_line.append(lines[1][1] if len(lines[1]) > 1 else "")
-        coma_line.append(lines[2][1:])
-        coma_line.append(lines[2][0])
-        coma_line.append([_parse_trainer_pokemon(line) for line in lines[3:]])
-
-        kwargs = parse_one_line_coma(TrainerV15.get_attr_names(), coma_line)
-
-        return kwargs
-
     if version == 15:
+        type = TrainerV15
         lines = separate_trainersv15(csv_output)
-        obj_list = []
-        for line in lines:
-            obj_list.append(TrainerV15(**parse_one_trainer(line)))
+        return parse_all_section(
+            lines, type, parse_trainer_section_headerv15, parse_trainer_section_bodyv15
+        )
     else:
         type = TrainerV18
 
@@ -227,8 +207,6 @@ def parse_trainer_list(csv_output, version) -> list[TrainerV15]:
         return parse_all_section(
             lines_separated, type, parse_trainer_section_headerv18, parse_trainer_section_bodyv18
         )
-
-    return obj_list
 
 
 def parse_encounter(lines, version: int) -> list[EncounterV15]:

@@ -9,7 +9,7 @@ from PBSclasses.MetaData import PlayerMetaData, HomeMetaData
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
 from PBSclasses.TownMap import TownPoint
-from PBSclasses.TrainerPokemon import TrainerPokemonV18
+from PBSclasses.TrainerPokemon import TrainerPokemonV18, TrainerPokemonV15
 from PBSclasses.Trainers import TrainerV18
 from src.parser.parse_utils import (
     parse_bracket_header,
@@ -57,6 +57,16 @@ def parse_pokemon_form_section_header(lines, object_class):
         header = header.split(" ")
     kwargs[object_class.get_attr_names()[0]] = header[0]
     kwargs[object_class.get_attr_names()[1]] = header[1]
+    return kwargs
+
+
+def parse_trainer_section_headerv15(lines, object_class):
+    kwargs = {}
+    kwargs[object_class.get_attr_names()[0]] = lines[0][0]
+    kwargs[object_class.get_attr_names()[1]] = lines[1][0]
+    kwargs[object_class.get_attr_names()[2]] = lines[1][1]
+    kwargs[object_class.get_attr_names()[4]] = lines[2][0]
+    kwargs[object_class.get_attr_names()[3]] = lines[2][1:]
     return kwargs
 
 
@@ -222,6 +232,11 @@ def parse_encounter_map_section_bodyv19(lines, object_class, kwargs):
         parse_coma_section_header,
         parse_encounter_method_section_bodyv19,
     )
+    return object_class(**kwargs)
+
+
+def parse_trainer_section_bodyv15(lines, object_class, kwargs):
+    kwargs[object_class.get_attr_names()[5]] = parse_csv(lines[3:], TrainerPokemonV15)
     return object_class(**kwargs)
 
 

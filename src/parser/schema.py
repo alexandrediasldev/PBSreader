@@ -42,7 +42,13 @@ def find_next_trainerv15(lines, start_index):
 
 
 def separate_trainersv15(lines):
-    return separate_file(lines, find_next_trainerv15)
+    line_separated = separate_file(lines, find_next_trainerv15)
+
+    for trainer in line_separated:
+        for i in range(len(trainer[3:])):
+            trainer[3 + i] = trainer[3 + i][:3] + [trainer[3 + i][3:7]] + trainer[3 + i][7:]
+
+    return line_separated
 
 
 def find_next_trainerv18(lines, start_index):
