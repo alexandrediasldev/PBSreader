@@ -1,0 +1,12 @@
+﻿[id]
+Name=name
+NamePlural=name_plural
+Pocket=pocket
+Price=price
+SellPrice=sell_price
+FieldUse=field_use
+BattleUse=battle_use
+Consumable=consumable
+Flags=flags0,flags1,flags2
+Move=move
+Description=description

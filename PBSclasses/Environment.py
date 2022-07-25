@@ -48,14 +48,14 @@ class Environment:
     def load_townmap(self, equal_townmap):
         self.townmap_list = pr.parse_townmap(equal_townmap)
 
-    def load_type(self, equal_type):
+    def load_type(self, equal_type, version):
         self.type_list = pr.parse_type(equal_type)
 
     def load_phone(self, csv_phone):
         self.phone = pr.parse_phone(csv_phone)
 
-    def load_ability_list(self, csv_ability):
-        self.ability_list = pr.parse_ability(csv_ability)
+    def load_ability_list(self, csv_ability, version):
+        self.ability_list = pr.parse_ability(csv_ability, version)
 
     def load_trainer_type_list(self, csv_trainer_type, version):
         self.trainer_type_list = pr.parse_trainer_types(csv_trainer_type, version)
@@ -63,8 +63,8 @@ class Environment:
     def load_species_list(self, equal_pokemon_species, version):
         self.species_list = pr.parse_pokemon(equal_pokemon_species, version)
 
-    def load_move_list(self, csv_move):
-        self.move_list = pr.parse_move(csv_move)
+    def load_move_list(self, csv_move, version):
+        self.move_list = pr.parse_move(csv_move, version)
 
     def load_item_list(self, csv_item, version):
         self.item_list = pr.parse_item(csv_item, version)
@@ -75,11 +75,11 @@ class Environment:
     def load_encounter_list(self, csv_encounter, version):
         self.encounter_list = pr.parse_encounter(csv_encounter, version)
 
-    def load_shadow_list(self, equal_pokemon_shadow):
-        self.shadow_list = pr.parse_shadow_pokemon(equal_pokemon_shadow)
+    def load_shadow_list(self, equal_pokemon_shadow, version):
+        self.shadow_list = pr.parse_shadow_pokemon(equal_pokemon_shadow, version)
 
-    def load_berry_plant_list(self, equal_berry_plant):
-        self.berry_plant_list = pr.parse_berry_plant(equal_berry_plant)
+    def load_berry_plant_list(self, equal_berry_plant, version):
+        self.berry_plant_list = pr.parse_berry_plant(equal_berry_plant, version)
 
     def load_trainer_list(self, csv_trainer, version):
         self.trainer_list = pr.parse_trainer_list(csv_trainer, version)
@@ -106,18 +106,18 @@ class Environment:
         equal_tm,
         version,
     ):
-        self.load_ability_list(csv_ability)
+        self.load_ability_list(csv_ability, version)
         self.load_trainer_type_list(csv_trainer_type, version)
         self.load_species_list(equal_pokemon_species, version)
-        self.load_move_list(csv_move)
+        self.load_move_list(csv_move, version)
         self.load_item_list(csv_item, version)
         self.load_trainer_list(csv_trainer, version)
         self.load_encounter_list(csv_encounter, version)
         self.load_connection_list(csv_connection)
-        self.load_shadow_list(equal_pokemon_shadow)
-        self.load_berry_plant_list(equal_berry_plant)
+        self.load_shadow_list(equal_pokemon_shadow, version)
+        self.load_berry_plant_list(equal_berry_plant, version)
         self.load_phone(csv_phone)
-        self.load_type(equal_type)
+        self.load_type(equal_type, version)
         self.load_townmap(equal_townmap)
         self.load_metadata(equal_metadata, version)
         self.load_tm_list(equal_tm, version)

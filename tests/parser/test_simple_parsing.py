@@ -70,7 +70,11 @@ def equal_check(filename, parse_function, version=None):
 
 
 def test_ability():
-    csv_check("abilities.txt", parse_ability)
+    csv_check("abilities.txt", parse_ability, version=15)
+
+
+def test_abilityv20():
+    equal_check("abilitiesv20.txt", parse_ability, version=20)
 
 
 def test_itemv15():
@@ -81,8 +85,16 @@ def test_itemv16():
     csv_check("itemsv16.txt", parse_item, version=16)
 
 
+def test_itemv20():
+    equal_check("itemsv20.txt", parse_item, version=20)
+
+
 def test_move():
-    csv_check("moves.txt", parse_move)
+    csv_check("moves.txt", parse_move, version=15)
+
+
+def test_movev20():
+    equal_check("movesv20.txt", parse_move, version=20)
 
 
 def test_connection():
@@ -98,18 +110,22 @@ def test_trainer_typev16():
 
 
 def test_berryplant():
-    equal_coma_check("berryplants.txt", parse_berry_plant)
+    equal_coma_check("berryplants.txt", parse_berry_plant, version=16)
+
+
+def test_berryplantv20():
+    equal_check("berryplantsv20.txt", parse_berry_plant, version=20)
 
 
 def test_shadow():
-    equal_check("shadowmoves.txt", parse_shadow_pokemon)
+    equal_check("shadowmoves.txt", parse_shadow_pokemon, version=15)
 
 
 # ---- Equal
 
 
 def test_type():
-    equal_check("types.txt", parse_type)
+    equal_check("types.txt", parse_type, version=15)
 
 
 def test_metadatav15():

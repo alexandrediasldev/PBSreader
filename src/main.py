@@ -111,8 +111,7 @@ if __name__ == "__main__":
     # f.show()
     pass
 
-    # V15 DONE
-    # V16 DONE
-    # V17 DONE
-    # V18 trainers
-    # V19 encounter
+    # V15-V19 Basic testing DONE more test to be done for optional values
+    # V20 TODO
+    # map_metadata
+    # metadata

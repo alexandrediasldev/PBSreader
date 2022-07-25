@@ -1,18 +1,25 @@
-from PBSclasses.Ability import AbilityV15
+from PBSclasses.Ability import AbilityV15, AbilityV20
 from PBSclasses.Encounter import (
     EncounterV15,
     EncounterPokemonV15,
     EncounterByMethodV15,
     EncounterV19,
 )
-from PBSclasses.Item import ItemV15, ItemV16
-from PBSclasses.Move import MoveV15
+from PBSclasses.Item import ItemV15, ItemV16, ItemV20
+from PBSclasses.Move import MoveV15, MoveV20
 from PBSclasses.PokemonForm import PokemonFormV17, PokemonFormV18, PokemonFormV19
 from PBSclasses.RegionalDexes import RegionalDexV19
 from PBSclasses.Ribbon import RibbonV19
-from PBSclasses.Species import SpeciesV15, SpeciesV17, SpeciesV16, SpeciesV18, SpeciesV19
+from PBSclasses.Species import (
+    SpeciesV15,
+    SpeciesV17,
+    SpeciesV16,
+    SpeciesV18,
+    SpeciesV19,
+    SpeciesV20,
+)
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
-from PBSclasses.BerryPlant import BerryPlantV16
+from PBSclasses.BerryPlant import BerryPlantV16, BerryPlantV20
 from PBSclasses.Connection import ConnectionV15
 from PBSclasses.MetaData import MetaDataV15, PlayerMetaData, HomeMetaData, MetaDataV18
 from PBSclasses.Phone import PhoneV15
@@ -54,6 +61,7 @@ from src.parser.section import (
     parse_trainer_section_headerv18,
     parse_trainer_section_bodyv15,
     parse_trainer_section_headerv15,
+    parse_berry_plant_section_bodyv20,
 )
 from src.parser.single_line_files import (
     attr_list_to_object,
@@ -67,19 +75,40 @@ from src.parser.single_line_files import (
 # ---- CSV
 
 
-def parse_ability(csv_output) -> list[AbilityV15]:
-    type = AbilityV15
-    return parse_csv(csv_output, type)
+def parse_ability(csv_output, version) -> list[AbilityV15]:
+    if version == 15:
+        type = AbilityV15
+        return parse_csv(csv_output, type)
+    else:
+        type = AbilityV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+        )
 
 
-def parse_move(csv_output) -> list[MoveV15]:
-    type = MoveV15
-    return parse_csv(csv_output, type)
+def parse_move(csv_output, version) -> list[MoveV15]:
+    if version == 15:
+        type = MoveV15
+        return parse_csv(csv_output, type)
+    else:
+        type = MoveV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+        )
 
 
-def parse_berry_plant(csv_output) -> list[BerryPlantV16]:
-    type = BerryPlantV16
-    return parse_csv(csv_output, type)
+def parse_berry_plant(csv_output, version) -> list[BerryPlantV16]:
+    if version == 16:
+        type = BerryPlantV16
+        return parse_csv(csv_output, type)
+    else:
+        type = BerryPlantV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_berry_plant_section_bodyv20
+        )
 
 
 def parse_connection(csv_output) -> list[ConnectionV15]:
@@ -98,9 +127,16 @@ def parse_trainer_types(csv_output, version) -> list[TrainerTypeV15]:
 def parse_item(csv_output, version) -> list[ItemV15]:
     if version == 15:
         itemType = ItemV15
-    else:
+        return parse_csv(csv_output, itemType)
+    elif version == 16:
         itemType = ItemV16
-    return parse_csv(csv_output, itemType)
+        return parse_csv(csv_output, itemType)
+    else:
+        type = ItemV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+        )
 
 
 def parse_ribbon(csv_output, version) -> list[RibbonV19]:
@@ -108,7 +144,7 @@ def parse_ribbon(csv_output, version) -> list[RibbonV19]:
     return parse_csv(csv_output, type)
 
 
-def parse_shadow_pokemon(csv_output) -> list[ShadowPokemonV15]:
+def parse_shadow_pokemon(csv_output, version) -> list[ShadowPokemonV15]:
     type = ShadowPokemonV15
     return parse_csv_after_equal(csv_output, type)
 
@@ -132,7 +168,7 @@ def parse_regional_dex(lines, version):
 # ------ Equal
 
 
-def parse_type(lines):
+def parse_type(lines, version):
     type = TypeV15
     lines_separated = separate_equal(lines)
     return parse_all_section(
@@ -168,8 +204,10 @@ def parse_pokemon(lines, version):
         type = SpeciesV17
     elif version == 18:
         type = SpeciesV18
-    else:
+    elif version == 19:
         type = SpeciesV19
+    else:
+        type = SpeciesV20
 
     lines_separated = separate_equal(lines)
     return parse_all_section(

@@ -263,3 +263,16 @@ def parse_trainer_pokemon_section_bodyv18(lines, object_class, kwargs):
             value = parse_equal_name_value(line[0], line[1], object_class)
             kwargs[argument_translator[line[0]]] = value
     return object_class(**kwargs)
+
+
+def parse_berry_plant_section_bodyv20(lines, object_class, kwargs):
+    argument_translator = object_class.get_attr_dict()
+    for line in lines[1:]:
+        if line[0] in ["Yield"]:
+            yield_value = line[1].split(",")
+            kwargs[object_class.get_attr_names()[3]] = yield_value[0]
+            kwargs[object_class.get_attr_names()[4]] = yield_value[1]
+        else:
+            value = parse_equal_name_value(line[0], line[1], object_class)
+            kwargs[argument_translator[line[0]]] = value
+    return object_class(**kwargs)

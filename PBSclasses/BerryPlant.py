@@ -10,3 +10,12 @@ class BerryPlantV16(BaseData):
     moisture: str
     minimum_yield: str
     maximum_yield: str
+
+
+@dataclass
+class BerryPlantV20(BaseData):
+    name: str
+    hours_per_stage: str
+    drying_per_hour: str
+    minimum_yield: str
+    maximum_yield: str
