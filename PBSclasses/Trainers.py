@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import List
 
 from PBSclasses.BaseData import BaseData
-from PBSclasses.TrainerPokemon import TrainerPokemonV15, TrainerPokemonV18
+from PBSclasses.TrainerPokemon import TrainerPokemonV15, TrainerPokemonV18, TrainerPokemonV20
 from src.Finder import get_trainer_type_from_name
 
 
@@ -38,3 +38,13 @@ class TrainerV18(BaseData):
     items: List[str] = field(default_factory=list)
     lose_text: str = ""
     pokemon: List[TrainerPokemonV18] = field(default_factory=list)
+
+
+@dataclass
+class TrainerV20(BaseData):
+    type: str
+    name: str
+    version_number: str = ""
+    items: List[str] = field(default_factory=list)
+    lose_text: str = ""
+    pokemon: List[TrainerPokemonV20] = field(default_factory=list)

@@ -211,33 +211,34 @@ class SpeciesV19(BaseData):
 class SpeciesV20(BaseData):
     id: str = ""
     name: str = ""
-    type1: str = ""
-    type2: str = ""
+    types: List[str] = field(default_factory=list)
     base_stats: SpeciesStats = field(default_factory=SpeciesStats)
     gender_ratio: str = ""
     growth_rate: str = ""
     base_EXP: str = ""
-    effort_points: SpeciesStats = field(default_factory=SpeciesStats)
-    rareness: str = ""
+    EVs: SpeciesStats = field(default_factory=SpeciesStats)
+    catch_rate: str = ""
     happiness: str = ""
     abilities: List[str] = field(default_factory=list)
     hidden_ability: List[str] = field(default_factory=list)
-    form_names: List[str] = field(default_factory=list)
     moves: List[Tuple[str, str]] = field(default_factory=list)
     tutor_moves: List[str] = field(default_factory=list)
     egg_moves: List[str] = field(default_factory=list)
-    compatibility: List[str] = field(default_factory=list)
-    steps_to_hatch: str = ""
+    egg_groups: List[str] = field(default_factory=list)
+    hatch_steps: str = ""
+    offspring: List[str] = field(default_factory=list)
     height: str = ""
     weight: str = ""
     color: str = ""
+    shape: str = ""
     habitat: str = ""
-    kind: str = ""
+    category: str = ""
     pokedex: str = ""
+    form_names: List[str] = field(default_factory=list)
     generation: str = ""
+    flags: List[str] = field(default_factory=list)
     wild_item_common: str = ""
     wild_item_uncommon: str = ""
     wild_item_rare: str = ""
     evolutions: SpeciesEvolution = field(default_factory=SpeciesEvolution)
     incense: str = ""
-    shape: str = ""

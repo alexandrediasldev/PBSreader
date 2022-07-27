@@ -1,0 +1,6 @@
+[id,form]
+BackSprite=back_sprite0,back_sprite1
+FrontSprite=front_sprite0,front_sprite1
+FrontSpriteAltitude=front_sprite_altitude
+ShadowX=shadow_x
+ShadowSize=shadow_size

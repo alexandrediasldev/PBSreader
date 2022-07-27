@@ -7,9 +7,10 @@ from PBSclasses.Encounter import (
 )
 from PBSclasses.Item import ItemV15, ItemV16, ItemV20
 from PBSclasses.Move import MoveV15, MoveV20
-from PBSclasses.PokemonForm import PokemonFormV17, PokemonFormV18, PokemonFormV19
+from PBSclasses.PokemonForm import PokemonFormV17, PokemonFormV18, PokemonFormV19, PokemonFormV20
+from PBSclasses.PokemonMetric import PokemonMetricV20
 from PBSclasses.RegionalDexes import RegionalDexV19
-from PBSclasses.Ribbon import RibbonV19
+from PBSclasses.Ribbon import RibbonV19, RibbonV20
 from PBSclasses.Species import (
     SpeciesV15,
     SpeciesV17,
@@ -23,15 +24,15 @@ from PBSclasses.BerryPlant import BerryPlantV16, BerryPlantV20
 from PBSclasses.Connection import ConnectionV15
 from PBSclasses.MetaData import MetaDataV15, PlayerMetaData, HomeMetaData, MetaDataV18
 from PBSclasses.Phone import PhoneV15
-from PBSclasses.ShadowPokemon import ShadowPokemonV15
+from PBSclasses.ShadowPokemon import ShadowPokemonV15, ShadowPokemonV20
 from PBSclasses.SpeciesStats import SpeciesStats
 from PBSclasses.Tm import TmV15
 
 from PBSclasses.TownMap import TownMap, TownPoint
 from PBSclasses.TrainerPokemon import TrainerPokemonV15
-from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
-from PBSclasses.Trainers import TrainerV15, TrainerV18
-from PBSclasses.Type import TypeV15
+from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16, TrainerTypeV20
+from PBSclasses.Trainers import TrainerV15, TrainerV18, TrainerV20
+from PBSclasses.Type import TypeV15, TypeV20
 from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma, append_value_kwargs
 from src.parser.schema import (
     separate_equal,
@@ -62,6 +63,7 @@ from src.parser.section import (
     parse_trainer_section_bodyv15,
     parse_trainer_section_headerv15,
     parse_berry_plant_section_bodyv20,
+    parse_trainer_section_bodyv20,
 )
 from src.parser.single_line_files import (
     attr_list_to_object,
@@ -119,9 +121,16 @@ def parse_connection(csv_output) -> list[ConnectionV15]:
 def parse_trainer_types(csv_output, version) -> list[TrainerTypeV15]:
     if version == 15:
         type = TrainerTypeV15
-    else:
+        return parse_csv(csv_output, type)
+    elif version == 16:
         type = TrainerTypeV16
-    return parse_csv(csv_output, type)
+        return parse_csv(csv_output, type)
+    else:
+        type = TrainerTypeV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+        )
 
 
 def parse_item(csv_output, version) -> list[ItemV15]:
@@ -140,13 +149,27 @@ def parse_item(csv_output, version) -> list[ItemV15]:
 
 
 def parse_ribbon(csv_output, version) -> list[RibbonV19]:
-    type = RibbonV19
-    return parse_csv(csv_output, type)
+    if version == 19:
+        type = RibbonV19
+        return parse_csv(csv_output, type)
+    else:
+        type = RibbonV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+        )
 
 
 def parse_shadow_pokemon(csv_output, version) -> list[ShadowPokemonV15]:
-    type = ShadowPokemonV15
-    return parse_csv_after_equal(csv_output, type)
+    if version == 15:
+        type = ShadowPokemonV15
+        return parse_csv_after_equal(csv_output, type)
+    else:
+        type = ShadowPokemonV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+        )
 
 
 def parse_tm(lines, version):
@@ -169,7 +192,10 @@ def parse_regional_dex(lines, version):
 
 
 def parse_type(lines, version):
-    type = TypeV15
+    if version == 15:
+        type = TypeV15
+    else:
+        type = TypeV20
     lines_separated = separate_equal(lines)
     return parse_all_section(
         lines_separated, type, parse_bracket_section_header, parse_equal_section_body
@@ -220,11 +246,24 @@ def parse_pokemon_form(lines, version):
         type = PokemonFormV17
     elif version == 18:
         type = PokemonFormV18
-    else:
+    elif version == 19:
         type = PokemonFormV19
+    else:
+        type = PokemonFormV20
+
     lines_separated = separate_equal(lines)
     return parse_all_section(
         lines_separated, type, parse_pokemon_form_section_header, parse_pokemon_section_body
+    )
+
+
+def parse_pokemon_metric(lines, version):
+    if version == 20:
+        type = PokemonMetricV20
+
+    lines_separated = separate_equal(lines)
+    return parse_all_section(
+        lines_separated, type, parse_pokemon_form_section_header, parse_equal_section_body
     )
 
 
@@ -238,12 +277,19 @@ def parse_trainer_list(csv_output, version) -> list[TrainerV15]:
         return parse_all_section(
             lines, type, parse_trainer_section_headerv15, parse_trainer_section_bodyv15
         )
-    else:
+    elif version == 18:
         type = TrainerV18
 
         lines_separated = separate_trainersv18(csv_output)
         return parse_all_section(
             lines_separated, type, parse_trainer_section_headerv18, parse_trainer_section_bodyv18
+        )
+    else:
+        type = TrainerV20
+
+        lines_separated = separate_trainersv18(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_trainer_section_headerv18, parse_trainer_section_bodyv20
         )
 
 

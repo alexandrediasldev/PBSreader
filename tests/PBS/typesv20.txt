@@ -1,0 +1,9 @@
+[id]
+Name=name
+IconPosition=icon_position
+Weaknesses=weaknesses0,weaknesses1
+Immunities=immunities0,immunities1
+Flags=flags0,flags1
+IsPseudoType=is_pseudo_type
+IsSpecialType=is_special_type
+Resistances=resistances0,resistances1

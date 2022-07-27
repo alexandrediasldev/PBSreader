@@ -9,7 +9,7 @@ from PBSclasses.MetaData import PlayerMetaData, HomeMetaData
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
 from PBSclasses.TownMap import TownPoint
-from PBSclasses.TrainerPokemon import TrainerPokemonV18, TrainerPokemonV15
+from PBSclasses.TrainerPokemon import TrainerPokemonV18, TrainerPokemonV15, TrainerPokemonV20
 from PBSclasses.Trainers import TrainerV18
 from src.parser.parse_utils import (
     parse_bracket_header,
@@ -176,6 +176,13 @@ def parse_pokemon_section_body(lines, object_class, kwargs):
                 **get_kwargs_from_line_csv(sub_class.get_attr_names(), line[1].split(","))
             )
             kwargs[argument_translator[line[0]]] = value
+        elif line[0] in ["EVs"]:
+            sub_class = SpeciesStats
+            stats = line[1].split(",")
+            s = sub_class()
+            for i in range(0, len(stats), 2):
+                s.__dict__[stats[i].lower()] = stats[i + 1]
+            kwargs[argument_translator[line[0]]] = s
         else:
             value = parse_equal_name_value(line[0], line[1], object_class)
             kwargs[argument_translator[line[0]]] = value
@@ -244,6 +251,16 @@ def parse_trainer_section_bodyv18(lines, object_class, kwargs):
     kwargs[object_class.get_attr_names()[5]] = parse_all_section(
         lines[1:],
         TrainerPokemonV18,
+        parse_trainer_pokemon_section_headerv18,
+        parse_trainer_pokemon_section_bodyv18,
+    )
+    return object_class(**kwargs)
+
+
+def parse_trainer_section_bodyv20(lines, object_class, kwargs):
+    kwargs[object_class.get_attr_names()[5]] = parse_all_section(
+        lines[1:],
+        TrainerPokemonV20,
         parse_trainer_pokemon_section_headerv18,
         parse_trainer_pokemon_section_bodyv18,
     )

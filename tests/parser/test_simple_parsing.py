@@ -19,6 +19,7 @@ from src.parser.parser import (
     parse_regional_dex,
     parse_ribbon,
     parse_pokemon_form,
+    parse_pokemon_metric,
 )
 
 
@@ -109,6 +110,10 @@ def test_trainer_typev16():
     csv_check("trainertypesv16.txt", parse_trainer_types, version=16)
 
 
+def test_trainer_typev20():
+    equal_check("trainertypesv20.txt", parse_trainer_types, version=20)
+
+
 def test_berryplant():
     equal_coma_check("berryplants.txt", parse_berry_plant, version=16)
 
@@ -121,11 +126,19 @@ def test_shadow():
     equal_check("shadowmoves.txt", parse_shadow_pokemon, version=15)
 
 
+def test_shadowv20():
+    equal_check("shadowmovesv20.txt", parse_shadow_pokemon, version=20)
+
+
 # ---- Equal
 
 
 def test_type():
     equal_check("types.txt", parse_type, version=15)
+
+
+def test_typev20():
+    equal_check("typesv20.txt", parse_type, version=20)
 
 
 def test_metadatav15():
@@ -160,6 +173,10 @@ def test_pokemonv19():
     equal_check("pokemonv19.txt", parse_pokemon, version=19)
 
 
+def test_pokemonv20():
+    equal_check("pokemonv20.txt", parse_pokemon, version=20)
+
+
 def test_pokemonformv17():
     equal_check("pokemonformsv17.txt", parse_pokemon_form, version=17)
 
@@ -172,12 +189,24 @@ def test_pokemonformv19():
     equal_check("pokemonformsv19.txt", parse_pokemon_form, version=19)
 
 
+def test_pokemonformv20():
+    equal_check("pokemonformsv20.txt", parse_pokemon_form, version=20)
+
+
+def test_pokemonmetricv20():
+    equal_check("pokemonmetricsv20.txt", parse_pokemon_metric, version=20)
+
+
 def test_trainersv15():
     csv_check("trainersv15.txt", parse_trainer_list, version=15)
 
 
 def test_trainersv18():
     equal_check("trainersv18.txt", parse_trainer_list, version=18)
+
+
+def test_trainersv20():
+    equal_check("trainersv20.txt", parse_trainer_list, version=20)
 
 
 def test_phone():
@@ -192,8 +221,12 @@ def test_regional_dexes():
     equal_check("regionaldexes.txt", parse_regional_dex, version=19)
 
 
-def test_ribbon():
+def test_ribbonv19():
     csv_check("ribbons.txt", parse_ribbon, version=19)
+
+
+def test_ribbonv20():
+    equal_check("ribbonsv20.txt", parse_ribbon, version=20)
 
 
 def test_encountersv15():
