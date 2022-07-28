@@ -40,6 +40,7 @@ from PBSclasses.TrainerPokemon import TrainerPokemonV15
 from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16, TrainerTypeV20
 from PBSclasses.Trainers import TrainerV15, TrainerV18, TrainerV20
 from PBSclasses.Type import TypeV15, TypeV20
+from src.Exception import UnsupportedVersionError
 from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma, append_value_kwargs
 from src.parser.schema import (
     separate_equal,
@@ -81,11 +82,19 @@ from src.parser.single_line_files import (
 )
 
 
+def check_if_version_is_supported(value, min=15, max=20):
+    if value < min or value > max:
+        raise UnsupportedVersionError(
+            f"{value} is not a supported version, it must be between {min} and {max}"
+        )
+
+
 # ---- CSV
 
 
 def parse_ability(csv_output, version) -> list[AbilityV15]:
-    if version == 15:
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 19:
         type = AbilityV15
         return parse_csv(csv_output, type)
     else:
@@ -97,7 +106,8 @@ def parse_ability(csv_output, version) -> list[AbilityV15]:
 
 
 def parse_move(csv_output, version) -> list[MoveV15]:
-    if version == 15:
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 19:
         type = MoveV15
         return parse_csv(csv_output, type)
     else:
@@ -109,7 +119,8 @@ def parse_move(csv_output, version) -> list[MoveV15]:
 
 
 def parse_berry_plant(csv_output, version) -> list[BerryPlantV16]:
-    if version == 16:
+    check_if_version_is_supported(version, min=16)
+    if version >= 16 and version <= 19:
         type = BerryPlantV16
         return parse_csv(csv_output, type)
     else:
@@ -120,16 +131,18 @@ def parse_berry_plant(csv_output, version) -> list[BerryPlantV16]:
         )
 
 
-def parse_connection(csv_output) -> list[ConnectionV15]:
+def parse_connection(csv_output, version) -> list[ConnectionV15]:
+    check_if_version_is_supported(version)
     type = ConnectionV15
     return parse_csv(csv_output, type)
 
 
 def parse_trainer_types(csv_output, version) -> list[TrainerTypeV15]:
+    check_if_version_is_supported(version)
     if version == 15:
         type = TrainerTypeV15
         return parse_csv(csv_output, type)
-    elif version == 16:
+    elif version >= 16 and version <= 19:
         type = TrainerTypeV16
         return parse_csv(csv_output, type)
     else:
@@ -141,10 +154,11 @@ def parse_trainer_types(csv_output, version) -> list[TrainerTypeV15]:
 
 
 def parse_item(csv_output, version) -> list[ItemV15]:
+    check_if_version_is_supported(version)
     if version == 15:
         itemType = ItemV15
         return parse_csv(csv_output, itemType)
-    elif version == 16:
+    elif version >= 16 and version <= 19:
         itemType = ItemV16
         return parse_csv(csv_output, itemType)
     else:
@@ -156,6 +170,7 @@ def parse_item(csv_output, version) -> list[ItemV15]:
 
 
 def parse_ribbon(csv_output, version) -> list[RibbonV19]:
+    check_if_version_is_supported(version, min=19)
     if version == 19:
         type = RibbonV19
         return parse_csv(csv_output, type)
@@ -168,7 +183,8 @@ def parse_ribbon(csv_output, version) -> list[RibbonV19]:
 
 
 def parse_shadow_pokemon(csv_output, version) -> list[ShadowPokemonV15]:
-    if version == 15:
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 19:
         type = ShadowPokemonV15
         return parse_csv_after_equal(csv_output, type)
     else:
@@ -180,6 +196,7 @@ def parse_shadow_pokemon(csv_output, version) -> list[ShadowPokemonV15]:
 
 
 def parse_tm(lines, version):
+    check_if_version_is_supported(version, max=18)
     type = TmV15
     lines_separated = separate_equal(lines)
     return parse_all_section(
@@ -188,6 +205,7 @@ def parse_tm(lines, version):
 
 
 def parse_regional_dex(lines, version):
+    check_if_version_is_supported(version, min=19)
     type = RegionalDexV19
     lines_separated = separate_equal(lines)
     return parse_all_section(
@@ -199,7 +217,8 @@ def parse_regional_dex(lines, version):
 
 
 def parse_type(lines, version):
-    if version == 15:
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 19:
         type = TypeV15
     else:
         type = TypeV20
@@ -209,7 +228,8 @@ def parse_type(lines, version):
     )
 
 
-def parse_townmap(lines):
+def parse_townmap(lines, version):
+    check_if_version_is_supported(version)
     type = TownMap
     lines_separated = separate_equal(lines)
     return parse_all_section(
@@ -218,9 +238,10 @@ def parse_townmap(lines):
 
 
 def parse_metadata(lines, version):
-    if version <= 17:
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 17:
         type = MetaDataV15
-    elif version <= 18:
+    elif version >= 18 and version <= 19:
         type = MetaDataV18
     else:
         type = MetaDataV20
@@ -231,6 +252,7 @@ def parse_metadata(lines, version):
 
 
 def parse_map_metadata(lines, version):
+    check_if_version_is_supported(version, min=20)
     if version == 20:
         type = MapMetaDataV20
     lines_separated = separate_equal(lines)
@@ -240,6 +262,7 @@ def parse_map_metadata(lines, version):
 
 
 def parse_pokemon(lines, version):
+    check_if_version_is_supported(version)
     if version == 15:
         type = SpeciesV15
     elif version == 16:
@@ -260,6 +283,7 @@ def parse_pokemon(lines, version):
 
 
 def parse_pokemon_form(lines, version):
+    check_if_version_is_supported(version, min=17)
     if version == 17:
         type = PokemonFormV17
     elif version == 18:
@@ -276,6 +300,7 @@ def parse_pokemon_form(lines, version):
 
 
 def parse_pokemon_metric(lines, version):
+    check_if_version_is_supported(version, min=20)
     if version == 20:
         type = PokemonMetricV20
 
@@ -289,13 +314,14 @@ def parse_pokemon_metric(lines, version):
 
 
 def parse_trainer_list(csv_output, version) -> list[TrainerV15]:
-    if version == 15:
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 17:
         type = TrainerV15
         lines = separate_trainersv15(csv_output)
         return parse_all_section(
             lines, type, parse_trainer_section_headerv15, parse_trainer_section_bodyv15
         )
-    elif version == 18:
+    elif version >= 18 and version <= 19:
         type = TrainerV18
 
         lines_separated = separate_trainersv18(csv_output)
@@ -312,7 +338,8 @@ def parse_trainer_list(csv_output, version) -> list[TrainerV15]:
 
 
 def parse_encounter(lines, version: int) -> list[EncounterV15]:
-    if version == 15:
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 18:
         type = EncounterV15
         lines_separated = separate_encountersv15(lines)
         return parse_all_section(
@@ -333,7 +360,8 @@ def parse_encounter(lines, version: int) -> list[EncounterV15]:
 
 
 # ----- Phone
-def parse_phone(csv_output):
+def parse_phone(csv_output, version):
+    check_if_version_is_supported(version)
     argument_translator = PhoneV15.get_attr_dict()
     kwargs = dict()
     lines_separated = separate_equal(csv_output)
