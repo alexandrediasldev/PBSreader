@@ -9,6 +9,7 @@ WildBattleBGM=wild_battle_BGM
 TrainerBattleBGM=trainer_battle_BGM
 WildVictoryME=wild_victory_ME
 TrainerVictoryME=trainer_victory_ME
+WildCaptureME=wild_capture_ME
 # Map specific metadata
 Outdoor=outdoor
 Bicycle=bicycle

@@ -5,7 +5,7 @@ from PBSclasses.Encounter import (
     EncounterPokemonV19,
     EncounterByMethodV19,
 )
-from PBSclasses.MetaData import PlayerMetaData, HomeMetaData
+from PBSclasses.MetaData import PlayerMetaDataV15, HomeMetaData
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.SpeciesStats import SpeciesStats
 from PBSclasses.TownMap import TownPoint
@@ -146,8 +146,8 @@ def parse_metadata_section_body(lines, object_class, kwargs):
             )
             kwargs[argument_translator[line[0]]] = value
         elif line[0].startswith("Player"):
-            pmd = PlayerMetaData.get_attr_names()
-            p = PlayerMetaData(**get_kwargs_from_line_csv(pmd, line[1].split(",")))
+            pmd = PlayerMetaDataV15.get_attr_names()
+            p = PlayerMetaDataV15(**get_kwargs_from_line_csv(pmd, line[1].split(",")))
             append_value_kwargs(kwargs, line[0], p, "Player", argument_translator)
         else:
             value = parse_equal_name_value(line[0], line[1], object_class)

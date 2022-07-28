@@ -20,6 +20,7 @@ from src.parser.parser import (
     parse_ribbon,
     parse_pokemon_form,
     parse_pokemon_metric,
+    parse_map_metadata,
 )
 
 
@@ -147,6 +148,14 @@ def test_metadatav15():
 
 def test_metadatav18():
     equal_check("metadatav18.txt", parse_metadata, version=18)
+
+
+def test_metadatav20():
+    equal_check("metadatav20.txt", parse_metadata, version=20)
+
+
+def test_mapmetadatav20():
+    equal_check("mapmetadatav20.txt", parse_map_metadata, version=20)
 
 
 def test_townmap():

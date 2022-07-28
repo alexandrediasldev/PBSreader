@@ -1,7 +1,7 @@
 from typing import List, Callable, Dict
 
 from PBSclasses import Encounter as en, TrainerPokemon as pk
-from PBSclasses.MetaData import PlayerMetaData
+from PBSclasses.MetaData import PlayerMetaDataV15
 from PBSclasses.Phone import PhoneV15
 from PBSclasses.TownMap import TownPoint
 from src.Finder import get_encounter_method_from_name, get_species_from_name

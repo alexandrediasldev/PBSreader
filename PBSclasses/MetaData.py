@@ -5,7 +5,15 @@ from PBSclasses.BaseData import BaseData
 
 
 @dataclass
-class PlayerMetaData(BaseData):
+class HomeMetaData(BaseData):
+    map_id: str = ""
+    position_x: str = ""
+    position_y: str = ""
+    direction: str = ""
+
+
+@dataclass
+class PlayerMetaDataV15(BaseData):
     trainer_type: str = ""
     walking_charset: str = ""
     cycling_charset: str = ""
@@ -17,17 +25,9 @@ class PlayerMetaData(BaseData):
 
 
 @dataclass
-class HomeMetaData(BaseData):
-    map_id: str = ""
-    position_x: str = ""
-    position_y: str = ""
-    direction: str = ""
-
-
-@dataclass
 class MetaDataV15(BaseData):
     id: str = ""
-    player: List[PlayerMetaData] = field(default_factory=list)
+    player: List[PlayerMetaDataV15] = field(default_factory=list)
     home: HomeMetaData = field(default_factory=HomeMetaData)
     bicycle_BGM: str = ""
     surf_BGM: str = ""
@@ -55,7 +55,7 @@ class MetaDataV15(BaseData):
 @dataclass
 class MetaDataV18(BaseData):
     id: str = ""
-    player: List[PlayerMetaData] = field(default_factory=list)
+    player: List[PlayerMetaDataV15] = field(default_factory=list)
     home: HomeMetaData = field(default_factory=HomeMetaData)
     bicycle_BGM: str = ""
     surf_BGM: str = ""
@@ -63,6 +63,7 @@ class MetaDataV18(BaseData):
     trainer_battle_BGM: str = ""
     wild_victory_ME: str = ""
     trainer_victory_ME: str = ""
+    wild_capture_ME: str = ""
     # Map specific metadata
     outdoor: str = ""
     bicycle: str = ""
@@ -79,3 +80,28 @@ class MetaDataV18(BaseData):
     dungeon: str = ""
     battle_back: str = ""
     environment: str = ""
+
+
+@dataclass
+class MetaDataV20(BaseData):
+    id: str = ""
+    home: HomeMetaData = field(default_factory=HomeMetaData)
+    start_money: str = ""
+    start_item_storage: List[str] = field(default_factory=list)
+    storage_creator: str = ""
+    wild_battle_BGM: str = ""
+    trainer_battle_BGM: str = ""
+    wild_victory_BGM: str = ""
+    trainer_victory_BGM: str = ""
+    wild_capture_ME: str = ""
+    surf_BGM: str = ""
+    bicycle_BGM: str = ""
+    # Player metadata
+    trainer_type: str = ""
+    walk_charset: str = ""
+    run_charset: str = ""
+    cycle_charset: str = ""
+    surf_charset: str = ""
+    dive_charset: str = ""
+    fish_charset: str = ""
+    surf_fish_charset: str = ""

@@ -6,6 +6,7 @@ from PBSclasses.Encounter import (
     EncounterV19,
 )
 from PBSclasses.Item import ItemV15, ItemV16, ItemV20
+from PBSclasses.MapMetaData import MapMetaDataV20
 from PBSclasses.Move import MoveV15, MoveV20
 from PBSclasses.PokemonForm import PokemonFormV17, PokemonFormV18, PokemonFormV19, PokemonFormV20
 from PBSclasses.PokemonMetric import PokemonMetricV20
@@ -22,7 +23,13 @@ from PBSclasses.Species import (
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
 from PBSclasses.BerryPlant import BerryPlantV16, BerryPlantV20
 from PBSclasses.Connection import ConnectionV15
-from PBSclasses.MetaData import MetaDataV15, PlayerMetaData, HomeMetaData, MetaDataV18
+from PBSclasses.MetaData import (
+    MetaDataV15,
+    PlayerMetaDataV15,
+    HomeMetaData,
+    MetaDataV18,
+    MetaDataV20,
+)
 from PBSclasses.Phone import PhoneV15
 from PBSclasses.ShadowPokemon import ShadowPokemonV15, ShadowPokemonV20
 from PBSclasses.SpeciesStats import SpeciesStats
@@ -213,8 +220,19 @@ def parse_townmap(lines):
 def parse_metadata(lines, version):
     if version <= 17:
         type = MetaDataV15
-    else:
+    elif version <= 18:
         type = MetaDataV18
+    else:
+        type = MetaDataV20
+    lines_separated = separate_equal(lines)
+    return parse_all_section(
+        lines_separated, type, parse_bracket_section_header, parse_metadata_section_body
+    )
+
+
+def parse_map_metadata(lines, version):
+    if version == 20:
+        type = MapMetaDataV20
     lines_separated = separate_equal(lines)
     return parse_all_section(
         lines_separated, type, parse_bracket_section_header, parse_metadata_section_body
