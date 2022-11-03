@@ -21,6 +21,7 @@ from src.Exporter import (
     deserialize_connection,
     deserialize_berry_plant,
     deserialize_encounters,
+    deserialize_tm,
 )
 
 if __name__ == "__main__":
@@ -41,6 +42,7 @@ if __name__ == "__main__":
     equal_type = FileLoader.file_equal_to_list(pbsv15_location + "types.txt")
     equal_townmap = FileLoader.file_equal_to_list(pbsv15_location + "townmap.txt")
     equal_metadata = FileLoader.file_equal_to_list(pbsv15_location + "metadata.txt")
+    equal_tm = FileLoader.file_equal_to_list(pbsv15_location + "tm.txt")
 
     env = Environment()
     env.load_environment(
@@ -58,12 +60,14 @@ if __name__ == "__main__":
         equal_type,
         equal_townmap,
         equal_metadata,
+        equal_tm,
         15,
     )
 
     spe = get_species_from_name("RIOLU", env.species_list)
     tr_type = get_trainer_type_from_name("EclipseDame", env.trainer_type_list)
     mov = env.move_list[5]
+    tm = env.tm_list[5]
     firestone = get_item_from_name("FIRESTONE", env.item_list)
     tra = env.trainer_list[2]
     abi = env.ability_list[8]
@@ -97,6 +101,7 @@ if __name__ == "__main__":
     # print(deserialize_type(ty))
     # print(deserialize_townmap(town))
     # print(deserialize_metadata(met))
+    print(deserialize_tm(tm))
     # print(deserialize_berry_plant(berry))
 
     # print(deserialize_trainer(tra))
@@ -105,4 +110,8 @@ if __name__ == "__main__":
     # f, ax = Visualization.plot_all_encounter_map_types(env.encounter_list)
     # f.show()
     pass
-    # NEED TO CONTINUE WORKING ON METADATA TO FIX IT
+
+    # V15-V19 Basic testing DONE more test to be done for optional values
+    # V20 TODO
+    # map_metadata
+    # metadata

@@ -1,0 +1,5 @@
+[id]
+Name=name
+IconPosition=icon_position
+Flags=flags0,flags1
+Description=description

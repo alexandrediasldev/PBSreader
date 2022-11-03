@@ -1,240 +1,368 @@
-import PBSclasses.Trainers as tr
-import PBSclasses.Pokemon as pk
-import PBSclasses.Move as mv
-import PBSclasses.Item as it
-import PBSclasses.Encounter as en
-import PBSclasses.Ability as ab
-from PBSclasses.Species import Species
+from PBSclasses.Ability import AbilityV15, AbilityV20
+from PBSclasses.Encounter import (
+    EncounterV15,
+    EncounterPokemonV15,
+    EncounterByMethodV15,
+    EncounterV19,
+)
+from PBSclasses.Item import ItemV15, ItemV16, ItemV20
+from PBSclasses.MapMetaData import MapMetaDataV20
+from PBSclasses.Move import MoveV15, MoveV20
+from PBSclasses.PokemonForm import PokemonFormV17, PokemonFormV18, PokemonFormV19, PokemonFormV20
+from PBSclasses.PokemonMetric import PokemonMetricV20
+from PBSclasses.RegionalDexes import RegionalDexV19
+from PBSclasses.Ribbon import RibbonV19, RibbonV20
+from PBSclasses.Species import (
+    SpeciesV15,
+    SpeciesV17,
+    SpeciesV16,
+    SpeciesV18,
+    SpeciesV19,
+    SpeciesV20,
+)
 from PBSclasses.SpeciesEvolution import SpeciesEvolution
-from PBSclasses.BerryPlant import BerryPlant
-from PBSclasses.Connection import Connection
-from PBSclasses.MetaData import MetaData, PlayerMetaData, HomeMetaData
-from PBSclasses.Phone import Phone
-from PBSclasses.ShadowPokemon import ShadowPokemon
+from PBSclasses.BerryPlant import BerryPlantV16, BerryPlantV20
+from PBSclasses.Connection import ConnectionV15
+from PBSclasses.MetaData import (
+    MetaDataV15,
+    PlayerMetaDataV15,
+    HomeMetaData,
+    MetaDataV18,
+    MetaDataV20,
+)
+from PBSclasses.Phone import PhoneV15
+from PBSclasses.ShadowPokemon import ShadowPokemonV15, ShadowPokemonV20
 from PBSclasses.SpeciesStats import SpeciesStats
+from PBSclasses.Tm import TmV15
 
 from PBSclasses.TownMap import TownMap, TownPoint
-from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16
-from PBSclasses.Type import Type
-from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma, parse_coma_equal_field
-from src.parser.schema import separate_equal, separate_trainers, separate_encounters
+from PBSclasses.TrainerPokemon import TrainerPokemonV15
+from PBSclasses.TrainerTypes import TrainerTypeV15, TrainerTypeV16, TrainerTypeV20
+from PBSclasses.Trainers import TrainerV15, TrainerV18, TrainerV20
+from PBSclasses.Type import TypeV15, TypeV20
+from src.Exception import UnsupportedVersionError
+from src.parser.parse_utils import parse_bracket_header, parse_one_line_coma, append_value_kwargs
+from src.parser.schema import (
+    separate_equal,
+    separate_trainersv15,
+    separate_encountersv15,
+    separate_encountersv19,
+    separate_trainersv18,
+)
+
+# single line parsing
+from src.parser.section import (
+    parse_bracket_section_header,
+    parse_one_line_coma_section_body,
+    parse_equal_section_body,
+    parse_all_section,
+    parse_metadata_section_body,
+    parse_townmap_section_body,
+    parse_pokemon_section_body,
+    parse_pokemon_form_section_header,
+    parse_full_section_header,
+    parse_encounter_map_section_headerv15,
+    parse_encounter_map_section_bodyv15,
+    parse_encounter_map_section_bodyv19,
+    parse_bracket_coma_section_header,
+    parse_encounter_map_section_headerv19,
+    parse_trainer_section_bodyv18,
+    parse_trainer_section_headerv18,
+    parse_trainer_section_bodyv15,
+    parse_trainer_section_headerv15,
+    parse_berry_plant_section_bodyv20,
+    parse_trainer_section_bodyv20,
+)
+from src.parser.single_line_files import (
+    attr_list_to_object,
+    attr_name_and_str_list_to_object,
+    get_kwargs_from_line_csv,
+    parse_csv,
+    parse_csv_after_equal,
+)
 
 
-def get_kwargs_from_line_csv(attr_names, lines):
-    kwargs = dict()
-    for name, value in zip(attr_names, lines):
-        kwargs[name] = value
-    return kwargs
-
-
-def parse_csv(lines, object_class):
-    list_obj = []
-    for line in lines:
-        list_obj.append(
-            object_class(**get_kwargs_from_line_csv(object_class.get_attr_names(), line))
+def check_if_version_is_supported(value, min=15, max=20):
+    if value < min or value > max:
+        raise UnsupportedVersionError(
+            f"{value} is not a supported version, it must be between {min} and {max}"
         )
-    return list_obj
-
-
-def parse_csv_after_equal(lines, object_class):
-    list_obj = []
-    for line in lines:
-        after_equal_expanded = parse_coma_equal_field(line[1])
-        line_fused = [line[0]] + [after_equal_expanded]
-        list_obj.append(
-            object_class(**get_kwargs_from_line_csv(object_class.get_attr_names(), line_fused))
-        )
-    return list_obj
-
-
-def parse_equal_name_value(first, second, object_class):
-    attr_pbs_string, attr_pbs_list, attr_pbs_basedata = object_class.get_attr_pbs_by_types()
-    if first in attr_pbs_string:
-        return second
-    elif first in attr_pbs_list:
-        return parse_coma_equal_field(second)
-    # elif first in attr_pbs_basedata:
-    #    sub_class = object_class.get_attr_class(argument_translator[first])
-    # return sub_class(
-    #    **parse_one_line_coma(sub_class.get_attr_names(), parse_coma_equal_field(second))
-    # )
-
-
-def parse_equal_line(lines, object_class):
-    argument_translator = object_class.get_attr_dict()
-    kwargs = {}
-    kwargs["id"] = parse_bracket_header(lines[0][0])
-    for line in lines[1:]:
-        value = parse_equal_name_value(line[0], line[1], object_class)
-        kwargs[argument_translator[line[0]]] = value
-    return object_class(**kwargs)
-
-
-def append_value_kwargs(kwargs, first, value, attr_name, argument_translator):
-    if first.startswith(attr_name):
-        first = attr_name
-        if argument_translator[first] not in kwargs:
-            kwargs[argument_translator[first]] = []
-        kwargs[argument_translator[first]].append(value)
-    else:
-        kwargs[argument_translator[first]] = value
-
-
-def parse_equal_line_metadata(lines, object_class):
-    argument_translator = object_class.get_attr_dict()
-    kwargs = {}
-    kwargs["id"] = parse_bracket_header(lines[0][0])
-    for line in lines[1:]:
-        if line[0] == "Home":
-            value = HomeMetaData(
-                **get_kwargs_from_line_csv(HomeMetaData.get_attr_names(), line[1].split(","))
-            )
-            kwargs[argument_translator[line[0]]] = value
-        elif line[0].startswith("Player"):
-            pmd = PlayerMetaData.get_attr_names()
-            p = PlayerMetaData(**get_kwargs_from_line_csv(pmd, line[1].split(",")))
-            append_value_kwargs(kwargs, line[0], p, "Player", argument_translator)
-        else:
-            value = parse_equal_name_value(line[0], line[1], object_class)
-            kwargs[argument_translator[line[0]]] = value
-    return object_class(**kwargs)
-
-
-def parse_equal_metadata(lines, object_class):
-    list_obj = []
-    lines_separated = separate_equal(lines)
-    for line in lines_separated:
-        obj = parse_equal_line_metadata(line, object_class)
-        list_obj.append(obj)
-    return list_obj
-
-
-def parse_equal_line_pokemon(lines, object_class):
-    argument_translator = object_class.get_attr_dict()
-    kwargs = {}
-    kwargs["id"] = parse_bracket_header(lines[0][0])
-    for line in lines[1:]:
-        if line[0] == "Moves":
-            moves_and_level = line[1].split(",")
-            value = []
-            for i in range(0, len(moves_and_level), 2):
-                level = moves_and_level[i]
-                if i + 1 < len(moves_and_level):
-                    move = moves_and_level[i + 1]
-                    value.append((level, move))
-            kwargs[argument_translator[line[0]]] = value
-        elif line[0] in ["BaseStats", "EffortPoints", "Evolutions"]:
-            if line[0] == "BaseStats" or line[0] == "EffortPoints":
-                sub_class = SpeciesStats
-            else:
-                sub_class = SpeciesEvolution
-            value = sub_class(
-                **get_kwargs_from_line_csv(sub_class.get_attr_names(), line[1].split(","))
-            )
-            kwargs[argument_translator[line[0]]] = value
-        else:
-            value = parse_equal_name_value(line[0], line[1], object_class)
-            kwargs[argument_translator[line[0]]] = value
-    return object_class(**kwargs)
-
-
-def parse_equal_pokemon(lines, object_class):
-    list_obj = []
-    lines_separated = separate_equal(lines)
-    for line in lines_separated:
-        obj = parse_equal_line_pokemon(line, object_class)
-        list_obj.append(obj)
-    return list_obj
-
-
-def parse_equal_line_townmap(lines, object_class):
-    argument_translator = object_class.get_attr_dict()
-    kwargs = {}
-    kwargs["id"] = parse_bracket_header(lines[0][0])
-    for line in lines[1:]:
-        if line[0] == "Point":
-            value = TownPoint(
-                **get_kwargs_from_line_csv(TownPoint.get_attr_names(), line[1].split(","))
-            )
-
-            append_value_kwargs(kwargs, line[0], value, "Point", argument_translator)
-        else:
-            value = parse_equal_name_value(line[0], line[1], object_class)
-            kwargs[argument_translator[line[0]]] = value
-    return object_class(**kwargs)
-
-
-def parse_equal_townmap(lines, object_class):
-    list_obj = []
-    lines_separated = separate_equal(lines)
-    for line in lines_separated:
-        obj = parse_equal_line_townmap(line, object_class)
-        list_obj.append(obj)
-    return list_obj
-
-
-def parse_equal(lines, object_class):
-    list_obj = []
-    lines_separated = separate_equal(lines)
-    for line in lines_separated:
-        obj = parse_equal_line(line, object_class)
-        list_obj.append(obj)
-    return list_obj
 
 
 # ---- CSV
-def parse_ability(csv_output) -> list[ab.Ability]:
-    type = ab.Ability
-    return parse_csv(csv_output, type)
 
 
-def parse_move(csv_output) -> list[mv.Move]:
-    type = mv.Move
-    return parse_csv(csv_output, type)
+def parse_ability(csv_output, version) -> list[AbilityV15]:
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 19:
+        type = AbilityV15
+        return parse_csv(csv_output, type)
+    else:
+        type = AbilityV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+        )
 
 
-def parse_berry_plant(csv_output) -> list[BerryPlant]:
-    type = BerryPlant
-    return parse_csv(csv_output, type)
+def parse_move(csv_output, version) -> list[MoveV15]:
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 19:
+        type = MoveV15
+        return parse_csv(csv_output, type)
+    else:
+        type = MoveV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+        )
 
 
-def parse_connection(csv_output) -> list[Connection]:
-    type = Connection
+def parse_berry_plant(csv_output, version) -> list[BerryPlantV16]:
+    check_if_version_is_supported(version, min=16)
+    if version >= 16 and version <= 19:
+        type = BerryPlantV16
+        return parse_csv(csv_output, type)
+    else:
+        type = BerryPlantV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_berry_plant_section_bodyv20
+        )
+
+
+def parse_connection(csv_output, version) -> list[ConnectionV15]:
+    check_if_version_is_supported(version)
+    type = ConnectionV15
     return parse_csv(csv_output, type)
 
 
 def parse_trainer_types(csv_output, version) -> list[TrainerTypeV15]:
+    check_if_version_is_supported(version)
     if version == 15:
         type = TrainerTypeV15
-    else:
+        return parse_csv(csv_output, type)
+    elif version >= 16 and version <= 19:
         type = TrainerTypeV16
-    return parse_csv(csv_output, type)
-
-
-def parse_item(csv_output, version) -> list[it.ItemV15]:
-    if version == 15:
-        itemType = it.ItemV15
+        return parse_csv(csv_output, type)
     else:
-        itemType = it.ItemV16
-    return parse_csv(csv_output, itemType)
+        type = TrainerTypeV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+        )
 
 
-def parse_shadow_pokemon(csv_output) -> list[ShadowPokemon]:
-    type = ShadowPokemon
-    return parse_csv_after_equal(csv_output, type)
+def parse_item(csv_output, version) -> list[ItemV15]:
+    check_if_version_is_supported(version)
+    if version == 15:
+        itemType = ItemV15
+        return parse_csv(csv_output, itemType)
+    elif version >= 16 and version <= 19:
+        itemType = ItemV16
+        return parse_csv(csv_output, itemType)
+    else:
+        type = ItemV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+        )
+
+
+def parse_ribbon(csv_output, version) -> list[RibbonV19]:
+    check_if_version_is_supported(version, min=19)
+    if version == 19:
+        type = RibbonV19
+        return parse_csv(csv_output, type)
+    else:
+        type = RibbonV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+        )
+
+
+def parse_shadow_pokemon(csv_output, version) -> list[ShadowPokemonV15]:
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 19:
+        type = ShadowPokemonV15
+        return parse_csv_after_equal(csv_output, type)
+    else:
+        type = ShadowPokemonV20
+        lines_separated = separate_equal(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+        )
+
+
+def parse_tm(lines, version):
+    check_if_version_is_supported(version, max=18)
+    type = TmV15
+    lines_separated = separate_equal(lines)
+    return parse_all_section(
+        lines_separated, type, parse_bracket_section_header, parse_one_line_coma_section_body
+    )
+
+
+def parse_regional_dex(lines, version):
+    check_if_version_is_supported(version, min=19)
+    type = RegionalDexV19
+    lines_separated = separate_equal(lines)
+    return parse_all_section(
+        lines_separated, type, parse_bracket_section_header, parse_one_line_coma_section_body
+    )
 
 
 # ------ Equal
 
 
-def parse_type(equal_output):
-    type = Type
-    return parse_equal(equal_output, type)
+def parse_type(lines, version):
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 19:
+        type = TypeV15
+    else:
+        type = TypeV20
+    lines_separated = separate_equal(lines)
+    return parse_all_section(
+        lines_separated, type, parse_bracket_section_header, parse_equal_section_body
+    )
+
+
+def parse_townmap(lines, version):
+    check_if_version_is_supported(version)
+    type = TownMap
+    lines_separated = separate_equal(lines)
+    return parse_all_section(
+        lines_separated, type, parse_bracket_section_header, parse_townmap_section_body
+    )
+
+
+def parse_metadata(lines, version):
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 17:
+        type = MetaDataV15
+    elif version >= 18 and version <= 19:
+        type = MetaDataV18
+    else:
+        type = MetaDataV20
+    lines_separated = separate_equal(lines)
+    return parse_all_section(
+        lines_separated, type, parse_bracket_section_header, parse_metadata_section_body
+    )
+
+
+def parse_map_metadata(lines, version):
+    check_if_version_is_supported(version, min=20)
+    if version == 20:
+        type = MapMetaDataV20
+    lines_separated = separate_equal(lines)
+    return parse_all_section(
+        lines_separated, type, parse_bracket_section_header, parse_metadata_section_body
+    )
+
+
+def parse_pokemon(lines, version):
+    check_if_version_is_supported(version)
+    if version == 15:
+        type = SpeciesV15
+    elif version == 16:
+        type = SpeciesV16
+    elif version == 17:
+        type = SpeciesV17
+    elif version == 18:
+        type = SpeciesV18
+    elif version == 19:
+        type = SpeciesV19
+    else:
+        type = SpeciesV20
+
+    lines_separated = separate_equal(lines)
+    return parse_all_section(
+        lines_separated, type, parse_bracket_section_header, parse_pokemon_section_body
+    )
+
+
+def parse_pokemon_form(lines, version):
+    check_if_version_is_supported(version, min=17)
+    if version == 17:
+        type = PokemonFormV17
+    elif version == 18:
+        type = PokemonFormV18
+    elif version == 19:
+        type = PokemonFormV19
+    else:
+        type = PokemonFormV20
+
+    lines_separated = separate_equal(lines)
+    return parse_all_section(
+        lines_separated, type, parse_pokemon_form_section_header, parse_pokemon_section_body
+    )
+
+
+def parse_pokemon_metric(lines, version):
+    check_if_version_is_supported(version, min=20)
+    if version == 20:
+        type = PokemonMetricV20
+
+    lines_separated = separate_equal(lines)
+    return parse_all_section(
+        lines_separated, type, parse_pokemon_form_section_header, parse_equal_section_body
+    )
+
+
+# Others
+
+
+def parse_trainer_list(csv_output, version) -> list[TrainerV15]:
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 17:
+        type = TrainerV15
+        lines = separate_trainersv15(csv_output)
+        return parse_all_section(
+            lines, type, parse_trainer_section_headerv15, parse_trainer_section_bodyv15
+        )
+    elif version >= 18 and version <= 19:
+        type = TrainerV18
+
+        lines_separated = separate_trainersv18(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_trainer_section_headerv18, parse_trainer_section_bodyv18
+        )
+    else:
+        type = TrainerV20
+
+        lines_separated = separate_trainersv18(csv_output)
+        return parse_all_section(
+            lines_separated, type, parse_trainer_section_headerv18, parse_trainer_section_bodyv20
+        )
+
+
+def parse_encounter(lines, version: int) -> list[EncounterV15]:
+    check_if_version_is_supported(version)
+    if version >= 15 and version <= 18:
+        type = EncounterV15
+        lines_separated = separate_encountersv15(lines)
+        return parse_all_section(
+            lines_separated,
+            type,
+            parse_encounter_map_section_headerv15,
+            parse_encounter_map_section_bodyv15,
+        )
+    else:
+        type = EncounterV19
+        lines_separated = separate_encountersv19(lines)
+        return parse_all_section(
+            lines_separated,
+            type,
+            parse_encounter_map_section_headerv19,
+            parse_encounter_map_section_bodyv19,
+        )
 
 
 # ----- Phone
-def parse_phone(csv_output):
-    argument_translator = Phone.get_attr_dict()
+def parse_phone(csv_output, version):
+    check_if_version_is_supported(version)
+    argument_translator = PhoneV15.get_attr_dict()
     kwargs = dict()
     lines_separated = separate_equal(csv_output)
     for line in lines_separated:
@@ -245,83 +373,5 @@ def parse_phone(csv_output):
         for rest_of_the_line in line[1:]:
             line_content.append(rest_of_the_line[0])
         kwargs[argument_translator[section_name]] = line_content
-    phone = Phone(**kwargs)
+    phone = PhoneV15(**kwargs)
     return phone
-
-
-def parse_townmap(equal_output):
-    type = TownMap
-    return parse_equal_townmap(equal_output, type)
-
-
-def parse_metadata(equal_output):
-    type = MetaData
-    return parse_equal_metadata(equal_output, type)
-
-
-def parse_pokemon(equal_output):
-    type = Species
-    return parse_equal_pokemon(equal_output, type)
-
-
-def parse_trainer_list(csv_output, version) -> list[tr.Trainer]:
-    def _parse_trainer_pokemon(pokemon_attributes) -> pk.Pokemon:
-        attr_names = pk.Pokemon.get_attr_names()
-        moves = pokemon_attributes[3:7]
-        pokemon_attributes = pokemon_attributes[:3] + pokemon_attributes[7:]
-        attr_names.remove("move_list")
-        kwargs = parse_one_line_coma(attr_names, pokemon_attributes)
-        kwargs["move_list"] = moves
-
-        return pk.Pokemon(**kwargs)
-
-    def parse_one_trainer(lines):
-        coma_line = []
-        coma_line.append(lines[0][0])
-        coma_line.append(lines[1][0])
-        coma_line.append(lines[1][1] if len(lines[1]) > 1 else "")
-        coma_line.append(lines[2][1:])
-        coma_line.append(lines[2][0])
-        coma_line.append([_parse_trainer_pokemon(line) for line in lines[3:]])
-
-        kwargs = parse_one_line_coma(tr.Trainer.get_attr_names(), coma_line)
-
-        return kwargs
-
-    lines = separate_trainers(csv_output)
-    obj_list = []
-    for line in lines:
-        obj_list.append(tr.Trainer(**parse_one_trainer(line)))
-    return obj_list
-
-
-def parse_encounter(csv_output, version: int) -> list[en.EncounterByMap]:
-    def parse_one_encounter(encounter_by_map_lines):
-        coma_line = []
-        coma_line.append(encounter_by_map_lines[0][0][0])
-        coma_line.append(encounter_by_map_lines[0][1])
-        encounter_method_list = []
-        for encounter_by_method_lines in encounter_by_map_lines[1:]:
-            encounter_method_name = encounter_by_method_lines[0][0]
-            pokemon_list = []
-            for encounter_pokemon_lines in encounter_by_method_lines[1:]:
-                pokemon_list.append(
-                    en.EncounterPokemon(
-                        **parse_one_line_coma(
-                            en.EncounterPokemon.get_attr_names(), encounter_pokemon_lines
-                        )
-                    )
-                )
-            encounter_method_list.append(en.EncounterByMethod(encounter_method_name, pokemon_list))
-        coma_line.append(encounter_method_list)
-
-        return en.EncounterByMap(
-            **parse_one_line_coma(en.EncounterByMap.get_attr_names(), coma_line)
-        )
-
-    separated_encounter_lines = separate_encounters(csv_output)
-    encounter_list = []
-    for encounter in separated_encounter_lines:
-        encounter_list.append(parse_one_encounter(encounter))
-
-    return encounter_list

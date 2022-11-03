@@ -1,0 +1,9 @@
+[id]
+Name=name
+Gender=gender
+BaseMoney=base_money
+SkillLevel=skill_level
+Flags=flags0,flags1
+IntroBGM=intro_BGM
+BattleBGM=battle_BGM
+VictoryBGM=victory_BGM

@@ -1,0 +1,3 @@
+[species]
+GaugeSize=gauge_size
+Moves=moves0,moves1

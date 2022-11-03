@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List
 
 from PBSclasses.BaseData import BaseData
 
@@ -28,3 +29,16 @@ class TrainerTypeV16(BaseData):
     gender: str = ""
     skill_level: str = ""
     skill_codes: str = ""
+
+
+@dataclass
+class TrainerTypeV20(BaseData):
+    id: str = ""
+    name: str = ""
+    gender: str = ""
+    base_money: str = ""
+    skill_level: str = ""
+    flags: List[str] = field(default_factory=list)
+    battle_BGM: str = ""
+    victory_BGM: str = ""
+    intro_BGM: str = ""

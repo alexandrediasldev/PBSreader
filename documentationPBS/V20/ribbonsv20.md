@@ -34,9 +34,9 @@ Comma-separated labels applied to the ribbon which can be used to make it behave
 
 ### Examples
 
-``
+```
 [HOENNCOOL]
 Name = Cool Ribbon
 IconPosition = 0
 Description = Hoenn Cool Contest Normal Rank winner!
-``
+```

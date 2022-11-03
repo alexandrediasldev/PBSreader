@@ -6,3 +6,8 @@ class UnknownPBSName(Exception):
 class EnvironmentLoadingException(Exception):
     def __init__(self, message):
         self.message = message
+
+
+class UnsupportedVersionError(Exception):
+    def __init__(self, message):
+        self.message = message

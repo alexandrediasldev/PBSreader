@@ -1,0 +1,4 @@
+﻿[id]
+Name=name
+Description=description
+Flags=flags0,flags1,flags2

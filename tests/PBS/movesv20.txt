@@ -1,0 +1,13 @@
+﻿[id]
+Name=name
+Type=type
+Category=category
+BaseDamage=base_damage
+Accuracy=accuracy
+TotalPP=total_PP
+Target=target
+Priority=priority
+FunctionCode=function_code
+Flags=flags0,flags1,flags2
+EffectChance=effect_chance
+Description=description

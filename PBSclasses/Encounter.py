@@ -3,24 +3,46 @@ from typing import List
 
 from PBSclasses.BaseData import BaseData
 from PBSclasses.EncounterMethod import EncounterMethod
-from PBSclasses.Species import Species
+from PBSclasses.Species import SpeciesV15
 
 
 @dataclass
-class EncounterPokemon(BaseData):
+class EncounterPokemonV15(BaseData):
     pokemon_species: str = ""
     level_low: str = ""
     level_high: str = ""
 
 
 @dataclass
-class EncounterByMethod(BaseData):
+class EncounterByMethodV15(BaseData):
     encounter_method: str = ""
-    pokemon_list: List[EncounterPokemon] = field(default_factory=list)
+    pokemon_list: List[EncounterPokemonV15] = field(default_factory=list)
 
 
 @dataclass
-class EncounterByMap(BaseData):
+class EncounterV15(BaseData):
     map_id_number: str
     encounter_densities: List[str]
-    encounters: List[EncounterByMethod]
+    encounters: List[EncounterByMethodV15]
+
+
+@dataclass
+class EncounterPokemonV19(BaseData):
+    encounter_chance: str = ""
+    pokemon_species: str = ""
+    level_low: str = ""
+    level_high: str = ""
+
+
+@dataclass
+class EncounterByMethodV19(BaseData):
+    encounter_method: str = ""
+    encounter_density: str = ""
+    pokemon_list: List[EncounterPokemonV15] = field(default_factory=list)
+
+
+@dataclass
+class EncounterV19(BaseData):
+    map_id_number: str
+    version_number: str
+    encounters: List[EncounterByMethodV15]

@@ -183,7 +183,7 @@ If this is blank, then its form name as shown in the Pokédex's Forms page will 
 **Generation:**
 A number representing the generation of Pokémon games in which this species first appeared. This information is unused in Essentials.
 
-**Flags:**
+**🟢 Flags:**
 Comma-separated labels applied to the species which can be used to make it behave differently. The existing flags are:
 - UltraBeast - The Beast Ball has a different catch rate for Pokémon with this flag.
 - DefaultForm_0, DefaultForm_1, DefaultForm_2 - The form that Pokémon of a species with this flag will have by default. The number can be any number, not just the ones listed here.

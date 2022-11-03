@@ -5,7 +5,7 @@ from PBSclasses.BaseData import BaseData
 
 
 @dataclass
-class Phone(BaseData):
+class PhoneV15(BaseData):
     greetings: List[str]
     greetings_morning: List[str]
     greetings_evening: List[str]

@@ -1,18 +1,19 @@
 from dataclasses import dataclass, field
+from typing import List
 
 from PBSclasses.BaseData import BaseData
-from PBSclasses.Pokemon import Pokemon
+from PBSclasses.TrainerPokemon import TrainerPokemonV15, TrainerPokemonV18, TrainerPokemonV20
 from src.Finder import get_trainer_type_from_name
 
 
 @dataclass
-class Trainer(BaseData):
+class TrainerV15(BaseData):
     type: str
     name: str
     version_number: str = ""
-    item_list: list[str] = field(default_factory=list)
+    item_list: List[str] = field(default_factory=list)
     nb_pokemon: str = ""
-    pokemon_list: list[Pokemon] = field(default_factory=list)
+    pokemon_list: List[TrainerPokemonV15] = field(default_factory=list)
 
     def get_win_money(self, trainer_types_list) -> int:
         """
@@ -27,3 +28,23 @@ class Trainer(BaseData):
             if max_level < int(pkm.level):
                 max_level = int(pkm.level)
         return base_money * max_level
+
+
+@dataclass
+class TrainerV18(BaseData):
+    type: str
+    name: str
+    version_number: str = ""
+    items: List[str] = field(default_factory=list)
+    lose_text: str = ""
+    pokemon: List[TrainerPokemonV18] = field(default_factory=list)
+
+
+@dataclass
+class TrainerV20(BaseData):
+    type: str
+    name: str
+    version_number: str = ""
+    items: List[str] = field(default_factory=list)
+    lose_text: str = ""
+    pokemon: List[TrainerPokemonV20] = field(default_factory=list)

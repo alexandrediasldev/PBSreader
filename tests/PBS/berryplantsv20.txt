@@ -1,0 +1,4 @@
+[name]
+HoursPerStage=hours_per_stage
+DryingPerHour=drying_per_hour
+Yield=minimum_yield,maximum_yield

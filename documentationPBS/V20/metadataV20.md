@@ -36,7 +36,7 @@ The map identified by this metadata must have an event page with the "Autorun" t
 
 This metadata is required.
 
-**StorageCreator:**
+**🟢 StorageCreator:**
 The name of the person that created the Pokémon storage system. The storage system will be called "Someone's PC" until the player has met this person, and afterwards it will be called "<name>'s PC".
 
 **WildBattleBGM:**

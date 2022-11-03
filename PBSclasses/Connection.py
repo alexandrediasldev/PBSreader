@@ -4,7 +4,7 @@ from PBSclasses.BaseData import BaseData
 
 
 @dataclass
-class Connection(BaseData):
+class ConnectionV15(BaseData):
     first_id_number: str
     first_edge: str
     first_point: str
