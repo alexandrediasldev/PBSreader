@@ -1,6 +1,12 @@
 import csv
 
 
+def read_full_file(filename):
+    with open(filename, encoding="utf-8-sig") as file:
+        lines = file.read().split("\n")
+    return lines
+
+
 def file_csv_tolist(filename):
     with open(filename, encoding="utf-8-sig") as csvfile:
         csv_output = csv.reader(csvfile, delimiter=",")

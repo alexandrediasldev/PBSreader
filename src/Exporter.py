@@ -72,8 +72,11 @@ def deserialize_simple_csv(obj: BaseData, attr_dict=None, type_deserializer=Type
     return csv[:-1]
 
 
-def deserialize_ability(ability: AbilityV15):
-    return deserialize_simple_csv(ability)
+def deserialize_ability(ability: AbilityV15, version):
+    if version >= 15 and version <= 19:
+        return deserialize_simple_csv(ability)
+    else:
+        return deserialize_equal_data(ability)
 
 
 def deserialize_item(item: ItemV15, version):
