@@ -7,12 +7,12 @@ from PBSclasses.Species import SpeciesV15
 
 @dataclass
 class ShadowPokemonV15(BaseData):
-    species: str
+    species: str = ""
     move_list: List[str] = field(default_factory=list)
 
 
 @dataclass
 class ShadowPokemonV20(BaseData):
-    species: str
-    gauge_size: str
+    species: str = ""
+    gauge_size: str = ""
     moves: List[str] = field(default_factory=list)

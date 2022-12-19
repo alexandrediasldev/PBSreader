@@ -4,6 +4,7 @@ import csv
 def read_full_file(filename):
     with open(filename, encoding="utf-8-sig") as file:
         lines = file.read().split("\n")
+        lines = [x for x in lines if not x[0].startswith("#")]
     return lines
 
 

@@ -1,5 +1,5 @@
 [id]
 Name=name
 IconPosition=icon_position
-Flags=flags0,flags1
+Flags=flags0,flags1,flags2
 Description=description

@@ -80,31 +80,48 @@ def deserialize_ability(ability: AbilityV15, version):
 
 
 def deserialize_item(item: ItemV15, version):
-    return deserialize_simple_csv(item)
+    if version >= 15 and version <= 19:
+        return deserialize_simple_csv(item)
+    else:
+        return deserialize_equal_data(item)
 
 
-def deserialize_move(move: MoveV15):
-    return deserialize_simple_csv(move)
+def deserialize_move(move: MoveV15, version):
+    if version >= 15 and version <= 19:
+        return deserialize_simple_csv(move)
+    else:
+        return deserialize_equal_data(move)
 
 
 def deserialize_trainer_types(trainer_types: TrainerTypes, version):
     return deserialize_simple_csv(trainer_types)
 
 
-def deserialize_connection(connection: ConnectionV15):
+def deserialize_connection(connection: ConnectionV15, version):
     return deserialize_simple_csv(connection)
 
 
-def deserialize_shadow(shadow_pokemon: ShadowPokemonV15):
-    csv = shadow_pokemon.species + "=" + ",".join(shadow_pokemon.move_list)
+def deserialize_shadow(shadow_pokemon: ShadowPokemonV15, version):
+    if version >= 15 and version <= 19:
+        csv = shadow_pokemon.species + "=" + ",".join(shadow_pokemon.move_list)
+    else:
+        return deserialize_equal_data_with_header(shadow_pokemon, "Species")
+
     return csv
 
 
-def deserialize_berry_plant(berry_plant: BerryPlantV16):
+def deserialize_berry_plant(berry_plant: BerryPlantV16, version):
     attr_dict = berry_plant.get_attr_dict()
-    attr_dict.pop("Name")
-    csv = berry_plant.name + "=" + deserialize_simple_csv(berry_plant, attr_dict)
-    return csv
+    if version >= 16 and version <= 19:
+        attr_dict.pop("Name")
+        csv = berry_plant.name + "=" + deserialize_simple_csv(berry_plant, attr_dict)
+        return csv
+    else:
+        attr_dict.pop("MinimumYield")
+        attr_dict.pop("MaximumYield")
+        return deserialize_equal_data_with_header(berry_plant, "Name", attr_dict) + [
+            "Yield=minimum_yield,maximum_yield"
+        ]
 
 
 def deserialize_phone(phone: PhoneV15):
@@ -115,6 +132,14 @@ def deserialize_phone(phone: PhoneV15):
         lines.append("[<" + data + ">]")
         lines.append(value)
     return lines
+
+
+def deserialize_equal_data_with_header(obj, header, attr_dict=None):
+    if not attr_dict:
+        attr_dict = obj.get_attr_dict()
+    head = ["[" + attr_dict[header] + "]"]
+    attr_dict.pop(header)
+    return head + deserialize_equal_data(obj, attr_dict)
 
 
 def deserialize_equal_data(obj: BaseData, attr_dict=None):
@@ -175,7 +200,7 @@ def deserialize_townmap(townmap):
     return point_lines
 
 
-def deserialize_type(type: TypeV15):
+def deserialize_type(type: TypeV15, version):
     return deserialize_equal_data(type)
 
 
@@ -186,7 +211,7 @@ def deserialize_encounters(encounters: List[EncounterV15]):
     return lines
 
 
-def deserialize_tm(tm: TmV15):
+def deserialize_tm(tm: TmV15, version):
     lines = []
     lines.append("[" + tm.move_name + "]")
     lines.append(",".join(tm.pokemon_list))
@@ -200,8 +225,11 @@ def deserialize_regional_dex(regional_dex: RegionalDexV19):
     return lines
 
 
-def deserialize_ribbon(ribbon: RibbonV19):
-    return deserialize_simple_csv(ribbon)
+def deserialize_ribbon(ribbon: RibbonV19, version):
+    if version == 19:
+        return deserialize_simple_csv(ribbon)
+    else:
+        return deserialize_equal_data(ribbon)
 
 
 def deserialize_encounter(encounter: EncounterV15):

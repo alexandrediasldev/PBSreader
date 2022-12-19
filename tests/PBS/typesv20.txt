@@ -1,9 +1,9 @@
 [id]
 Name=name
 IconPosition=icon_position
-Weaknesses=weaknesses0,weaknesses1
-Immunities=immunities0,immunities1
-Flags=flags0,flags1
+Weaknesses=weaknesses0,weaknesses1,weaknesses2
+Immunities=immunities0,immunities1,immunities2
+Flags=flags0,flags1,flags2
 IsPseudoType=is_pseudo_type
 IsSpecialType=is_special_type
-Resistances=resistances0,resistances1
+Resistances=resistances0,resistances1,resistances2

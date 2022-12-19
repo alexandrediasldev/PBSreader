@@ -2,4 +2,4 @@
 # TMs
 #================================================================
 [move_name]
-pokemon_list0,pokemon_list1
+pokemon_list0,pokemon_list1,pokemon_list2
